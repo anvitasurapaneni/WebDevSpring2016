@@ -1,0 +1,50 @@
+.transparent
+{
+    -webkit-appearance: none;
+    outline: none;
+    border: 0;
+    background: transparent;
+}
+
+
+
+table.borderless td {
+    border-top: none !important;
+}
+
+.darker {border: 1px solid black}
+
+
+.row {
+    clear: both;
+}
+
+
+.col-6 {
+    float: left;
+    width: 50%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+}
+
+.col-4 {
+    float: left;
+    width: 33.33%;
+}
+
+
+
+
+.col-8 {
+    float: left;
+    width: 66.66%;
+}
+
+
+
+.container {
+
+    width: 100%;
+}

@@ -19,8 +19,8 @@
 
 
     <!-- Custom styles for this template -->
-    <link href="dashboard.css" rel="stylesheet">
-    <link href="MyCSS.css" rel="stylesheet">
+    <link href="CSS/dashboard.css" rel="stylesheet">
+    <link href="CSS/style.css" rel="stylesheet">
 
 
 
@@ -42,8 +42,8 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Username</a></li>
-                <li><a href="#">Logout</a></li>
+                <li><a href="profile.html">Username</a></li>
+                <li><a href="home.html">Logout</a></li>
             </ul>
 
         </div>
@@ -69,111 +69,119 @@
                 <li role="presentation"  class="active"><a href="#">Fields</a></li>
             </ul>
 
-            <div class="table-responsive darker">
-                <table class="table borderless">
 
-                    <tbody>
-                    <tr>
-                        <td>First name:<br>
-                            <input type="text" class="form-control" id="firstname" placeholder="First Name"></td>
-                        <td>
-                            <div class="btn-group btn-group btn-group-lg" role="group" aria-label="...">
+
+
+                <div class="container darker" style="margin:0">
+                    <div class="row">
+                        <div class="col-6 col-xs-6 col-md-6">
+                            First name:<br>
+                            <input type="text" class="form-control" id="firstname" placeholder="First Name">
+
+                        </div>
+                        <div class="col-6 col-xs-6 col-md-6"  align="right">
+                            <div class="btn-group btn-group-md" role="group" aria-label="...">
                                 <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a>
                                 <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </a>
                                 <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> </a>
                                 <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-list" aria-hidden="true"></span></span> </a>
                             </div>
 
-                        </td>
-                    </tr>
+                        </div>
+                    </div>
 
-
-                    <tr>
-                        <td>Last Name:<br>
-                            <input type="text" class="form-control" id="lastname" placeholder="Last Name"></td>
-                        <td>
-                            <div class="btn-group btn-group btn-group-lg" role="group" aria-label="...">
-                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a>
-                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </a>
-                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> </a>
-                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-list" aria-hidden="true"></span></span> </a>
-                            </div>
-
-                        </td>
-                    </tr>
-
-
-                    <tr>
-                        <td>Date of birth:<br>
-                            <input type="date" class="form-control" id="dob" placeholder="enter date of birth"></td>
-                        <td>
-                            <div class="btn-group btn-group btn-group-lg" role="group" aria-label="...">
-                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a>
+                    <div class="row">
+                        <div class="col-6 col-xs-6 col-md-6">
+                            Last Name:<br>
+                            <input type="text" class="form-control" id="lastname" placeholder="Last Name">
+                        </div>
+                        <div class="col-6 col-xs-6 col-md-6" align="right">
+                        <div class="btn-group btn-group-md" role="group" aria-label="...">
+                            <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a>
                             <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </a>
                             <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> </a>
                             <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-list" aria-hidden="true"></span></span> </a>
-                            </div></td>
-                    </tr>
+                        </div>
+                        </div>
+                    </div>
 
+                    <div class="row">
+                        <div class="col-6 col-xs-6 col-md-6">
+                            Date of birth:<br>
+                            <input type="date" class="form-control" id="dob" placeholder="enter date of birth">
 
-                    <tr>
-                        <td>Gender:<br>
+                        </div>
+                        <div class="col-6 col-xs-6 col-md-6"  align="right">
+                            <div class="btn-group btn-group-md" role="group" aria-label="...">
+                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a>
+                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </a>
+                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> </a>
+                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-list" aria-hidden="true"></span></span> </a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6 col-xs-6 col-md-6">
+                            Gender:<br>
                             <select class="form-control">
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
-                        </select>
-                        <td>
-                        <div class="btn-group btn-group btn-group-lg" role="group" aria-label="...">
-                            <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a>
-                            <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </a>
-                            <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> </a>
-                            <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-list" aria-hidden="true"></span></span> </a>
+                            </select>
                         </div>
+                        <div class="col-6 col-xs-6 col-md-6"  align="right">
+                            <div class="btn-group btn-group-md" role="group" aria-label="...">
+                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a>
+                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </a>
+                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> </a>
+                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-list" aria-hidden="true"></span></span> </a>
+                            </div>
 
-                        </td>
-                    </tr>
+                        </div>
+                    </div>
 
-                    <tr>
-                        <td>Roles:<br>
+
+                    <div class="row">
+                        <div class="col-6 col-xs-6 col-md-6">
+                            Roles:<br>
                             <input type="checkbox" name="Admin" value="admin" checked >Admin<br>
                             <input type="checkbox" name="Student" value="student">Student<br>
                             <input type="checkbox" name="User" value="user" checked>User<br>
-                        <td>
-                        <div class="btn-group btn-group btn-group-lg" role="group" aria-label="...">
-                            <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a>
-                            <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </a>
-                            <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> </a>
-                            <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-list" aria-hidden="true"></span></span> </a>
+                            </select>
                         </div>
+                        <div class="col-6 col-xs-6 col-md-6"  align="right">
+                            <div class="btn-group btn-group-md" role="group" aria-label="...">
+                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a>
+                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </a>
+                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> </a>
+                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-list" aria-hidden="true"></span></span> </a>
+                            </div>
 
-                        </td>
-                    </tr>
+                        </div>
+                    </div>
 
-
-                    <tr>
-                        <td>License Agreement:<br>
+                    <div class="row">
+                        <div class="col-6 col-xs-6 col-md-6">
+                            License Agreement:<br>
                             <input type="radio" name="consent" value="agree" checked>Yes<br>
                             <input type="radio" name="consent" value="disagree">No<br>
-                        <td>
-                        <div class="btn-group btn-group btn-group-lg" role="group" aria-label="...">
-                            <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a>
-                            <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </a>
-                            <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> </a>
-                            <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-list" aria-hidden="true"></span></span> </a>
                         </div>
+                        <div class="col-6 col-xs-6 col-md-6"  align="right">
+                            <div class="btn-group btn-group-md" role="group" aria-label="...">
+                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a>
+                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </a>
+                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> </a>
+                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-list" aria-hidden="true"></span></span> </a>
+                            </div>
 
+                        </div>
+                    </div>
+                    <hr class="darker">
 
-                        </td>
-                    </tr>
-                    </tbody>
-                    </table>
-                <hr class="darker">
-                <table class="table borderless">
-
-
-
-                    <tr>
-                        <td>Add New Field:<br>
+                    <div class="row">
+                        <div class="col-6 col-xs-6 col-md-6">
+                            Add New Field:<br>
                             <select>
                                 <option value="text">Single Line Text</option>
                                 <option value="date">Date</option>
@@ -181,18 +189,18 @@
                                 <option value="checkboxes">Check Boxes</option>
                                 <option value="radio">Radio</option>
                             </select>
-                        <td>
-                        <div class="btn-group btn-group btn-group-lg" role="group" aria-label="...">
-                            <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </a>
                         </div>
+                        <div class="col-6 col-xs-6 col-md-6"  align="right">
+                            <div class="btn-group btn-group-md" role="group" aria-label="...">
+                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </a>
+                                </div>
 
-                        </td>
-                    </tr>
+                        </div>
+                    </div>
+
+                </div>
 
 
-                    </tbody>
-                </table>
-            </div>
         </div>
     </div>
 
