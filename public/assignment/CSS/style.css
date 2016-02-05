@@ -48,3 +48,20 @@ table.borderless td {
 
     width: 100%;
 }
+
+button.dark-background
+{background-color: #8c8c8c;}
+
+div.padding-all-sides
+{padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 50px;
+    padding-left: 10px;}
+
+.tab-content {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;}
+
+table.bordered-dark {
+    border: 0.5px solid #000000;
+}
