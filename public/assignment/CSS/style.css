@@ -65,3 +65,7 @@ div.padding-all-sides
 table.bordered-dark {
     border: 0.5px solid #000000;
 }
+
+button.fill-color
+{background-color: #0066ff;
+}
