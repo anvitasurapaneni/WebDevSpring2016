@@ -2,13 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Omdb experiment serach movies</title>
 </head>
 <body>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"  rel="stylesheet">
-<script src="jquery-1.12.0.min.js"></script>
+<link href="CSS/style.css" rel="stylesheet">
+<script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
 <script src="js/app.js"></script>
-<input type="text" id="moviename">
-<button id="select">select</button>
+<div class ="container">
+    <h1>Search OMDB api</h1>
+<input id="MovieName" class="form-control" placeholder="movie name">
+<button id="SearchMovieTitle" class="btn btn-primary btn-block">search movie</button>
+
+    <table id="searchResults" class="table table-stripped">
+        <thead>
+        <tr>
+            <th>Poster</th>
+            <th>Title</th>
+            <th>IMDBid</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+</div>
 </body>
 </html>
