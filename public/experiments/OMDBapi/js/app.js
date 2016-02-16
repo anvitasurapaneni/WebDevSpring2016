@@ -8,6 +8,7 @@
     var $SearchMovieTitle;
     var $tbody;
     var $SearchUrl ="http://www.omdbapi.com/?s=TITLE&page=PAGE";
+    var detailsUrl = "http://www.omdbapi.com/?i=IMDBID";
 
     function init(){
          $MovieName = $("#MovieName");
@@ -32,6 +33,7 @@
             }
 
     function renderMovieList(response){
+        $tbody.empty();
         console.log(response);
         var totalResults = Response.totalResults;
         var movies = response.Search;
@@ -47,7 +49,9 @@
             var $tr =$("<tr>");
 
             var $img = $("<img>").attr("src", Poster)
-                .addClass("poster");
+                .addClass("poster")
+                .attr("id",imdbID)
+                .click(SearchMovieDetails);
 
             var $td =$("<td>");
             $td.append($img);
@@ -65,4 +69,23 @@
         }
     }
 
+    function SearchMovieDetails(event){
+
+        var image = $(event.currentTarget);
+        var imdbid = image.attr("id");
+
+        var url = detailsUrl.replace("IMDBID", imdbid);
+        $.ajax({
+            url: url,
+            success:renderMovieDetails
+        })
+    }
+function renderMovieDetails(movie){
+  console.log(movie);
+    var actors = movie.Actors;
+    var director = movie.Director;
+    var plot = movie.Plot;
+    var poster = movie.Poster;
+    var title = movie.Title;
+}
 })();
