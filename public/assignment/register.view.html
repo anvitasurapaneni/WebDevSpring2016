@@ -41,8 +41,10 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="profile.html"><span class="glyphicon glyphicon-user" aria-hidden="user"> Username</a></li>
-                <li><a href="home.html"><span class="glyphicon glyphicon-log-out" aria-hidden="logout"> Logout</a></li>
+                <li class="active"><a href="#"><span class="glyphicon glyphicon-plus-sign" aria-hidden="user"> Register</a></li>
+                <li><a href="login.view.html"><span class="glyphicon glyphicon-log-in" aria-hidden="login"> Login</a></li>
+                <li><a href="profile.view.html"><span class="glyphicon glyphicon-user" aria-hidden="user"> Username</a></li>
+                <li><a href="home.view.html"><span class="glyphicon glyphicon-log-out" aria-hidden="logout"> Logout</a></li>
             </ul>
 
         </div>
@@ -53,23 +55,23 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li><a href="home.html"><span class="glyphicon glyphicon-home" aria-hidden="home"> Home <span class="sr-only">(current)</span></a></li>
-                <li class="active"><a href="#" ><span class="glyphicon glyphicon-user" aria-hidden="profile"> Profile</a></li>
-                <li><a href="admin.html"><span class="glyphicon glyphicon-eye-open" aria-hidden="admin"> Admin</a></li>
-                <li><a href="forms.html"><span class="glyphicon glyphicon-file" aria-hidden="forms"> Forms</a></li>
+                <li><a href="home.view.html"><span class="glyphicon glyphicon-home" aria-hidden="user"> Home</a></li>
+                <li><a href="profile.view.html"><span class="glyphicon glyphicon-user" aria-hidden="user"> Profile</a></li>
+                <li><a href="admin.view.html"><span class="glyphicon glyphicon-eye-open" aria-hidden="admin"> Admin</a></li>
+                <li><a href="forms.view.html"><span class="glyphicon glyphicon-file" aria-hidden="forms"> Forms</a></li>
             </ul>
 
 
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main ">
-            <h1>Profile</h1>
+            <h1> Register</h1>
             <form class="form-horizontal">
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Username</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="username" placeholder="Username">
-                    </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Username</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="username" placeholder="Username">
                 </div>
+            </div>
 
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Password</label>
@@ -79,16 +81,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">First Name</label>
+                    <label class="col-sm-2 control-label">Verify Password</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="First_name" placeholder="First Name">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Last Name</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="Last_name" placeholder="Last Name">
+                        <input type="text" class="form-control" id="Password_2" placeholder="verify password">
                     </div>
                 </div>
 
@@ -99,11 +94,11 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-primary form-control">Update</button>
-                    </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary form-control dark-background">Register</button>
                 </div>
+            </div>
             </form>
         </div>
     </div>

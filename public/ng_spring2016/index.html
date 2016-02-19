@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="movieDBApp">
+<head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="js/app.js"></script>
+    <meta charset="UTF-8">
+
+    <title>Title</title>
+</head>
+<body>
+<h1>Hello</h1>
+<div class="container">
+
+    <h1> Movie dtata base</h1>
+    <table class="table" ng-controller="movieListController">
+<thead>
+<tr>
+    <th> ID </th>
+    <th> TITLE </th>
+    <th> YEAR </th>
+    <th> &nbps; </th>
+</tr>
+</thead>
+        <tbody>
+        <tr>
+            <td><input ng-model="movie.id" class="form-control"/></td>
+            <td><input ng-model="movie.title" class="form-control"/></td>
+            <td><input ng-model="movie.year" class="form-control"/></td>
+            <td><button class="btn btn-success" ng-click="addMovie(movie)">add</button></td>
+            <td><button class="btn btn-primary" ng-click="updateMovie(movie)">update</button></td>
+        </tr>
+        <tr ng-repeat="movie in movies">
+            <td>{{movie.id}}</td>
+            <td>{{movie.title}}</td>
+            <td>{{movie.year}}</td>
+            <td><button class="btn btn-danger" ng-click="removeMovie(movie)">delete</button></td>
+            <td><button class="btn btn-primary" ng-click="selectMovie(movie)">select</button></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
