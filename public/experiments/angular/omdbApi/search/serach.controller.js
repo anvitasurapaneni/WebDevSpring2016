@@ -7,7 +7,7 @@
         $scope.search =search;
         $scope.title ="star wars";
 
-        function  search(title){
+        function  search(title) {
             console.log(title);
 
             MovieService.findMovieByTitle(title,

@@ -5,9 +5,9 @@
 (function(){
     angular
         .module("FormBuilderApp")
-        .controller("HeaderController", headerController);
+        .controller("HeaderController", HeaderController);
 
-    function headerController(){
+    function HeaderController(){
 
     }
 })();
