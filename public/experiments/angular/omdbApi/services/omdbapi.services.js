@@ -4,9 +4,9 @@ angular
     .factory("MovieService", movieService);
 
     function movieService($http){
-        var api ={
-            FindMovieByTitle: findMovieByTitle,
-            FindMovieByimdbID: findMovieByimdbID
+        var api = {
+            findMovieByTitle: findMovieByTitle,
+            findMovieByimdbID: findMovieByimdbID
         };
 
         return api;
@@ -17,6 +17,9 @@ angular
                 .success(callback);
         }
 
-        function findMovieByimdbID(){
+        function  findMovieByimdbID(imbdID, callback){
+            $http.get("http://www.omdbapi.com/?i="+imdbID)
+                .success(callback);
+        }
     }
-    }();
+    })();

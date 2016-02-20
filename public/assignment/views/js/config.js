@@ -37,7 +37,6 @@
                 templateUrl: "views/users/register.view.html",
                 controller: "RegisterController"
             })
-
             .otherwise({
                 redirectTo: "/home"
             });

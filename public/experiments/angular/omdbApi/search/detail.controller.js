@@ -3,7 +3,14 @@
         .module("MovieApp")
         .controller("DetailController", detailController);
 
-    function detailController($scope, $routeParams){
+    function detailController($scope, $routeParams, MovieService){
         $scope.imdbID = $routeParams.imdbID;
+
+        MovieService.findMovieByimdbID($scope.imdbID,
+            function(response){
+                $scope.movie = response;
+            })
+
+
     }
 })();
