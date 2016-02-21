@@ -7,18 +7,20 @@
         .module("FormBuilderApp")
         .controller("LoginController", LoginController);
 
-    function LoginController($scope, $routeParams, UserService) {
+    function LoginController($scope, $rootScope, UserService, $location) {
         $scope.login = login;
-        $scope.username = $routeParams.username;
-        $scope.password = $routeParams.password;
 
-        function login(username, password)
+$scope.user;
+
+        function login(user)
         {
-            UserService.findUserByUsernameAndPassword(username,
-                password,
+            console.log(user);
+            UserService.findUserByUsernameAndPassword(user.username,
+                user.password,
                 function(response){
+                    console.log("response");
                     console.log(response);
-                    $scope.data = response;
+                    $rootScope.data = response;
                 });
 
 
