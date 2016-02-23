@@ -20,8 +20,10 @@ $scope.user;
                 function(response){
                     console.log("response");
                     console.log(response);
-                    $rootScope.data = response;
+                    $rootScope.user = response;
+                    $rootScope.loggeduser = response;
                     $location.url('/profile') ;
+
                 });
 
 

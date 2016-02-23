@@ -12,7 +12,7 @@
 
         $scope.update = update;
        
-        var usercurrent = $rootScope.data;
+        var usercurrent = $rootScope.user;
         $scope.user = usercurrent;
 
         // console.log( "checking before printing"+$rootScope.data);
@@ -22,7 +22,7 @@
         function update(user){
             console.log(user);
             var userid = $rootScope.data._id;
-            console.log("profile controller user id"+$rootScope.data);
+            console.log("profile controller user id"+$rootScope.user);
 
             UserService.updateUser(userid, user, function(response){
                 console.log("this is response"+response);

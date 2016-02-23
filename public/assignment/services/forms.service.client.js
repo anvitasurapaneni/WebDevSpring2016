@@ -1,29 +1,29 @@
-/**
- * Created by anvitasurapaneni on 2/19/16.
- */
 "use strict";
 (function(){
     angular
         .module("FormBuilderApp")
         .factory("FormService", FormService);
 
-    var initialForms =
+    var forms =
         [
             {"_id": "000", "title": "Contacts", "userId": 123},
             {"_id": "010", "title": "ToDo",     "userId": 123},
             {"_id": "020", "title": "CDs",      "userId": 234},
         ];
 
-    $scope.initialForms = initialForms;
+
 
     function FormService($http){
 
 
         var api = {
+
             createFormForUser: createFormForUser,
             findAllFormsForUser: findAllFormsForUser,
             deleteFormById: deleteFormById,
             updateFormById: updateFormById
+           // setForms: setForms,
+           // getForms: getForms
         };
 
         return api;
@@ -38,16 +38,16 @@
             var foundforms =[];
 
 
-            for (var i =0; i<initialForms.length; ++i)
+            for (var i =0; i<forms.length; ++i)
             {
-                if (initialForms[i]._id == userId) {
+                if (forms[i]._id == userId) {
 
-                    console.log("inside loop:" + initialForms[i]._id);
+                    console.log("inside loop:" + forms[i]._id);
 
                     index = i;
-                    userform = {"_id": initialForms[i]._id,
-                            "title": initialForms[i].title,
-                            "userId": initialForms[i].userId}
+                    userform = {"_id": forms[i]._id,
+                            "title": forms[i].title,
+                            "userId": forms[i].userId}
                     foundforms.push(userform);
                 }
             }
@@ -64,8 +64,8 @@
             var  newformID = (new Date).getTime();
 
             newform = {"_id": newformID, "title": form.title, "userId": userId}
-            initialForms.push(newform);
-            console.log( initialForms);
+            forms.push(newform);
+            console.log( forms);
             callback(newform);
 
         }
@@ -73,12 +73,14 @@
 // deleteFormById
         function deleteFormById(formId, callback){
             var index = null;
-            for (var form in initialForms) {
+            console.log("form id:"+ formId);
+            for (var form in forms) {
                 if (form._id == formId) {
-                    index = initialForms.getItemIndex(form);
+                    index = forms.getItemIndex(form);
                 }}
-            initialForms.splice(index, 1);
-            callback(initialForms);
+            console.log("item index:"+index);
+            forms.splice(index, 1);
+            callback(forms);
         }
 
 // updateFormById
@@ -86,9 +88,9 @@
             var index = 0;
             var flag = 0;
             var newform = {};
-            for (var i = 0; i < initialForms.length; i++)  {
+            for (var i = 0; i < forms.length; i++)  {
 
-                if (initialForms[i]._id == formId) {
+                if (forms[i]._id == formId) {
                     index = i;
                     var flag = 1;
                     break;
@@ -100,10 +102,10 @@
 
                 newform = {"_id": newForm._id, "title": newForm.title, "userId": newForm.userId}
 
-                initialForms[index]= newform;
+                forms[index]= newform;
             }
-            console.log("update user function initialUsers[index] :"+ initialForms[index]);
-            console.log(initialForms[index]);
+            console.log("update user function forms[index] :"+ forms[index]);
+            console.log(forms[index]);
             console.log("update user function newuser :"+ newform);
             console.log(newform);
             callback(newform);

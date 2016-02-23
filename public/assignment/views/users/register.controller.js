@@ -19,7 +19,7 @@ $scope.register = register;
                 console.log("value of response");
                 console.log(response);
 
-                $rootScope.data = response;
+                $rootScope.user = response;
 
                 //data reached
                 $location.url('/profile') ;
