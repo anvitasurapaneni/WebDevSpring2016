@@ -7,7 +7,7 @@
         .module("FormBuilderApp")
         .controller("FormController", formController);
 
-    function formController($scope){
+    function formController($scope,  $location){
         var initialForms  = [
             {"_id": "000", "title": "Contacts", "userId": 123},
             {"_id": "010", "title": "ToDo",     "userId": 123},
@@ -16,5 +16,40 @@
 
         $scope.initialForms = initialForms;
         console.log(initialForms);
+
+        $scope.addForm = addForm;
+        $scope.updateForm = updateForm;
+        $scope.deleteForm = deleteForm;
+        $scope.selectForm = selectForm;
+
+
+        function addForm(){
+
+        }
+
+
+        function updateForm(){
+
+        }
+
+
+        function deleteForm(form){
+            var formID = form._id;
+            console.log(formID);
+
+
+
+
+
+
+
+
+        }
+
+        function selectForm(){
+
+        }
+
+
     }
 })();

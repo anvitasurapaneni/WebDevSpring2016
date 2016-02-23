@@ -77,7 +77,7 @@
                 if (form._id == formId) {
                     index = initialForms.getItemIndex(form);
                 }}
-            initialForms.splice(index);
+            initialForms.splice(index, 1);
             callback(initialForms);
         }
 
