@@ -27,7 +27,7 @@
 
 
 
-    function UserService($http){
+    function UserService($http) {
 
 
         var api = {
@@ -42,16 +42,15 @@
 
 
 // findUserByUsernameAndPassword
-        function findUserByUsernameAndPassword(username, password, callback){
+        function findUserByUsernameAndPassword(username, password, callback) {
 
             var valied = false;
             var index;
             var valiedUser = {};
             console.log(username);
 
-            for (var i =0; i<initialUsers.length; ++i)
-            {
-                if ((initialUsers[i].username == username)&& (initialUsers[i].password == password)) {
+            for (var i = 0; i < initialUsers.length; ++i) {
+                if ((initialUsers[i].username == username) && (initialUsers[i].password == password)) {
                     console.log("inside loop:" + initialUsers[i].username);
                     console.log("inside loop:" + initialUsers[i]._id);
                     valied = true;
@@ -61,75 +60,84 @@
                         "firstName": initialUsers[i].firstName,
                         "lastName": initialUsers[i].lastName,
                         "username": initialUsers[i].username,
-                        "password": initialUsers[i].password
+                        "password": initialUsers[i].password,
+                        "email": initialUsers[i].email
                     }
                 }
+
             }
+                callback(valiedUser);
 
-
-
-           callback(valiedUser);
         }
 
 // findAllUsers
-     function  findAllUsers(callback){
-            callback(initialUsers);
-     }
+            function findAllUsers(callback) {
+                callback(initialUsers);
+            }
 
 // createUser
-    function  createUser(user, callback){
-        var newuser = {}
-       var  newID = (new Date).getTime();
+            function createUser(user, callback) {
+                var newuser = {}
+                var newID = (new Date).getTime();
 
-        newuser = {        "_id":newID,
-            "username":user.username,     "password":user.password   }
-        initialUsers.push(newuser);
-        console.log( initialUsers);
-        callback(newuser);
+                newuser = {
+                    "_id": newID,
+                    "username": user.username,
+                    "password": user.password,
+                    "email": user.email
+                }
+                initialUsers.push(newuser);
+                console.log(initialUsers);
+                callback(newuser);
 
-    }
+            }
 
 // deleteUserById
-     function deleteUserById(userId, callback){
-            var index = null;
-            for (var user in initialUsers) {
-                if (user._id == userId) {
-                index = initialUsers.getItemIndex(user);
-            }}
-initialUsers.splice(index);
-            callback(initialUsers);
-        }
+            function deleteUserById(userId, callback) {
+                var index = null;
+                for (var user in initialUsers) {
+                    if (user._id == userId) {
+                        index = initialUsers.getItemIndex(user);
+                    }
+                }
+                initialUsers.splice(index);
+                callback(initialUsers);
+            }
 
 // updateUser
-      function updateUser(userId, user, callback){
-            var index = 0;
-          var flag = 0;
-          var newuser = {};
-          for (var i = 0; i < initialUsers.length; i++)  {
+            function updateUser(userId, user, callback) {
+                var index = 0;
+                var flag = 0;
+                var newuser = {};
+                for (var i = 0; i < initialUsers.length; i++) {
 
-                if (initialUsers[i]._id == userId) {
-                    index = i;
-                    var flag = 1;
-                    break;
-                }}
-console.log("update user function index"+ index);
-          console.log("update user function useer ID:"+ userId);
-          console.log("update user function useer :"+ user);
-                if(flag == 1) {
-
-                    newuser = {"_id":userId, "firstName":user.firstName,    "lastName":user.lastName,
-                        "username":user.username,     "password":user.password }
-
-                    initialUsers[index]= newuser;
+                    if (initialUsers[i]._id == userId) {
+                        index = i;
+                        var flag = 1;
+                        break;
+                    }
                 }
-          console.log("update user function initialUsers[index] :"+ initialUsers[index]);
-          console.log(initialUsers[index]);
-          console.log("update user function newuser :"+ newuser);
-          console.log(newuser);
-            callback(newuser);
+                console.log("update user function index" + index);
+                console.log("update user function useer ID:" + userId);
+                console.log("update user function useer :" + user);
+                if (flag == 1) {
+
+                    newuser = {
+                        "_id": userId, "firstName": user.firstName, "lastName": user.lastName,
+                        "username": user.username, "password": user.password
+                    }
+
+                    initialUsers[index] = newuser;
+                }
+                console.log("update user function initialUsers[index] :" + initialUsers[index]);
+                console.log(initialUsers[index]);
+                console.log("update user function newuser :" + newuser);
+                console.log(newuser);
+                callback(newuser);
 
 
+            }
         }
-    }
+
 
 })();

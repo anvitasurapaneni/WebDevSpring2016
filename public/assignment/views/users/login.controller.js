@@ -21,6 +21,7 @@ $scope.user;
                     console.log("response");
                     console.log(response);
                     $rootScope.data = response;
+                    $location.url('/profile') ;
                 });
 
 

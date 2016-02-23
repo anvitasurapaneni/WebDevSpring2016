@@ -9,10 +9,13 @@
 
     function profileController($scope, $rootScope, UserService, $location){
 
-        $scope.user.username = "ABC";
 
         $scope.update = update;
-       // console.log( "checking before printing"+$rootScope.data);
+       
+        var usercurrent = $rootScope.data;
+        $scope.user = usercurrent;
+
+        // console.log( "checking before printing"+$rootScope.data);
       //  $scope.user.username = "abc";
       //  $scope.user.password = "cde";
 

@@ -9,7 +9,7 @@
 
     function registerController($scope, $rootScope, UserService, $location){
 
-$scope.user;
+
 
 $scope.register = register;
         function register(user){
