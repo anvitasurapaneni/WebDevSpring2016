@@ -27,13 +27,16 @@
             console.log("form after add"+form);
             console.log(form);
             console.log($rootScope.loggeduser);
-            FormService.createFormForUser(123,form, function(response){
+            var userId = $rootScope.loggeduser._id;
+            FormService.createFormForUser(userId,form, function(response){
                 console.log("value of response after add");
                 console.log(response);
 
-              //  $scope.initialForms = response;
+             console.log("checking initial form");
+                $scope.forms.push(response);
 
-                //   $rootScope.data = response;
+                console.log($scope.forms);
+
 
                 //data reached
                 // $location.url('/profile') ;
