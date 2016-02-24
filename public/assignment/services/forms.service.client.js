@@ -74,12 +74,13 @@
         function deleteFormById(formId, callback){
             var index = null;
             console.log("form id:"+ formId);
-            for (var form in forms) {
-                if (form._id == formId) {
-                    index = forms.getItemIndex(form);
+            for (var i = 0; i < forms.length; i++) {
+                if (forms[i]._id == formId) {
+                    index = i;
+                    forms.splice(index, 1);
                 }}
             console.log("item index:"+index);
-            forms.splice(index, 1);
+
             callback(forms);
         }
 

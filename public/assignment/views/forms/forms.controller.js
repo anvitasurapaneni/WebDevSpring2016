@@ -33,10 +33,13 @@
                 console.log(response);
 
              console.log("checking initial form");
-                $scope.forms.push(response);
 
-                console.log($scope.forms);
-
+    console.log($scope.forms);
+                var forms1 = $scope.forms;
+                forms1.push(response);
+                console.log("forms1");
+                console.log(forms1);
+                $scope.form ={};
 
                 //data reached
                 // $location.url('/profile') ;
@@ -50,10 +53,15 @@
             var formID = form._id;
 
             FormService.updateFormById(formID,form, function(response){
-                console.log("value of response after delete");
+                console.log("value of response after update");
                 console.log(response);
 
-                $scope.forms = response;
+              //  var forms1 = $scope.forms;
+
+             //   forms1.push(response);
+             //   console.log("forms1");
+             //   console.log(forms1);
+                $scope.form ={};
 
                 //   $rootScope.data = response;
 
@@ -77,7 +85,7 @@
                     console.log("value of response after delete");
                     console.log(response);
 
-                    $scope.initialForms = response;
+                    $scope.forms = response;
 
                     //   $rootScope.data = response;
 
@@ -95,6 +103,9 @@
 
         function selectForm(form){
             $scope.form = form;
+            $scope.form.title = form.title;
+
+            console.log(form);
 
         }
 
