@@ -14,7 +14,17 @@
             {"_id": "020", "title": "CDs",      "userId": 234},
         ];
 
-        $scope.forms = forms;
+        var user_id = $rootScope.user._id;
+        console.log(user_id);
+
+        FormService.findAllFormsForUser(user_id, function(response){
+            console.log("value of logged users ");
+            console.log(response);
+            $scope.forms = response;
+
+        });
+
+
         console.log(forms);
 
         $scope.addForm = addForm;
@@ -40,6 +50,9 @@
                 console.log("forms1");
                 console.log(forms1);
                 $scope.form ={};
+                $scope.forms = forms1;
+                console.log("after adding user");
+                con
 
                 //data reached
                 // $location.url('/profile') ;
@@ -112,3 +125,6 @@
 
     }
 })();
+
+
+

@@ -38,17 +38,18 @@
             var foundforms =[];
 
 
-            for (var i =0; i<forms.length; ++i)
+            for (var i =0; i<forms.length; i++)
             {
-                if (forms[i]._id == userId) {
+                if (forms[i].userId == userId) {
 
-                    console.log("inside loop:" + forms[i]._id);
+                    console.log("inside loop1:" + forms[i]._id);
 
-                    index = i;
+
                     userform = {"_id": forms[i]._id,
                             "title": forms[i].title,
                             "userId": forms[i].userId}
                     foundforms.push(userform);
+                    userform = {};
                 }
             }
 
