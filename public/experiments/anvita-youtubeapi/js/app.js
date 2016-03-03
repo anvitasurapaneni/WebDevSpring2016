@@ -8,7 +8,7 @@
     var $SearchMovieTitle;
     var $tbody;
 
-    $http.get = "https://www.googleapis.com/youtube/v3/serach?"+
+    $SearchUrl = "GET https://www.googleapis.com/youtube/v3/serach?"+
         "part=snippet" +
         "&id=k8qgmnhEA8E" +
         "&maxResults=5" +
