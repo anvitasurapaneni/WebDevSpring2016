@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+    <title>Title</title>
+</head>
+<body>
+Click me: <input type="checkbox" ng-model="checked" aria-label="Toggle ngShow"><br/>
+<div>
+    Show:
+    <div class="check-element animate-hide" ng-show="">
+        <span class="glyphicon glyphicon-thumbs-up"></span> I show up when your checkbox is checked.
+    </div>
+</div>
+<div>
+    Hide:
+    <div class="check-element animate-hide" ng-hide="checked">
+        <span class="glyphicon glyphicon-thumbs-down"></span> I hide when your checkbox is checked.
+    </div>
+</div>
+
+
+
+<label>Check me to check both: <input type="checkbox" ng-model="master"></label><br/>
+<input id="checkSlave" type="checkbox" ng-hide="master" aria-label="Slave input">
+
+
+<li><a ng-click="show=true">show</a></li>
+<p ng-show="show">sgdvd</p>
+
+
+</body>
+</html>
