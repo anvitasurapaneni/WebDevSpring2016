@@ -23,7 +23,7 @@
             })
             .when("/home", {
                 templateUrl: "views/home/home.view.html",
-                controller: "HomeController"
+                controller: "HomeContrhttp://localhost:63342/webdevspring2016/public/assignment/index.html#/formsoller"
             })
             .when("/login", {
                 templateUrl: "views/users/login.view.html",
