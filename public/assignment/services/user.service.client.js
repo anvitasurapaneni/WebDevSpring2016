@@ -87,6 +87,7 @@
                     "email": user.email
                 }
                 initialUsers.push(newuser);
+                console.log("initial users");
                 console.log(initialUsers);
                 callback(newuser);
 

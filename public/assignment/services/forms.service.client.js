@@ -27,9 +27,9 @@
         };
 
         return api;
+        console.log("abc");
+console.log($rootScope.user);
 
-
-// findAllFormsForUser(userId, callback)
         function findAllFormsForUser(userId, callback){
 
 
@@ -53,7 +53,7 @@
                 }
             }
 
-
+forms = foundforms;
 
             callback(foundforms);
         }

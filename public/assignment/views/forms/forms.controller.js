@@ -14,6 +14,7 @@
             {"_id": "020", "title": "CDs",      "userId": 234},
         ];
 
+
         var user_id = $rootScope.user._id;
         console.log(user_id);
 
@@ -25,7 +26,8 @@
         });
 
 
-        console.log(forms);
+       // $scope.forms = forms;
+        console.log($scope.forms);
 
         $scope.addForm = addForm;
         $scope.updateForm = updateForm;
@@ -36,23 +38,20 @@
         function addForm(form){
             console.log("form after add"+form);
             console.log(form);
-            console.log($rootScope.loggeduser);
-            var userId = $rootScope.loggeduser._id;
+            console.log($rootScope.user);
+            var userId = $rootScope.user._id;
             FormService.createFormForUser(userId,form, function(response){
                 console.log("value of response after add");
                 console.log(response);
 
-             console.log("checking initial form");
+                console.log("checking initial form");
 
-    console.log($scope.forms);
+                console.log($scope.forms);
                 var forms1 = $scope.forms;
                 forms1.push(response);
                 console.log("forms1");
                 console.log(forms1);
                 $scope.form ={};
-                $scope.forms = forms1;
-                console.log("after adding user");
-                con
 
                 //data reached
                 // $location.url('/profile') ;
@@ -69,11 +68,11 @@
                 console.log("value of response after update");
                 console.log(response);
 
-              //  var forms1 = $scope.forms;
+                //  var forms1 = $scope.forms;
 
-             //   forms1.push(response);
-             //   console.log("forms1");
-             //   console.log(forms1);
+                //   forms1.push(response);
+                //   console.log("forms1");
+                //   console.log(forms1);
                 $scope.form ={};
 
                 //   $rootScope.data = response;
@@ -94,19 +93,19 @@
 
 
 
-                FormService.deleteFormById(formID, function(response){
-                    console.log("value of response after delete");
-                    console.log(response);
+            FormService.deleteFormById(formID, function(response){
+                console.log("value of response after delete");
+                console.log(response);
 
-                    $scope.forms = response;
+                $scope.forms = response;
 
-                    //   $rootScope.data = response;
+                //   $rootScope.data = response;
 
-                    //data reached
-                    // $location.url('/profile') ;
-                });
+                //data reached
+                // $location.url('/profile') ;
+            });
 
-            }
+        }
 
 
 
@@ -125,6 +124,3 @@
 
     }
 })();
-
-
-

@@ -10,7 +10,7 @@
     function LoginController($scope, $rootScope, UserService, $location) {
         $scope.login = login;
 
-$scope.user;
+
 
         function login(user)
         {
@@ -21,7 +21,7 @@ $scope.user;
                     console.log("response");
                     console.log(response);
                     $rootScope.user = response;
-                    $rootScope.loggeduser = response;
+                  //  $rootScope.loggeduser = response;
                     $location.url('/profile') ;
 
                 });
