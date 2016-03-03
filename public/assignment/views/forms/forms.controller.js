@@ -36,24 +36,21 @@
 
 
         function addForm(form){
-            console.log("form after add"+form);
-            console.log(form);
-            console.log($rootScope.user);
+            //console.log("form after add"+form);
+            //console.log(form);
+            //console.log($rootScope.user);
             var userId = $rootScope.user._id;
             FormService.createFormForUser(userId,form, function(response){
-                console.log("value of response after add");
-                console.log(response);
+                //console.log("value of response after add");
+                //console.log(response);
 
-                console.log("checking initial form");
+                //console.log("checking initial form");
 
-                console.log($scope.forms);
-                var forms1 = $scope.forms;
-                forms1.push(response);
-                console.log("forms1");
-                console.log(forms1);
-                $scope.form ={};
+                //console.log($scope.forms);
+                $scope.forms.push(response);
+                $scope.form = {};
 
-                //data reached
+
                 // $location.url('/profile') ;
             });
 

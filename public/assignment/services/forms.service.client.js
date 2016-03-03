@@ -62,11 +62,10 @@ forms = foundforms;
 // createFormForUser
         function  createFormForUser(userId, form, callback){
             var newform = {}
-            var  newformID = (new Date).getTime();
 
-            newform = {"_id": newformID, "title": form.title, "userId": userId}
-            forms.push(newform);
-            console.log( forms);
+            newform = {"_id": (new Date).getTime(), "title": form.title, "userId": userId}
+
+            console.log(newform);
             callback(newform);
 
         }
