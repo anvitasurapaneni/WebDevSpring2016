@@ -2,43 +2,38 @@
  * Created by anvitasurapaneni on 2/3/16.
  */
 
+
+
+
 (function() {
-    $(init);
-    var $MovieName;
-    var $SearchMovieTitle;
-    var $tbody;
 
-    $SearchUrl = "GET https://www.googleapis.com/youtube/v3/serach?"+
-        "part=snippet" +
-        "&id=k8qgmnhEA8E" +
-        "&maxResults=5" +
-        "&alt=json" +
-        "&key=AIzaSyBId_35KFQKeZoRy-aRDZxma65PqdmkUI8";
+    angular
+        .module("YouTubeApp", [])
+        .controller("YouTubeController", YouTubeController);
 
-    function init() {
-        $MovieName = "football + -soccer";
-        $SearchMovieTitle = $("#SearchMovieTitle");
-        $SearchMovieTitle.click(searchMovie);
-        // $tbody = $("#searchResults tbody");
-}
+    function YouTubeController($http, $scope) {
+        //$(init);
+        //var $MovieName;
+        //var $SearchMovieTitle;
+        //var $tbody;
 
-    function searchMovie() {
 
-        var mn = "football+-soccer";
-        //   var name = anvita;
+        function init() {
 
-        var url = $SearchUrl.replace("Type", mn);
-        //   alert("url:" + url)
-        $.ajax({
-            url: url,
-            success: renderMovieList
-    });
+            $http.get("https://www.googleapis.com/youtube/v3/search?part=snippet" +
+                "&maxResults=5&q=boating&key=AIzaSyBId_35KFQKeZoRy-aRDZxma65PqdmkUI8")
+                .success(callback);
+
+
+        }
+        init();
+
+        function callback(response) {
+            $scope.data = response;
+//            console.log(response);
+        }
+
     }
-
-
-    function renderMovieList(response){
-       // $tbody.empty();
-        console.log(response);}
 
 
 })();

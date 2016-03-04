@@ -4,7 +4,7 @@
 (function(){
     angular
         .module("ToDoWidget", [])
-        .controller("toDoController", toDoController );
+        .controller("toDoController", toDoController);
 
     function toDoController($scope){
         var toDoList  = [
@@ -48,6 +48,7 @@
         function  updateToDo(toDo)
         {
             $scope.toDoList[$scope.selectedToDoIndex] = toDo;
+            $scope.toDo ={};
         }
 
     }

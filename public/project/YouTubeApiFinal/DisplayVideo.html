@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="YouTubeApp">
+<head>
+    <meta charset="UTF-8">
+    <title>YouTube API</title>
+</head>
+<body>
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"  rel="stylesheet">
+<link href="CSS/style.css" rel="stylesheet">
+<script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+<script src="js/app.js"></script>
+<div class ="container" ng-controller="YouTubeController">
+    <div class="row">
+
+        <div class="col-xs-6" style="float: right">
+            <iframe width="420" height="315"
+                    src="{{slelectedUrl.link}}">
+            </iframe>
+            {{slelectedUrl.link}}
+            {{kill}}
+
+
+
+        </div>
+
+    </div>
+
+
+</div>
+</body>
+</html>
