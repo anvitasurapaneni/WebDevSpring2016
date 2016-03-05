@@ -9,12 +9,7 @@
 
     angular
         .module("YouTubeApp", [])
-        .controller("YouTubeController", YouTubeController)
-        ..filter('trustAsResourceUrl', ['$sce', function($sce) {
-        return function(val) {
-            return $sce.trustAsResourceUrl(val);
-        };
-    }]);
+        .controller("YouTubeController", YouTubeController);
 
     function YouTubeController($http, $scope) {
         //$(init);
