@@ -63,15 +63,20 @@
 
             var url_temp = "http://www.youtube.com/embed/ID?autoplay=1";
             $scope.data = response.items;
+            console.log("Data");
             console.log($scope.data);
             var data = $scope.data;
             var url_link = {};
             var urls = [];
             for(var i =0; i<data.length; i++){
                 var newid = data[i].id.videoId;
+                var title = data[i].snippet.title;
                 console.log(newid);
+
                 var v1 = url_temp.replace("ID", newid);
                 console.log("v1:");
+                console.log("title:");
+                console.log(title);
                 console.log(v1);
              //   url_link = {"link": v1}
              //   console.log(url_link);

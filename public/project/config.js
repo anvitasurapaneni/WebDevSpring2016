@@ -33,6 +33,10 @@
                 templateUrl: "views/widgets/youtubeApiWidget/youtubeApiWidget.view.html",
                 controller: "YouTubeController"
             })
+            .when("/notebook", {
+                templateUrl: "views/widgets/notebook/notebook.view.html",
+                controller: "noteBookController"
+            })
             .when("/map", {
                 templateUrl: "views/widgets/googlemap/map.view.html",
                 controller: "MapController"
