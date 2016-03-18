@@ -23,7 +23,6 @@
 
                     $rootScope.user = response.data;
                     console.log($rootScope.user);
-                  //  $rootScope.loggeduser = response;
                     $location.url('/profile') ;
 
                 });

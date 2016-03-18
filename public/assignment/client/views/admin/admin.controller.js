@@ -7,8 +7,10 @@
         .module("FormBuilderApp")
         .controller("AdminController", adminController);
 
-    function adminController(){
+    function adminController($rootScope){
         var vm = this;
+        (function init() {
 
+        })();
     }
 })();

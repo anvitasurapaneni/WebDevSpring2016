@@ -10,102 +10,79 @@
     function formController($scope,$rootScope, FormService,  $location){
 
         var vm = this;
+
+        function init() {
+    FormService.findAllFormsForUser($rootScope.user._id).then(function(response) {
+    vm.forms = response;
+        console.log("forms of user:");
+        console.log(vm.forms);
+    vm.$location = $location;
+ });
+        }
+        init();
+
         vm.addForm = addForm;
         vm.updateForm = updateForm;
         vm.deleteForm = deleteForm;
         vm.selectForm = selectForm;
 
 
-        var forms  = [
-            {"_id": "000", "title": "Contacts", "userId": 123},
-            {"_id": "010", "title": "ToDo",     "userId": 123},
-            {"_id": "020", "title": "CDs",      "userId": 234},
-        ];
+var index_position = -1;
 
 
         var user_id = $rootScope.user._id;
-        console.log(user_id);
-
-        FormService.findAllFormsForUser(user_id, function(response){
-            console.log("value of logged users ");
-            console.log(response);
-            $scope.forms = response;
-
-        });
-
-
-       // $scope.forms = forms;
-        console.log($scope.forms);
+        console.log("logged user ID:"+user_id);
 
 
 
-        function addForm(form){
-            //console.log("form after add"+form);
-            //console.log(form);
-            //console.log($rootScope.user);
-            var userId = $rootScope.user._id;
-            FormService.createFormForUser(userId,form, function(response){
-                //console.log("value of response after add");
-                //console.log(response);
 
-                //console.log("checking initial form");
-
-                //console.log($scope.forms);
-                $scope.forms.push(response);
-                $scope.form = {};
+      //  console.log($scope.forms);
 
 
-                // $location.url('/profile') ;
-            });
 
+        function addForm(form) {
 
+            FormService.createFormForUser($rootScope.user._id, form)
+                .then(function(response) {
+                vm.forms = response;
+             });
+            vm.form = {};
         }
+
+
+
 
 
         function updateForm(form){
-            var formID = form._id;
 
-            FormService.updateFormById(formID,form, function(response){
-                console.log("value of response after update");
-                console.log(response);
+            FormService.updateFormById(form._id, form).then(function (response) {
 
-                //  var forms1 = $scope.forms;
+                if (response === "OK") {
 
-                //   forms1.push(response);
-                //   console.log("forms1");
-                //   console.log(forms1);
-                $scope.form ={};
+                    FormService.findFormById(form._id).then(function(response) {
 
-                //   $rootScope.data = response;
-
-                //data reached
-                // $location.url('/profile') ;
+                        vm.forms[index_position] = response;
+                    });
+                }
             });
 
-
-
-
+            vm.form={};
         }
 
 
-        function deleteForm(form){
-            var formID = form._id;
-            console.log(formID);
 
 
 
-            FormService.deleteFormById(formID, function(response){
-                console.log("value of response after delete");
-                console.log(response);
+        function deleteForm($index){
 
-                $scope.forms = response;
+            var formID = vm.forms[$index]._id;
 
-                //   $rootScope.data = response;
+            FormService.deleteFormById(formID).then(function(response) {
 
-                //data reached
-                // $location.url('/profile') ;
+                if(response === "OK") {
+                    init();
+                }
             });
-
         }
 
 
@@ -114,14 +91,21 @@
 
 
 
-        function selectForm(form){
-            $scope.form = form;
-            $scope.form.title = form.title;
+        function selectForm($index) {
 
-            console.log(form);
+            vm.form={};
 
+            var selectedForm = vm.forms[$index];
+
+            vm.form = {
+                _id: selectedForm._id,
+                title: selectedForm.title,
+                userId: selectedForm.userId
+            };
+
+            index_position = $index;
+            console.log("index", $index);
         }
-
 
     }
 })();

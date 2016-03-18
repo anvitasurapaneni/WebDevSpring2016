@@ -15,5 +15,17 @@
         }
         init();
 
+
+        vm.logout = logout;
+
+        function logout() {
+
+            UserService.logout().then(function(response) {
+
+                UserService.setCurrentUser(null);
+                $location.url("/home");
+            });
+        }
+
     }
 })();

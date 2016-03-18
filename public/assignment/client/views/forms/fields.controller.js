@@ -6,6 +6,7 @@
     angular
         .module("FormBuilderApp")
         .controller("FieldController", fieldController);
+    // FieldService
 
     function fieldController(){
         var vm = this;

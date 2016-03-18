@@ -10,6 +10,7 @@ module.exports = function(app, userModel) {
     app.post("/api/assignment/user", createUser);
     app.delete("/api/assignment/user/:id", deleteUserById);
     app.put("/api/assignment/user/:id", updateUser);
+    app.post("/api/assignment/user/logout", logout);
 
 
 
@@ -38,9 +39,9 @@ module.exports = function(app, userModel) {
         var user = req.query.user;
         console.log("create user server side:");
         console.log(user);
-        var u = userModel.createUser(user);
+        var createdUser = userModel.createUser(user);
 
-            res.json(u);
+            res.json(createdUser);
 
     }
 
@@ -58,6 +59,12 @@ module.exports = function(app, userModel) {
                 res.json(users);
 
         }
+
+    function logout(req, res) {
+
+        req.session.destroy();
+        res.send(200);
+    }
 
 
 

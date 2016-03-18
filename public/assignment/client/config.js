@@ -11,15 +11,18 @@
         $routeProvider
             .when("/admin", {
                 templateUrl: "views/admin/admin.view.html",
-                controller: "AdminController"
+                controller: "AdminController",
+                controllerAs: "model"
             })
             .when("/forms", {
                 templateUrl: "views/forms/forms.view.html",
-                controller: "FormController"
+                controller: "FormController",
+                controllerAs: "model"
             })
             .when("/fields", {
                 templateUrl: "views/forms/fields.view.html",
-                controller: "FieldController"
+                controller: "FieldController",
+                controllerAs: "model"
             })
             .when("/home", {
                 templateUrl: "views/home/home.view.html",

@@ -19,7 +19,9 @@
             findAllUsers: findAllUsers,
             createUser: createUser,
             deleteUserById: deleteUserById,
-            updateUser: updateUser
+            updateUser: updateUser,
+            setCurrentUser: setCurrentUser,
+            logout: logout
         };
 
         return api;
@@ -28,8 +30,7 @@
 // findUserByUsernameAndPassword
         function findUserByCredentials(username, password) {
 
-         //   return $http.post("/formMaker/user", credentials);
-            console.log("text");
+
 
             return $http.get("/api/assignment/user?username="+username+"&password="+password);
 
@@ -59,6 +60,16 @@
                 return  $http.put("/api/assignment/user/"+userId, user);
 
             }
+        function setCurrentUser(user) {
+
+            $rootScope.currentUser = user;
+        }
+
+        function logout() {
+
+            return $http.post("/api/assignment/user/logout")
+        }
+
         }
 
 
