@@ -6,7 +6,6 @@
         .module("fieldSortable", [])
         .directive("fieldSortable", fieldSortable);
 
-
     function fieldSortable() {
         var start = null;
         var end = null;
