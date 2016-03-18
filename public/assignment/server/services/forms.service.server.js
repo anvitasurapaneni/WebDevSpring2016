@@ -19,8 +19,8 @@ module.exports = function(app, formModel, uuid) {
 
     function findAllformsForUser(req, res) {
         var userId = req.params.userId;
-        var forms = formModel.findAllFormsByUserId(userId);
-        res.json(forms);
+        //var forms = formModel.findAllFormsByUserId(userId);
+        res.json(formModel.findAllFormsByUserId(userId));
     }
 
     function createFormForUser (req, res) {

@@ -1,141 +1,113 @@
 
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main ">
-            <h1>Forms</h1><br>
-            <ul class="nav nav-tabs">
-                <li role="presentation"><a href="#/forms">Forms</a></li>
-                <li role="presentation"  class="active"><a href="#">Fields</a></li>
-            </ul>
+
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main ">
+    <h1>Forms</h1><br>
+    <ul class="nav nav-tabs">
+        <li role="presentation"><a href="#/forms">Forms</a></li>
+        <li role="presentation"  class="active"><a href="#">Fields</a></li>
+    </ul>
 
 
 
 
-                <div class="container darker" style="margin:0">
-                    <div class="row">
-                        <div class="col-6 col-xs-6 col-md-6">
-                            First name:<br>
-                            <input type="text" class="form-control" id="firstname" placeholder="First Name">
+    <div class="container darker" style="margin:0">
+        <form action="" id="my-form" field-sortable field-axis="y">
+        <div class="row" ng-repeat="field in model.fields">
+            <div class="form-group col-6 col-xs-6 col-md-6" ng-switch on="field.type">
+                <div ng-switch-default>
 
-                        </div>
-                        <div class="col-6 col-xs-6 col-md-6"  align="right">
-                            <div class="btn-group btn-group-md" role="group" aria-label="...">
-                                <a class="btn btn-default transparent"> <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a>
-                                <a class="btn btn-default transparent"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </a>
-                                <a class="btn btn-default transparent"> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> </a>
-                                <a class="btn btn-default transparent"> <span class="glyphicon glyphicon-list" aria-hidden="true"></span></span> </a>
-                            </div>
+                    <label for="{{field._id}}">{{field.label}}</label>
+                    <input type="{{field.type}}" class="form-control"
+                           placeholder="{{field.placeholder}}"
+                           id="{{field._id}}">
+                </div>
 
-                        </div>
+                <div ng-switch-when="OPTIONS">
+
+                    <label for="{{field._id}}">{{field.label}}</label>
+
+                    <select name="{{field.label}}" id="{{field._id}}" class="form-control">
+
+                        <option ng-repeat = "option in field.options"
+                                value="{{option.value}}">{{option.label}}</option>
+
+                    </select>
+                </div>
+
+                <div ng-switch-when="CHECKBOXES">
+
+                    <label for="{{field._id}}">{{field.label}}</label>
+
+                    <div ng-repeat = "option in field.options">
+                        <input
+                                type="checkbox"
+                                name="{{field.label}}"
+                                value="{{option.value}}">
+                        {{option.label}}
+                        <br>
                     </div>
+                </div>
 
-                    <div class="row">
-                        <div class="col-6 col-xs-6 col-md-6">
-                            Last Name:<br>
-                            <input type="text" class="form-control" id="lastname" placeholder="Last Name">
-                        </div>
-                        <div class="col-6 col-xs-6 col-md-6" align="right">
-                        <div class="btn-group btn-group-md" role="group" aria-label="...">
-                            <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a>
-                            <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </a>
-                            <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> </a>
-                            <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-list" aria-hidden="true"></span></span> </a>
-                        </div>
-                        </div>
+                <div ng-switch-when="RADIOS">
+
+                    <label for="{{field._id}}">{{field.label}}</label>
+
+                    <div ng-repeat = "option in field.options">
+                        <input
+                                type="radio"
+                                name="{{field.label}}"
+                                value="{{option.value}}">
+                        {{option.label}}
+                        <br>
                     </div>
+                </div> </div>
 
-                    <div class="row">
-                        <div class="col-6 col-xs-6 col-md-6">
-                            Date of birth:<br>
-                            <input type="date" class="form-control" id="dob" placeholder="enter date of birth">
-
-                        </div>
-                        <div class="col-6 col-xs-6 col-md-6"  align="right">
-                            <div class="btn-group btn-group-md" role="group" aria-label="...">
-                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a>
-                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </a>
-                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> </a>
-                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-list" aria-hidden="true"></span></span> </a>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-6 col-xs-6 col-md-6">
-                            Gender:<br>
-                            <select class="form-control">
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                            </select>
-                        </div>
-                        <div class="col-6 col-xs-6 col-md-6"  align="right">
-                            <div class="btn-group btn-group-md" role="group" aria-label="...">
-                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a>
-                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </a>
-                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> </a>
-                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-list" aria-hidden="true"></span></span> </a>
-                            </div>
-
-                        </div>
-                    </div>
-
-
-                    <div class="row">
-                        <div class="col-6 col-xs-6 col-md-6">
-                            Roles:<br>
-                            <input type="checkbox" name="Admin" value="admin" checked >Admin<br>
-                            <input type="checkbox" name="Student" value="student">Student<br>
-                            <input type="checkbox" name="User" value="user" checked>User<br>
-                            </select>
-                        </div>
-                        <div class="col-6 col-xs-6 col-md-6"  align="right">
-                            <div class="btn-group btn-group-md" role="group" aria-label="...">
-                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a>
-                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </a>
-                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> </a>
-                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-list" aria-hidden="true"></span></span> </a>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-6 col-xs-6 col-md-6">
-                            License Agreement:<br>
-                            <input type="radio" name="consent" value="agree" checked>Yes<br>
-                            <input type="radio" name="consent" value="disagree">No<br>
-                        </div>
-                        <div class="col-6 col-xs-6 col-md-6"  align="right">
-                            <div class="btn-group btn-group-md" role="group" aria-label="...">
-                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </a>
-                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </a>
-                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> </a>
-                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-list" aria-hidden="true"></span></span> </a>
-                            </div>
-
-                        </div>
-                    </div>
-                    <hr class="darker">
-
-                    <div class="row">
-                        <div class="col-6 col-xs-6 col-md-6">
-                            Add New Field:<br>
-                            <select class="form-control">
-                                <option value="text">Single Line Text</option>
-                                <option value="date">Date</option>
-                                <option value="dropdown">Drop Down</option>
-                                <option value="checkboxes">Check Boxes</option>
-                                <option value="radio">Radio</option>
-                            </select>
-                        </div>
-                        <div class="col-6 col-xs-6 col-md-6"  align="right" style="padding-right: 10%">
-                            <div class="btn-group btn-group-md" role="group" aria-label="...">
-                                <a href="#" class="btn btn-default transparent"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </a>
-                                </div>
-
-                        </div>
+                <div class="col-6 col-xs-6 col-md-6"  align="right">
+                    <div class="btn-group btn-group-md" role="group" aria-label="...">
+                        <a class="btn btn-default transparent"> <span class="glyphicon glyphicon-pencil" ng-click="editField($index)" aria-hidden="true"></span> </a>
+                        <a class="btn btn-default transparent"> <span class="glyphicon glyphicon-remove" ng-click="model.removeField($index)" aria-hidden="true"></span> </a>
+                        <a class="btn btn-default transparent"> <span class="glyphicon glyphicon-list" aria-hidden="true"></span></span> </a>
                     </div>
 
                 </div>
 
 
+
+            </div>
+
+
+                <div class="row">
+                    <div class="col-6 col-xs-6 col-md-6">
+                        Add New Field:<br>
+                        <select name="new-field" id="new-field" class="form-control"
+                                ng-model="model.fieldType"
+                                ng-options="option.name for option in model.options track by option.value"
+                                ng-init="model.options[0]">
+
+                            <option value="{{option.value}}">{{option.name}}</option>
+
+                        </select>
+                    </div>
+
+
+                    <div class="col-6 col-xs-6 col-md-6"  align="right" style="padding-right: 10%">
+                        <div class="btn-group btn-group-md" role="group" aria-label="...">
+                            <a  class="btn btn-default transparent" > <span class="glyphicon glyphicon-plus" ng-click="model.addField()" aria-hidden="true"></span> </a>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </form>
         </div>
+    </div>
+
+
+
+
+
+
+
+

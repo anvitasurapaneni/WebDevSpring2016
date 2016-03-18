@@ -4,11 +4,11 @@
 "use strict";
 (function(){
     angular
-        .module("FormBuilderApp", ["ngRoute"])
-        .config(configuration);
+        .module("FormBuilderApp", ["ngRoute","fieldSortable"]);
+     //   .config(configuration);
 
-function configuration(){
+// function configuration(){
 
-}
+// }
 
 })();

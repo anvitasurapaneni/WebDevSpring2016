@@ -11,7 +11,7 @@
 
 
 
-    function UserService($http) {
+    function UserService($http,$rootScope) {
 
 
         var api = {
@@ -20,8 +20,7 @@
             createUser: createUser,
             deleteUserById: deleteUserById,
             updateUser: updateUser,
-            setCurrentUser: setCurrentUser,
-            logout: logout
+            setCurrentUser: setCurrentUser
         };
 
         return api;
@@ -46,6 +45,7 @@
 
 // createUser
             function createUser(user) {
+                console.log(user);
                 return $http.post("/api/assignment/user", user);
  }
 
@@ -65,10 +65,6 @@
             $rootScope.currentUser = user;
         }
 
-        function logout() {
-
-            return $http.post("/api/assignment/user/logout")
-        }
 
         }
 
