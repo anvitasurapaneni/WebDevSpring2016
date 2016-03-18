@@ -171,11 +171,15 @@ console.log(forms[i].fields);
             console.log("compare");
 console.log("forms.id in loop:"+forms[i]._id);
             console.log("form id:"+formId);
-            if (forms[i]._id === formId) {
+            if (forms[i]._id == formId) {
 
                 for (var j in forms[i].fields) {
+                    console.log("compare");
+                    console.log("field id in loop:"+forms[i].fields[j]._id);
+                    console.log("field id:"+fieldId);
 
-                    if (forms[i].fields[j]._id === fieldId) {
+
+                    if (forms[i].fields[j]._id == fieldId) {
 
                         forms[i].fields.splice(j,1);
                     }
