@@ -80,6 +80,7 @@
         function addField() {
 
             var fieldType = vm.fieldType.value;
+            console.log(fieldType);
 
             switch (fieldType) {
 
@@ -109,7 +110,16 @@
 
             }
 
+            console.log("vm and vm.field");
+            console.log(vm);
+            console.log(vm.field);
+            console.log("form id");
+            console.log(formId);
+
             FieldService.createFieldForForm(formId, vm.field).then(function (response) {
+                console.log("response");
+                console.log(response);
+
 
                 vm.fields = response;
                 $scope.fields = vm.fields;

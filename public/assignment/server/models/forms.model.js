@@ -95,15 +95,19 @@ forms.push(form);
 
     // field munction definitons
     function createFieldForForm(formId, field) {
+        console.log("in forms model for create field function");
+        console.log()
         for (var i in forms) {
 
-            if (forms[i]._id === formId) {
+            if (forms[i]._id == formId) {
 
                 if(!forms[i].fields) {
                     forms[i].fields = [];
                 }
 
                 forms[i].fields.push(field);
+                console.log(forms[i].fields);
+                console.log("end of create field function");
                 break;
             }
         }

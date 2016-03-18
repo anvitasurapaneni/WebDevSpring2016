@@ -7,6 +7,8 @@
 module.exports = function (app, formModel, uuid) {
     console.log("is it going to server services for fields");
 
+
+
      app.post("/api/assignment/form/:formId/field", createFormField);
 
     app.get("/api/assignment/form/:formId/field", findAllFieldsForForm);
@@ -21,9 +23,15 @@ module.exports = function (app, formModel, uuid) {
         console.log("create form fields is being called");
 
         var field = req.body;
+        console.log("fields and formID")
+        console.log(field);
+
         var formId = parseInt(req.params.formId);
+        console.log(formId);
 
         field._id = parseInt(uuid.v4(), 16);
+        console.log("field with ID");
+        console.log(field);
 
         formModel.createFieldForForm(formId, field);
 
