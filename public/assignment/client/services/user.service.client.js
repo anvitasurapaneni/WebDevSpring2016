@@ -7,23 +7,7 @@
         .module("FormBuilderApp")
         .factory("UserService", UserService);
 
-    var initialUsers =
-        [
-            {        "_id":123, "firstName":"Alice",            "lastName":"Wonderland",
-                "username":"alice",  "password":"alice",   "roles": ["student"]                },
 
-            {        "_id":234, "firstName":"Bob",              "lastName":"Hope",
-                "username":"bob",    "password":"bob",     "roles": ["admin"]                },
-
-            {        "_id":345, "firstName":"Charlie",          "lastName":"Brown",
-                "username":"charlie","password":"charlie", "roles": ["faculty"]                },
-
-            {        "_id":456, "firstName":"Dan",              "lastName":"Craig",
-                "username":"dan",    "password":"dan",     "roles": ["faculty", "admin"]},
-
-            {        "_id":567, "firstName":"Edward",           "lastName":"Norton",
-                "username":"ed",     "password":"ed",      "roles": ["student"]                }
-        ];
 
 
 
@@ -31,7 +15,7 @@
 
 
         var api = {
-            findUserByUsernameAndPassword: findUserByUsernameAndPassword,
+            findUserByCredentials: findUserByCredentials,
             findAllUsers: findAllUsers,
             createUser: createUser,
             deleteUserById: deleteUserById,
@@ -42,100 +26,37 @@
 
 
 // findUserByUsernameAndPassword
-        function findUserByUsernameAndPassword(username, password, callback) {
+        function findUserByCredentials(username, password) {
 
-            var valied = false;
-            var index;
-            var valiedUser = {};
-            console.log(username);
+         //   return $http.post("/formMaker/user", credentials);
+            console.log("text");
 
-            for (var i = 0; i < initialUsers.length; ++i) {
-                if ((initialUsers[i].username == username) && (initialUsers[i].password == password)) {
-                    console.log("inside loop:" + initialUsers[i].username);
-                    console.log("inside loop:" + initialUsers[i]._id);
-                    valied = true;
-                    index = i;
-                    valiedUser = {
-                        "_id": initialUsers[i]._id,
-                        "firstName": initialUsers[i].firstName,
-                        "lastName": initialUsers[i].lastName,
-                        "username": initialUsers[i].username,
-                        "password": initialUsers[i].password,
-                        "email": initialUsers[i].email
-                    }
-                }
+            return $http.get("/api/assignment/user?username="+username+"&password="+password);
 
-            }
-                callback(valiedUser);
+
+
 
         }
 
 // findAllUsers
-            function findAllUsers(callback) {
-                callback(initialUsers);
+            function findAllUsers() {
+                return $http.get("/api/assignment/user");
             }
 
 // createUser
-            function createUser(user, callback) {
-                var newuser = {}
-                var newID = (new Date).getTime();
-
-                newuser = {
-                    "_id": newID,
-                    "username": user.username,
-                    "password": user.password,
-                    "email": user.email
-                }
-                initialUsers.push(newuser);
-                console.log("initial users");
-                console.log(initialUsers);
-                callback(newuser);
-
-            }
+            function createUser(user) {
+                return $http.post("/api/assignment/user", user);
+ }
 
 // deleteUserById
-            function deleteUserById(userId, callback) {
-                var index = null;
-                for (var user in initialUsers) {
-                    if (user._id == userId) {
-                        index = initialUsers.getItemIndex(user);
-                    }
-                }
-                initialUsers.splice(index);
-                callback(initialUsers);
+            function deleteUserById(userId) {
+               return $http.delete("/api/assignment/user/:id");
+
             }
 
 // updateUser
-            function updateUser(userId, user, callback) {
-                var index = 0;
-                var flag = 0;
-                var newuser = {};
-                for (var i = 0; i < initialUsers.length; i++) {
-
-                    if (initialUsers[i]._id == userId) {
-                        index = i;
-                        var flag = 1;
-                        break;
-                    }
-                }
-                console.log("update user function index" + index);
-                console.log("update user function useer ID:" + userId);
-                console.log("update user function useer :" + user);
-                if (flag == 1) {
-
-                    newuser = {
-                        "_id": userId, "firstName": user.firstName, "lastName": user.lastName,
-                        "username": user.username, "password": user.password
-                    }
-
-                    initialUsers[index] = newuser;
-                }
-                console.log("update user function initialUsers[index] :" + initialUsers[index]);
-                console.log(initialUsers[index]);
-                console.log("update user function newuser :" + newuser);
-                console.log(newuser);
-                callback(newuser);
-
+            function updateUser(userId, user) {
+                return  $http.put("/api/assignment/user/"+userId, user);
 
             }
         }

@@ -6,7 +6,7 @@
                     <label class="col-sm-2 control-label">Username</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control"
-                               ng-model="user.username"
+                               ng-model="model.user.username"
                                id="username" placeholder="Username">
                     </div>
                 </div>
@@ -14,7 +14,7 @@
                     <label class="col-sm-2 control-label">Password</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control"
-                               ng-model="user.password"
+                               ng-model="model.user.password"
                                id="password" placeholder="Password">
                     </div>
                 </div>
@@ -22,7 +22,7 @@
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="submit"
-                                ng-click="login(user)"
+                                ng-click="model.login(model.user)"
                                 class="btn btn-primary form-control fill-color ">
                             Login</button>
                     </div>

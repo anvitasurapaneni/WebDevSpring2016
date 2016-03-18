@@ -8,6 +8,7 @@
         .controller("FieldController", fieldController);
 
     function fieldController(){
+        var vm = this;
 
     }
 })();

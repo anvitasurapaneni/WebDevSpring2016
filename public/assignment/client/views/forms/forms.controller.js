@@ -8,6 +8,14 @@
         .controller("FormController", formController);
 
     function formController($scope,$rootScope, FormService,  $location){
+
+        var vm = this;
+        vm.addForm = addForm;
+        vm.updateForm = updateForm;
+        vm.deleteForm = deleteForm;
+        vm.selectForm = selectForm;
+
+
         var forms  = [
             {"_id": "000", "title": "Contacts", "userId": 123},
             {"_id": "010", "title": "ToDo",     "userId": 123},
@@ -29,10 +37,6 @@
        // $scope.forms = forms;
         console.log($scope.forms);
 
-        $scope.addForm = addForm;
-        $scope.updateForm = updateForm;
-        $scope.deleteForm = deleteForm;
-        $scope.selectForm = selectForm;
 
 
         function addForm(form){

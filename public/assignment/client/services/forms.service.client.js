@@ -30,7 +30,7 @@
         console.log("abc");
 console.log($rootScope.user);
 
-        function findAllFormsForUser(userId, callback){
+        function findAllFormsForUser(userId){
 
 
             var index;
@@ -55,23 +55,23 @@ console.log($rootScope.user);
 
 forms = foundforms;
 
-            callback(foundforms);
+            return foundforms;
         }
 
 
 // createFormForUser
-        function  createFormForUser(userId, form, callback){
+        function  createFormForUser(userId, form){
             var newform = {}
 
             newform = {"_id": (new Date).getTime(), "title": form.title, "userId": userId}
 
             console.log(newform);
-            callback(newform);
+            return newform;
 
         }
 
 // deleteFormById
-        function deleteFormById(formId, callback){
+        function deleteFormById(formId){
             var index = null;
             console.log("form id:"+ formId);
             for (var i = 0; i < forms.length; i++) {
@@ -81,11 +81,11 @@ forms = foundforms;
                 }}
             console.log("item index:"+index);
 
-            callback(forms);
+            return forms;
         }
 
 // updateFormById
-        function updateFormById(formId, newForm, callback){
+        function updateFormById(formId, newForm){
             var index = 0;
             var flag = 0;
             var newform = {};
@@ -109,7 +109,7 @@ forms = foundforms;
             console.log(forms[index]);
             console.log("update user function newuser :"+ newform);
             console.log(newform);
-            callback(newform);
+            return newform;
 
 
         }

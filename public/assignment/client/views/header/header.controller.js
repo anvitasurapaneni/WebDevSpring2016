@@ -7,7 +7,13 @@
         .module("FormBuilderApp")
         .controller("HeaderController", HeaderController);
 
-    function HeaderController(){
+    function HeaderController($location){
+        var vm = this;
+
+        function init() {
+            vm.$location = $location;
+        }
+        init();
 
     }
 })();

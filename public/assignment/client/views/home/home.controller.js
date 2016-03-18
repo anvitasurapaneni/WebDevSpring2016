@@ -8,6 +8,6 @@
         .controller("HomeController", homeController);
 
     function homeController(){
-
+        var vm = this;
     }
 })();

@@ -23,19 +23,23 @@
             })
             .when("/home", {
                 templateUrl: "views/home/home.view.html",
-                controller: "HomeContrhttp://localhost:63342/webdevspring2016/public/assignment/index.html#/formsoller"
+                controller: "HomeController",
+                controllerAs: "model"
             })
             .when("/login", {
                 templateUrl: "views/users/login.view.html",
-                controller: "LoginController"
+                controller: "LoginController",
+                controllerAs: "model"
             })
             .when("/profile", {
                 templateUrl: "views/users/profile.view.html",
-                controller: "ProfileController"
+                controller: "ProfileController",
+                controllerAs: "model"
             })
             .when("/register", {
                 templateUrl: "views/users/register.view.html",
-                controller: "RegisterController"
+                controller: "RegisterController",
+                controllerAs: "model"
             })
             .otherwise({
                 redirectTo: "/home"

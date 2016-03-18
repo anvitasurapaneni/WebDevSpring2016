@@ -7,20 +7,22 @@
         .module("FormBuilderApp")
         .controller("LoginController", LoginController);
 
-    function LoginController($scope, $rootScope, UserService, $location) {
-        $scope.login = login;
+    function LoginController( $rootScope, UserService, $location) {
+        var vm = this;
+        vm.login = login;
 
 
 
         function login(user)
         {
             console.log(user);
-            UserService.findUserByUsernameAndPassword(user.username,
-                user.password,
-                function(response){
+            console.log(user.username);
+            UserService.findUserByCredentials(user.username, user.password)
+                .then(function(response){
                     console.log("response");
-                    console.log(response);
-                    $rootScope.user = response;
+
+                    $rootScope.user = response.data;
+                    console.log($rootScope.user);
                   //  $rootScope.loggeduser = response;
                     $location.url('/profile') ;
 

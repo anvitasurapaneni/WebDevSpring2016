@@ -8,7 +8,12 @@
         .controller("MainController", MainController);
 
     function  MainController($scope, $location){
-        $scope.$location = $location;
+        var vm = this;
+        function init() {
+            $scope.$location = $location;
+        }
+        init();
+
     }
 
 })();

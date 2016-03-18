@@ -8,6 +8,7 @@
         .controller("AdminController", adminController);
 
     function adminController(){
+        var vm = this;
 
     }
 })();
