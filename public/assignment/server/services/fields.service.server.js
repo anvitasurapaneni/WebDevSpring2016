@@ -34,24 +34,24 @@ module.exports = function (app, formModel, uuid) {
         console.log(field);
 
         formModel.createFieldForForm(formId, field);
-
-        res.json(formModel.findAllFieldsForForm(formId));
+var fieldsOfForms = formModel.findAllFieldsForForm(formId);
+        res.json(fieldsOfForms);
     }
 
     function findAllFieldsForForm(req, res) {
 
         var formId = parseInt(req.params.formId );
 
-
-        res.json(formModel.findAllFieldsForForm(formId));
+var fieldsOfForms1 = formModel.findAllFieldsForForm(formId);
+        res.json(fieldsOfForms1);
     }
 
     function findFieldByFieldIdAndFormId(req, res) {
 
         var formId = parseInt(req.params.formId, 16);
         var fieldId = parseInt(req.params.fieldId, 16   );
-
-        res.json(formModel.findFieldByFieldIdAndFormId(formId, fieldId));
+var field1 = formModel.findFieldByFieldIdAndFormId(formId, fieldId);
+        res.json(field1);
     }
 
     function updateFieldByFieldIdAndFormId (req, res) {

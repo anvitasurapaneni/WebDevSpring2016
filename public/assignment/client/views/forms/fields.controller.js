@@ -93,27 +93,54 @@
             switch (fieldType) {
 
                 case "single-line-text":
-                    vm.field = createSingleLineField();
+                    vm.field = {
+                        _id: null,
+                        label: "New Text Field",
+                        type: "TEXT",
+                        placeholder: "New Field"
+                    };
                     break;
 
                 case "multiple-line-text":
-                    vm.field = createMultiLineField();
+                    vm.field = {
+                        _id: null,
+                        label: "New Text Field",
+                        type: "TEXTAREA",
+                        placeholder: "New Field"
+                    };
+
                     break;
 
                 case "date":
-                    vm.field = createDateField();
+                    vm.field = {
+                        _id: null,
+                        label: "New Date Field",
+                        type: "DATE"
+                    };
                     break;
 
                 case "dropdown":
-                    vm.field = createDropDownField();
+                    vm.field = {"_id": null, "label": "New Dropdown", "type": "OPTIONS", "options": [
+                        {"label": "Option 1", "value": "OPTION_1"},
+                        {"label": "Option 2", "value": "OPTION_2"},
+                        {"label": "Option 3", "value": "OPTION_3"}
+                    ]};
                     break;
 
                 case "checkbox":
-                    vm.field = createCheckboxField();
+                    vm.field = {"_id": null, "label": "New Checkboxes", "type": "CHECKBOXES", "options": [
+                        {"label": "Option A", "value": "OPTION_A"},
+                        {"label": "Option B", "value": "OPTION_B"},
+                        {"label": "Option C", "value": "OPTION_C"}
+                    ]};
                     break;
 
                 case "radio":
-                    vm.field = createRadioField();
+                    vm.field = {"_id": null, "label": "New Radio Buttons", "type": "RADIOS", "options": [
+                        {"label": "Option X", "value": "OPTION_X"},
+                        {"label": "Option Y", "value": "OPTION_Y"},
+                        {"label": "Option Z", "value": "OPTION_Z"}
+                    ]};
                     break;
 
             }
@@ -136,72 +163,14 @@
 
         }
 
-        function createSingleLineField() {
 
-            var field = {
-                _id: null,
-                label: "New Text Field",
-                type: "TEXT",
-                placeholder: "New Field"
-            };
 
-            return field;
-        }
 
-        function createMultiLineField() {
 
-            var field = {
-                _id: null,
-                label: "New Text Field",
-                type: "TEXTAREA",
-                placeholder: "New Field"
-            };
 
-            return field;
-        }
 
-        function createDateField() {
 
-            var field = {
-                _id: null,
-                label: "New Date Field",
-                type: "DATE"
-            };
 
-            return field;
-        }
 
-        function createDropDownField() {
-
-            var field = {"_id": null, "label": "New Dropdown", "type": "OPTIONS", "options": [
-                {"label": "Option 1", "value": "OPTION_1"},
-                {"label": "Option 2", "value": "OPTION_2"},
-                {"label": "Option 3", "value": "OPTION_3"}
-            ]};
-
-            return field;
-        }
-
-        function createCheckboxField() {
-
-            var field = {"_id": null, "label": "New Checkboxes", "type": "CHECKBOXES", "options": [
-                {"label": "Option A", "value": "OPTION_A"},
-                {"label": "Option B", "value": "OPTION_B"},
-                {"label": "Option C", "value": "OPTION_C"}
-            ]};
-
-            return field;
-        }
-
-        function createRadioField() {
-
-            var field = {"_id": null, "label": "New Radio Buttons", "type": "RADIOS", "options": [
-                {"label": "Option X", "value": "OPTION_X"},
-                {"label": "Option Y", "value": "OPTION_Y"},
-                {"label": "Option Z", "value": "OPTION_Z"}
-            ]};
-
-            return field;
-        }
     }
 })();

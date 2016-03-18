@@ -27,7 +27,7 @@
         vm.selectForm = selectForm;
 
 
-var index_position = -1;
+var index_position = null;
 
 
         var user_id = $rootScope.user._id;
@@ -54,19 +54,23 @@ var index_position = -1;
 
 
         function updateForm(form){
+// if(form.title != null && )
+            var newForm = {
+                "_id": form._id,
+                "title": form.title,
+                "userId": form.userId
+            };
 
-            FormService.updateFormById(form._id, form).then(function (response) {
+            FormService.updateFormById(form._id, newForm)
+                .then(function (response) {
+                vm.forms[index_position] = response;
+                vm.form.title = null;
+                vm.index_position = null;
 
-                if (response === "OK") {
 
-                    FormService.findFormById(form._id).then(function(response) {
-
-                        vm.forms[index_position] = response;
-                    });
-                }
             });
 
-            vm.form={};
+
         }
 
 

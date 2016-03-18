@@ -83,14 +83,13 @@ forms.push(form);
 
         for (var i in forms) {
 
-            if(forms[i]._id === formId) {
+            if(forms[i]._id == formId) {
 
-                forms[i].title = form.title;
-                break;
+                forms[i] = form;
+                return form;
             }
         }
 
-        return forms;
     }
 
     // field munction definitons
