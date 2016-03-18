@@ -163,9 +163,14 @@ console.log(forms[i].fields);
     }
 
     function deleteFieldByFieldIdAndFormId(formId, fieldId) {
+        console.log("delete field in model");
+        console.log(formId);
+        console.log(fieldId);
 
         for (var i in forms) {
-
+            console.log("compare");
+console.log("forms.id in loop:"+forms[i]._id);
+            console.log("form id:"+formId);
             if (forms[i]._id === formId) {
 
                 for (var j in forms[i].fields) {

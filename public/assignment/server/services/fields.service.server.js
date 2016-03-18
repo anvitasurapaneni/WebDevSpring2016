@@ -64,9 +64,12 @@ module.exports = function (app, formModel, uuid) {
     }
 
     function deleteFieldByFieldIdAndFormId (req, res) {
+        console.log("reached delete field server side");
 
-        var formId = parseInt(req.params.formId);
-        var fieldId = parseInt(req.params.fieldId);
+        var formId = req.params.formId;
+        var fieldId = req.params.fieldId;
+        console.log("form ID server side"+formId);
+        console.log(fieldId);
 
         formModel.deleteFieldByFieldIdAndFormId(formId, fieldId);
 

@@ -60,16 +60,24 @@
         init();
 
         function removeField($index) {
+            console.log("client side remove field called");
 
             var fieldId = vm.fields[$index]._id;
+            console.log("field ID"+fieldId);
+            console.log("form ID"+formId);
 
             FieldService.deleteFieldFromForm(formId, fieldId).then(function (response) {
+                console.log("remove filed response");
+                console.log(response);
 
-                if(response === "OK") {
+                if(response == "OK") {
+                    console.log(response);
 
-                    FieldService.getFieldsForForm(formId).then(function (response) {
+                    FieldService.getFieldsForForm(formId).then(function (response1) {
+                        console.log("response1");
+                        console.log(response1);
 
-                        vm.fields = response;
+                        vm.fields = response1;
                         $scope.fields = vm.fields;
 
                     });
