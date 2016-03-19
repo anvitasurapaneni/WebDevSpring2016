@@ -1,11 +1,11 @@
 
 
 
-<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main ">
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main " >
 
     <script type="text/ng-template" id="fieldEditModal.html">
-
-        <div class="modal-header" ng-switch on="field.type">
+        <div style="padding: 10px;">
+        <div  ng-switch on="field.type" >
 
             <h3 class="modal-title" ng-switch-default>
                 Single Line Field
@@ -32,11 +32,11 @@
             </h3>
         </div>
 
-        <form class="modal-body form" ng-switch on="field.type">
+        <form class="form" ng-switch on="field.type">
 
             <div class="row" ng-switch-when="TEXT">
 
-                <div class="form-group col-md-12">
+                <div class="form-group col-md-12" >
 
                     <label for="labelForField">Label</label>
                     <input type="text" id="labelForField" class="form-control" ng-model="$parent.newLabel">
@@ -108,12 +108,14 @@
 
         </form>
 
-        <div class="modal-footer">
 
-            <button class="btn" ng-click="ok()">OK</button>
+            <div style="padding: 5px" >
+
+                <button class="btn" ng-click="ok()">OK</button>
 
             <button class="btn" ng-click="cancel()">Cancel</button>
 
+        </div>
         </div>
     </script>
 
