@@ -8,7 +8,7 @@
         .controller("FieldController", FieldController);
 
 
-    function FieldController(FieldService, $routeParams, $scope, $location){
+    function FieldController(FieldService, $routeParams, $scope, $location, $uibModal){
         var vm = this;
         vm.fields = [];
         vm.field = {};
@@ -16,6 +16,7 @@
 
         vm.removeField = removeField;
         vm.addField = addField;
+        vm.editField = editField;
 
 
 
@@ -164,13 +165,25 @@
         }
 
 
+function editField($index){
+    console.log("edit field");
+    // console.log(vm.fields);
+    // console.log($index);
+    // console.log( vm.fields[$index]);
+    var type = vm.fields[$index].type;
+    console.log(type);
+    switch(type){
+        case "TEXT":
+            textPopUp();
+            break;
+    }
+    }
 
-
-
-
-
-
-
-
+        function  textPopUp(){
+            var modalInstance = $uibModal.open({
+                templateUrl: '/assignment/client/views/forms/modal/singleLineField.html'
+                /*controller: 'ModalInstanceCtrl'*/
+            });
+        }
     }
 })();
