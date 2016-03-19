@@ -8,7 +8,7 @@
         .controller("FieldController", FieldController);
 
 
-    function FieldController(FieldService, $routeParams, $scope, $location, $uibModal){
+    function FieldController(FieldService, $routeParams, $location, $uibModal){
         var vm = this;
         vm.fields = [];
         vm.field = {};
@@ -17,8 +17,11 @@
         vm.removeField = removeField;
         vm.addField = addField;
         vm.editField = editField;
+        vm.updateSingleLineText = updateSingleLineText;
 
-
+        function updateSingleLineText(popfields){
+            console.log("hello came from modal"+popfields);
+        }
 
         vm.oldIndex = -1;
 
@@ -38,9 +41,7 @@
                     console.log(response);
 
                     vm.fields = response;
-                    $scope.fields = vm.fields;
-                    console.log("$scope.fields");
-                    console.log($scope.fields);
+
 
                 });
 
@@ -79,7 +80,7 @@
                         console.log(response1);
 
                         vm.fields = response1;
-                        $scope.fields = vm.fields;
+
 
                     });
                 }
@@ -158,32 +159,107 @@
 
 
                 vm.fields = response;
-                $scope.fields = vm.fields;
+
                 vm.field = {};
             });
 
         }
 
 
-function editField($index){
-    console.log("edit field");
-    // console.log(vm.fields);
-    // console.log($index);
-    // console.log( vm.fields[$index]);
-    var type = vm.fields[$index].type;
-    console.log(type);
-    switch(type){
-        case "TEXT":
-            textPopUp();
-            break;
-    }
-    }
+        function editField($index) {
+            vm.fieldToBeEdited = vm.fields[$index];
 
-        function  textPopUp(){
-            var modalInstance = $uibModal.open({
-                templateUrl: '/assignment/client/views/forms/modal/singleLineField.html'
-                /*controller: 'ModalInstanceCtrl'*/
+            var modalInstance = $uibModal.open( {
+
+                templateUrl: 'fieldEditModal.html',
+
+                controller: 'ModalInstanceCtrl',
+
+                resolve: {
+                    field: function () {
+
+                        console.log(vm.fieldToBeEdited);
+
+                        return vm.fieldToBeEdited;
+                    }
+                }
+
             });
+
+            modalInstance.result
+                .then(function (field) {
+                    console.log(field);
+                    return FieldService.updateField(formId, field._id, field);
+
+                })
+                .then(function (response) {
+                    if(response === "OK") {
+                        return FieldService.getFieldsForForm(formId);
+
+                    }
+                })
+                .then(function (response) {
+                    vm.fields = response;
+
+
+                });
         }
     }
+
+    angular.module('FormBuilderApp').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, field) {
+
+        $scope.field = field;
+
+        $scope.ok = function () {
+
+            if($scope.newLabel) {
+                $scope.field.label = $scope.newLabel;
+            }
+
+            if($scope.field.type != "DATE") {
+
+                if($scope.newPlaceholder) {
+
+                    if($scope.field.type === "TEXT" || $scope.field.type === "TEXTAREA") {
+
+                        $scope.field.placeholder = $scope.newPlaceholder;
+
+                    } else {
+
+                        UpdateOtherFields();
+                    }
+                }
+
+            }
+
+            function UpdateOtherFields() {
+
+                var content = $scope.newPlaceholder;
+
+                content = content.trim();
+
+                var rawOptions = content.split("\n");
+
+                var options = [];
+
+                for (var i in rawOptions) {
+
+                    var rawField = rawOptions[i].split(":");
+
+                    var option = {label: rawField[0], value: rawField[1]};
+
+                    options.push(option);
+                }
+
+                $scope.field.options = options;
+
+            }
+
+            $uibModalInstance.close($scope.field);
+        };
+
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    });
 })();

@@ -2,24 +2,23 @@
  * Created by anvitasurapaneni on 3/18/16.
  */
 
-"use strict"
+"use strict";
 
 module.exports = function (app, formModel, uuid) {
     console.log("is it going to server services for fields");
 
 
-
-     app.post("/api/assignment/form/:formId/field", createFormField);
+    app.post("/api/assignment/form/:formId/field", createFormField);
 
     app.get("/api/assignment/form/:formId/field", findAllFieldsForForm);
 
     app.get("/api/assignment/form/:formId/field/:fieldId", findFieldByFieldIdAndFormId);
 
-     app.put("/api/assignment/form/:formId/field/:fieldId", updateFieldByFieldIdAndFormId);
+    app.put("/api/assignment/form/:formId/field/:fieldId", updateFieldByFieldIdAndFormId);
 
-     app.delete("/api/assignment/form/:formId/field/:fieldId", deleteFieldByFieldIdAndFormId);
+    app.delete("/api/assignment/form/:formId/field/:fieldId", deleteFieldByFieldIdAndFormId);
 
-    function createFormField (req, res) {
+    function createFormField(req, res) {
         console.log("create form fields is being called");
 
         var field = req.body;
@@ -34,46 +33,47 @@ module.exports = function (app, formModel, uuid) {
         console.log(field);
 
         formModel.createFieldForForm(formId, field);
-var fieldsOfForms = formModel.findAllFieldsForForm(formId);
+        var fieldsOfForms = formModel.findAllFieldsForForm(formId);
         res.json(fieldsOfForms);
     }
 
     function findAllFieldsForForm(req, res) {
 
-        var formId = parseInt(req.params.formId );
+        var formId = parseInt(req.params.formId);
 
-var fieldsOfForms1 = formModel.findAllFieldsForForm(formId);
+        var fieldsOfForms1 = formModel.findAllFieldsForForm(formId);
         res.json(fieldsOfForms1);
     }
 
     function findFieldByFieldIdAndFormId(req, res) {
 
         var formId = parseInt(req.params.formId, 16);
-        var fieldId = parseInt(req.params.fieldId, 16   );
-var field1 = formModel.findFieldByFieldIdAndFormId(formId, fieldId);
+        var fieldId = parseInt(req.params.fieldId, 16);
+        var field1 = formModel.findFieldByFieldIdAndFormId(formId, fieldId);
         res.json(field1);
     }
 
-    function updateFieldByFieldIdAndFormId (req, res) {
+        function updateFieldByFieldIdAndFormId(req, res) {
 
-        var formId = parseInt(req.params.formId, 16);
-        var fieldId = parseInt(req.params.fieldId, 16);
-        var field = req.body;
+            var formId = parseInt(req.params.formId, 16);
+            var fieldId = parseInt(req.params.fieldId, 16);
+            var field = req.body;
 
-        res.send(200);
-    }
+            res.send(formModel.updateFieldByFieldIdAndFormId);
+        }
 
-    function deleteFieldByFieldIdAndFormId (req, res) {
-        console.log("reached delete field server side");
+        function deleteFieldByFieldIdAndFormId(req, res) {
+            console.log("reached delete field server side");
 
-        var formId = req.params.formId;
-        var fieldId = req.params.fieldId;
-        console.log("form ID server side"+formId);
-        console.log(fieldId);
+            var formId = req.params.formId;
+            var fieldId = req.params.fieldId;
+            console.log("form ID server side" + formId);
+            console.log(fieldId);
 
-        formModel.deleteFieldByFieldIdAndFormId(formId, fieldId);
+            formModel.deleteFieldByFieldIdAndFormId(formId, fieldId);
 
-        res.send(200);
-    }
+            res.send(200);
+        }
+
 
 }

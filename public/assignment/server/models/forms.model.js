@@ -145,8 +145,6 @@ console.log(forms[i].fields);
 
     function updateFieldByFieldIdAndFormId(formId, fieldId, field) {
 
-        field._id = fieldId;
-
         for (var i in forms) {
 
             if (forms[i]._id === formId) {
@@ -156,6 +154,8 @@ console.log(forms[i].fields);
                     if (forms[i].fields[j]._id === fieldId) {
 
                         forms[i].fields[j] = field;
+
+                        return field;
                     }
                 }
             }

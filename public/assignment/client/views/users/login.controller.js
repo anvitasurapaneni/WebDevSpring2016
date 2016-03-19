@@ -19,11 +19,17 @@
             console.log(user.username);
             UserService.findUserByCredentials(user.username, user.password)
                 .then(function(response){
-                    console.log("response");
+
+
 
                     $rootScope.user = response.data;
-                    console.log($rootScope.user);
+                    console.log("rs="+$rootScope.user);
+                    if($rootScope.user == null){
+                        $location.url('/home') ;
+                    }
+                    else{
                     $location.url('/profile') ;
+                    }
 
                 });
 
