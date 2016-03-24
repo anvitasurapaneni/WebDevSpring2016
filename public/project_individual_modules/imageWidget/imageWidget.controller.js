@@ -49,6 +49,7 @@
         function  updateImage(image)
         {
             $scope.images[$scope.selectedImageIndex] = image;
+            $scope.image ={};
         }
 
     }
