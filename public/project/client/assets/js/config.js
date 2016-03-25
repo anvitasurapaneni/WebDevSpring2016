@@ -43,6 +43,7 @@
             .when("/image", {
                 templateUrl: "views/widgets/imageWidget/imageWidget.view.html",
                 controller: "imageController"
+
             })
             .when("/youtube", {
                 templateUrl: "views/widgets/youtubeApiWidget/youtubeApiWidget.view.html",
