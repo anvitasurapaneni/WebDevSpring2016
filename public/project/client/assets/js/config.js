@@ -38,7 +38,6 @@
             .when("/todo", {
                 templateUrl: "views/widgets/todoWidget/todoWidget.view.html",
                 controller: "toDoController"
-
             })
             .when("/image", {
                 templateUrl: "views/widgets/imageWidget/imageWidget.view.html",
