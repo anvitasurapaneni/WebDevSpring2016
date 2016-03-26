@@ -1,6 +1,7 @@
 [
-  {	"_id":123, "firstName":"Alice1",            "lastName":"Wonderland1",
-    "username":"alice",  "password":"alice",   "roles": ["notemaker"]		},
+  {	"_id":123, "firstName":"Alice2",            "lastName":"Wonderland",
+    "username":"alice",  "password":"alice",   "email":"alice@gmail.com",
+    "roles": ["notemaker"]		},
   {	"_id":234, "firstName":"Bob",              "lastName":"Hope",
     "username":"bob",    "password":"bob",     "roles": ["admin"]		},
   {	"_id":345, "firstName":"Charlie",          "lastName":"Brown",

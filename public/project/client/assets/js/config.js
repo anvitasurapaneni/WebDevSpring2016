@@ -32,8 +32,20 @@
                 controller: "myCtrl"
             })
             .when("/note", {
-                templateUrl: "views/widgets/note/note.view.html",
-                controller: "NoteController"
+                templateUrl: "views/note/note.view.html",
+                controller: "NoteController",
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
+            })
+            .when("/createnote", {
+                templateUrl: "views//createnote/createnote.view.html",
+                controller: "NoteController",
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
             })
             .when("/todo", {
                 templateUrl: "views/widgets/todoWidget/todoWidget.view.html",
@@ -42,15 +54,18 @@
             .when("/image", {
                 templateUrl: "views/widgets/imageWidget/imageWidget.view.html",
                 controller: "imageController"
-
             })
             .when("/youtube", {
                 templateUrl: "views/widgets/youtubeApiWidget/youtubeApiWidget.view.html",
                 controller: "YouTubeController"
             })
             .when("/notebook", {
-                templateUrl: "views/widgets/notebook/notebook.view.html",
-                controller: "noteBookController"
+                templateUrl: "views//notebook/notebook.view.html",
+                controller: "noteBookController",
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
             })
             .when("/login", {
                 templateUrl: "views/users/login.view.html",
@@ -60,16 +75,64 @@
             .when("/profile", {
                 templateUrl: "views/users/profile.view.html",
                 controller: "ProfileController",
-                controllerAs : "model"
+                controllerAs : "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
             })
             .when("/register", {
                 templateUrl: "views/users/register.view.html",
                 controller: "RegisterController",
                 controllerAs : "model"
             })
+            .when("/favorites", {
+                templateUrl: "views/favorites/favorites.view.html",
+                controller: "FavoriteNotesController",
+                controllerAs : "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
+            })
+            .when("/sidebar", {
+                templateUrl: "views/sidebar/sidebar.view.html",
+                controller: "SidebarController",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
+            })
+            .when("/search", {
+                templateUrl: "views/search/search.view.html",
+                controller: "SearchController",
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
+            })
 
             .otherwise({
                 redirectTo: "/home"
             });
+    }
+
+    function checkLoggedIn(UserService, $q, $location) {
+
+        var deferred = $q.defer();
+
+        UserService.getCurrentUser().then(function (response) {
+
+            var currentUser = response.data;
+
+            if (currentUser) {
+                UserService.setCurrentUser(currentUser);
+                deferred.resolve();
+
+            } else {
+
+                deferred.reject();
+                $location.url("/home");
+            }
+        });
+
+        return deferred.promise;
     }
 })();

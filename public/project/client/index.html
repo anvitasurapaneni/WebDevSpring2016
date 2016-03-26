@@ -37,6 +37,7 @@
 
             <div class="container-fluid">
                 <div class="row">
+                    <div ng-include="'views/sidebar/sidebar.view.html'" ng-show="currentUser"></div>
                     <div ng-view></div>
                 </div>
             </div>
@@ -65,7 +66,9 @@
         <script src="views/users/profile.controller.js"></script>
         <script src="views/users/register.controller.js"></script>
 
-        <script src="views/widgets/note/note.controller.js"></script>
+        <script src="views/note/note.controller.js"></script>
+        <script src="views/createnote/createnote.controller.js"></script>
+        <script src="views/favorites/favorites.controller.js"></script>
         <script src="views/widgets/fileupload/file.controller.js"></script>
 
         <script src="views/widgets/text/text.controller.js"></script>
@@ -75,14 +78,21 @@
 
         <script src="services/map.service.client.js"></script>
         <script src="services/user.service.client.js"></script>
+        <script src="services/note.service.client.js"></script>
 
         <script src="views/widgets/todoWidget/todoWidget.controller.js"></script>
         <script src="views/widgets/imageWidget/imageWidget.controller.js"></script>
         <script src="views/widgets/youtubeApiWidget/youtubeApiWidget.controller.js"></script>
-        <script src="views/widgets/notebook/notebook.controller.js"></script>
+        <script src="views/notebook/notebook.controller.js"></script>
+        <script src="views/search/search.controller.js"></script>
+
+        <script src="views/notebook/notebook.controller.js"></script>
+        <script src="views/sidebar/sidebar.controller.js"></script>
 
 
         <!-- script for portfolio section using hoverdirection -->
+
+
         <script type="text/javascript">
             $(function() {
 

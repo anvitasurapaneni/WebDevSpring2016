@@ -1,14 +1,15 @@
 
-<div class=" main " ng-controller="noteBookController">
+<div class=" main col-sm-9 col-sm-offset-5 col-md-10 col-md-offset-2" ng-controller="noteBookController as model">
 
     <h1>Note Book
+        <div style="float: right">
         <a   ng-click="showTableAdd = 1; showPlus = 1; showPencil = 2; showDelete = 2;
          showTable = 2; ; showColumn = 2;hideDeleteButton = 2;showHideDeleteButton = 2">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
          </a>
         <a
                 ng-click="showTable = 1; showPencil = 1; showTableAdd = 2; showDelete = 2;
-                 showColumn = 1;hideDeleteButton = 2;showHideDeleteButton = 2" >
+                 showColumn = 1;hideDeleteButton = 2;showHideDeleteButton = 2 " >
             <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
         </a>
 
@@ -24,34 +25,34 @@
                 ng-click="hideDeleteButton = 2; showDelete = 2; showHideDeleteButton = 2; showColumn = 2">
             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
         </a>
-
+        </div>
     </h1>
 
 
 
 
 
-    <table class="table"   border="3" style="border-collapse:collapse" >
+    <table class="table"   border="3" style="border-collapse:collapse" rules="rows">
 
         <tbody>
         <tr ng-show="showTableAdd==1" >
             <td>Name <input type="text" class="form-control"
-                            ng-model = "notebook.name"
-                            id="name" placeholder="name">
+                            ng-model = "model.notebook.name"
+                            id="nbname" placeholder="name">
 
                 <br>
 
 
                 Description <input type="text" class="form-control"
-                                   ng-model = "notebook.description"
-                                   id="name" placeholder="description">
+                                   ng-model = "model.notebook.description"
+                                   id="desc" placeholder="description">
                 <br>
 
             </td>
             <td>
                 <div class="btn-group btn-group-sm" role="group" aria-label="...">
                     <a class="btn btn-default transparent"
-                       ng-click="addNoteBook(notebook); showTableAdd = 2" >
+                       ng-click="model.addNoteBook(model.notebook); showTableAdd = 2" >
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                     </a>
 
@@ -65,34 +66,26 @@
 
         <h3>Note book Crud functionality</h3><br>
 
-    <button  ng-click="showTable = 1; showPencil = 1">Update </button>
-    <button ng-hide="hideDeleteButton==1"
-            ng-click="showDelete = 1; showHideDeleteButton = 1; hideDeleteButton = 1">
-        Delete </button>
-    <button ng-show="showHideDeleteButton==1"
-            ng-click="hideDeleteButton = 2; showDelete = 2; showHideDeleteButton = 2">
-        Clear Delete </button>
-    <button ng-click="showTable = 2">Hide table </button>
 
 
 
 
 
-    <div class="table-responsive darker padding-all-sides" >
-        <table class="table"   border="3" style="border-collapse:collapse" >
+    <div class="table-responsive darker padding-all-sides">
+        <table class="table"   border="3" style="border-collapse:collapse; border-collapse: transparent;" rules="rows" >
 
             <tbody>
             <tr ng-show="showTable==1" >
                 <td>Name <input type="text" class="form-control"
-                                ng-model = "notebook.name"
-                                id="name" placeholder="name">
+                                ng-model = "model.notebook.name"
+                                id="name1" placeholder="name">
 
                     <br>
 
 
                     Description <input type="text" class="form-control"
-                                       ng-model = "notebook.description"
-                                       id="name" placeholder="description">
+                                       ng-model = "model.notebook.description"
+                                       id="name2" placeholder="description">
                     <br>
 
                 </td>
@@ -103,7 +96,7 @@
                     <div class="btn-group btn-group-sm" role="group" aria-label="...">
 
                         <a class="btn btn-default transparent"
-                           ng-click="updateNoteBook(notebook); showTable = 2; showPencil = 2"
+                           ng-click="model.updateNoteBook(model.notebook); showTable = 2; showPencil = 2; showColumn = 2"
                            ng-show="showPencil==1">
                             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                         </a>
@@ -113,7 +106,7 @@
                 </td>
             </tr>
 
-            <tr ng-repeat="notebook in noteBooks">
+            <tr ng-repeat="notebook in model.notebooks">
                 <td>
                     <h3>  {{notebook.name}}</h3>
                     <text> <b>Description:</b> {{notebook.description}} </text>
@@ -133,11 +126,12 @@
 
 
                     <div class="btn-group btn-group-sm" role="group" aria-label="..." >
-                        <a class="btn btn-default transparent" ng-click="deleteNoteBook(notebook)" ng-show="showDelete==1">
+                        <a class="btn btn-default transparent" ng-click="model.deleteNoteBook($index)"
+                           ng-show="showDelete==1">
                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                         </a>
                         <a class="btn btn-default transparent"
-                           ng-click=" selectNoteBook(notebook)" ng-show="showPencil==1">
+                           ng-click="model.selectNoteBook($index)" ng-show="showPencil==1">
                             <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                         </a>
                     </div>
