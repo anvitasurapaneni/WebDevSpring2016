@@ -20,7 +20,8 @@
             createUser: createUser,
             deleteUserById: deleteUserById,
             updateUser: updateUser,
-            setCurrentUser: setCurrentUser
+            setCurrentUser: setCurrentUser,
+            getCurrentUser: getCurrentUser
         };
 
         return api;
@@ -65,8 +66,14 @@
             $rootScope.currentUser = user;
         }
 
+        function getCurrentUser() {
 
+            return $http.get("/api/assignment/users/loggedin");
         }
+
+
+
+    }
 
 
 })();

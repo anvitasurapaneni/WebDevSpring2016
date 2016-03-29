@@ -10,6 +10,7 @@ module.exports = function(app, userModel) {
     app.post("/api/assignment/user", createUser);
     app.delete("/api/assignment/user/:id", deleteUserById);
     app.put("/api/assignment/user/:id", updateUser);
+    app.get("/api/assignment/users/loggedin", loggedIn);
 
 
 
@@ -22,7 +23,7 @@ module.exports = function(app, userModel) {
         if (username != null && password != null) {
             var credentials = {username: username, password: password};
             var user = userModel.findUserByCredentials(credentials);
-
+            req.session.currentUser = user;
             res.json(user);
 
         }
@@ -61,7 +62,9 @@ module.exports = function(app, userModel) {
         }
 
 
-
+    function loggedIn(req, res) {
+        res.json(req.session.currentUser);
+    }
 
 
 };

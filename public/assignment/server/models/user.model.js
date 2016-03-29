@@ -2,7 +2,7 @@
  * Created by anvitasurapaneni on 3/16/16.
  */
 var initialUsers = require("./user.mock.json");
-module.exports = function(){
+module.exports = function(db, mongoose){
     var api = {
         findUserByCredentials: findUserByCredentials,
         findAllUsers: findAllUsers,
