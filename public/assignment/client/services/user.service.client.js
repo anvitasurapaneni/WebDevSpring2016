@@ -21,11 +21,15 @@
             deleteUserById: deleteUserById,
             updateUser: updateUser,
             setCurrentUser: setCurrentUser,
-            getCurrentUser: getCurrentUser
+            getCurrentUser: getCurrentUser,
+            findUserById: findUserById
         };
 
         return api;
 
+        function findUserById(id){
+            return $http.get("/api/assignment/user/",+id);
+        }
 
 // findUserByUsernameAndPassword
         function findUserByCredentials(username, password) {

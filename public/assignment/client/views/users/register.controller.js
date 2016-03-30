@@ -23,7 +23,7 @@ init();
             console.log(user);
             var userid = (new Date()).getTime();
             console.log("new user id"+userid);
-            var newUser ={        "_id":userid,
+            var newUser ={
                 "firstName":user.firstName,
                 "lastName":user.lastName,
                 "username": user.username,
@@ -34,12 +34,12 @@ init();
             console.log("new user:");
             console.log(newUser);
 
-            UserService.createUser(newUser)
+            UserService.createUser(user)
                 .then (function(response){
                 console.log("value of response after register:");
-                console.log(response);
+                console.log(response.config.data);
 
-                $rootScope.user = response.data;
+                $rootScope.user = response.config.data;
 
                 //data reached
                 $location.url('/profile') ;

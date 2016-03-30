@@ -13,14 +13,15 @@
        
 
 function init(){
-        // console.log( "checking before printing"+$rootScope.data);
-      //  $scope.user.username = "abc";
-      //  $scope.user.password = "cde";
-var currentuser = $rootScope.user;
-    console.log(currentuser);
-    if(currentuser != null){
-    vm.user = currentuser;
-    }
+
+
+        UserService.findUserById($rootScope.user._id)
+            .then(function(response){
+
+            $rootScope.user = response.data;
+            vm.currentUser = $rootScope.user;
+
+        });
 }
         init();
         function update(user){

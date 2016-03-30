@@ -61,10 +61,7 @@
             .when("/register", {
                 templateUrl: "views/users/register.view.html",
                 controller: "RegisterController",
-                controllerAs: "model",
-                resolve: {
-                    checkLoggedIn: checkLoggedIn
-                }
+                controllerAs: "model"
             })
             .when("/form/:formId/fields", {
 

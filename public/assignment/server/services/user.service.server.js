@@ -11,6 +11,7 @@ module.exports = function(app, userModel) {
     app.delete("/api/assignment/user/:id", deleteUserById);
     app.put("/api/assignment/user/:id", updateUser);
     app.get("/api/assignment/users/loggedin", loggedIn);
+    app.get("/api/assignment/user/:id", findUserById);
 
 
 
@@ -22,16 +23,28 @@ module.exports = function(app, userModel) {
 
         if (username != null && password != null) {
             var credentials = {username: username, password: password};
-            var user = userModel.findUserByCredentials(credentials);
-            req.session.currentUser = user;
-            res.json(user);
-
+            var user = userModel.findUserByCredentials(credentials).then(
+                                function (doc) {
+                                        req.session.currentUser = doc;
+                                        res.json(doc);
+                                    },
+                                // send error if promise rejected
+                                    function ( err ) {
+                                            res.status(400).send(err);
+                                        }
+                            )
         }
         else {
-            var users = userModel.findAllUsers();
-
-                    res.json(users);
-
+            userModel
+                .findAllUsers ()
+                .then (
+                    function (users) {
+                        res.json (users);
+                    },
+                    function (err) {
+                        res.status(400).send(err);
+                    }
+                );
         }
     }
 
@@ -40,30 +53,75 @@ module.exports = function(app, userModel) {
         var user = req.body;
         console.log("create user server side:");
         console.log(user);
-        var createdUser = userModel.createUser(user);
+        var createdUser = userModel.createUser(user).then(
+                            // login user if promise resolved
+                                function ( doc ) {
+                                        req.session.currentUser = doc;
+                                    res.json(createdUser);
+                                    },
+                            // send error if promise rejected
+                                function ( err ) {
+                                        res.status(400).send(err);
+                                    }
+                        );
 
-            res.json(createdUser);
+
 
     }
 
     function deleteUserById(req, res) {
         var userId = req.query.id;
-       var users = userModel.deleteUserById(userId);
-            res.json(users);
+
+
+        userModel
+            .deleteUserById (userId)
+            .then (
+                function (stats) {
+                    res.send(200);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+
+    /*   var users = userModel.deleteUserById(userId);
+            res.json(users); */
 
     }
 
         function updateUser(req, res) {
-            var userId = req.query.userId;
+            var userId = req.query.id;
             var user = req.query.user;
-           var users = userModel.updateUser(userId, user);
-                res.json(users);
+            userModel
+                .updateUser (userId, user)
+                .then (
+                    function (stats) {
+                        res.send(200);
+                    },
+                    function (err) {
+                        res.status(400).send(err);
+                    }
+                );
 
         }
 
 
     function loggedIn(req, res) {
         res.json(req.session.currentUser);
+    }
+
+    function findUserById(res, req){
+        var userId = req.query.id;
+        developerModel
+            .findUserById (userId)
+            .then (
+                function (user) {
+                    res.json (user);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 
 
