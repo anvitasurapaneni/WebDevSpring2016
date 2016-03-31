@@ -36,7 +36,10 @@ module.exports = function(db, mongoose){
     function createFormForUser(userId, form){
         var deferred = q.defer();
 
-        FormModel.create(form, function (err, doc) {
+        FormModel.create(
+            {userId : userId,
+                title : form.title,
+                created: new Date()},function (err, doc) {
 
             if (!err) {
                 // resolve promise
@@ -50,17 +53,18 @@ module.exports = function(db, mongoose){
         });
 
 
-        FormModel
-            .update (
-                {userId: userId},
-                function (err, stats) {
-                    if (!err) {
-                        deferred.resolve(stats);
-                    } else {
-                        deferred.reject(err);
-                    }
-                }
-            );
+        //FormModel
+        //    .update (
+        //        {userId: userId,
+        //            created: new Date()},
+        //        function (err, stats) {
+        //            if (!err) {
+        //                deferred.resolve(stats);
+        //            } else {
+        //                deferred.reject(err);
+        //            }
+        //        }
+        //    );
 
         return deferred.promise;
 
@@ -145,6 +149,7 @@ forms.push(form);
             .update (
                 {_id: formId},
                 {$set: form},
+                {updated : Date.now()},
                 function (err, stats) {
                     if (!err) {
                         deferred.resolve(stats);

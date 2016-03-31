@@ -41,8 +41,8 @@ module.exports = function(app, formModel, uuid) {
 
        // form._id = uuid.v4();
 
-        formModel.createFormForUser(userId, form);
-                formModel.findAllFormsByUserId(userId)
+        formModel.createFormForUser(userId, form)
+                //formModel.findAllFormsByUserId(userId)
                     .then (
                         function (forms2) {
                             res.json (forms2);
@@ -86,6 +86,7 @@ module.exports = function(app, formModel, uuid) {
 
       formModel.updateFormById(formId, form).then (
           function (forms1) {
+              console.log(forms1);
               res.json (forms1);
           },
           function (err) {

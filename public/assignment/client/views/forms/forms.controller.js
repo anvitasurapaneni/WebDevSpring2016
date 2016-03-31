@@ -44,7 +44,8 @@ var index_position = null;
 console.log("in add form");
             FormService.createFormForUser($rootScope.user._id, form)
                 .then(function(response) {
-                vm.forms = response;
+                //vm.forms = response;
+                    vm.forms.push(response);
              });
             vm.form = {};
         }
@@ -56,13 +57,15 @@ console.log("in add form");
         function updateForm(form){
 // if(form.title != null && )
             var newForm = {
-                "_id": form._id,
                 "title": form.title,
                 "userId": form.userId
             };
 
+
+
             FormService.updateFormById(form._id, newForm)
                 .then(function (response) {
+                    console.log(response);
                 vm.forms[index_position] = response;
                 vm.form.title = null;
                 vm.index_position = null;
