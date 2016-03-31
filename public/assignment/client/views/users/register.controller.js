@@ -7,46 +7,50 @@
         .module("FormBuilderApp")
         .controller("RegisterController", registerController);
 
-    function registerController($rootScope, UserService, $location){
+    function registerController($rootScope, UserService, $location) {
         var vm = this;
-vm.register = register;
-        function init(){
+        vm.register = register;
+        function init() {
             UserService.findAllUsers()
-                .then(function(users){
-                    console.log("find all users: users")
+                .then(function (users) {
+                    console.log("find all users:")
                     console.log(users);
                 });
         }
-init();
-        function register(user){
-            console.log("user:");
-            console.log(user);
-            var userid = (new Date()).getTime();
-            console.log("new user id"+userid);
-            var newUser ={
-                "firstName":user.firstName,
-                "lastName":user.lastName,
-                "username": user.username,
-                "password":user.password,
-                "email": user.email,
-            "roles": []
-            };
-            console.log("new user:");
-            console.log(newUser);
 
-            UserService.createUser(user)
-                .then (function(response){
-                console.log("value of response after register:");
-                console.log(response.config.data);
+        init();
+        function register(user) {
 
-                $rootScope.user = response.config.data;
+            if (user != null) {
 
-                //data reached
-                $location.url('/profile') ;
-            });
+                if (user.username != null) {
+
+
+                    UserService.createUser(user)
+                        .then(function (response) {
+
+                            console.log("response");
+                            console.log(response.config.data);
+
+                            $rootScope.user = response.config.data;
+                            vm.user.username = $rootScope.user.username;
+                            console.log($rootScope.user);
+
+                            //data reached
+                            $location.url('/profile');
+
+                        });
+
+
+
+
+
+
+
+
+                }
+            }
         }
 
 
-
-    }
-})();
+    }})();

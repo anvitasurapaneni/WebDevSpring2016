@@ -41,7 +41,7 @@ var index_position = null;
 
 
         function addForm(form) {
-
+console.log("in add form");
             FormService.createFormForUser($rootScope.user._id, form)
                 .then(function(response) {
                 vm.forms = response;

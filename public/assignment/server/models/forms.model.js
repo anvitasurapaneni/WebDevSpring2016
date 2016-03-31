@@ -5,7 +5,12 @@
  * Created by anvitasurapaneni on 3/16/16.
  */
 var forms = require("./forms.mock.json");
+var q = require("q");
+
 module.exports = function(db, mongoose){
+    var FormSchema = require("./form.schema.server.js")(mongoose);
+    var FormModel = mongoose.model('Form', FormSchema);
+
     var api = {
 
         // form functions
@@ -26,8 +31,41 @@ module.exports = function(db, mongoose){
 
     };
     return api;
-// form munction definitons
+
+// form function definitons
     function createFormForUser(userId, form){
+        var deferred = q.defer();
+
+        FormModel.create(form, function (err, doc) {
+
+            if (!err) {
+                // resolve promise
+                deferred.resolve(doc);
+
+            } else {
+                // reject promise if error
+                deferred.reject(err);
+            }
+
+        });
+
+
+        FormModel
+            .update (
+                {userId: userId},
+                function (err, stats) {
+                    if (!err) {
+                        deferred.resolve(stats);
+                    } else {
+                        deferred.reject(err);
+                    }
+                }
+            );
+
+        return deferred.promise;
+
+
+
        console.log("createFormForUser");
        console.log(userId);
        console.log(form);
@@ -39,57 +77,83 @@ forms.push(form);
 }
 
     function findAllFormsByUserId(userId) {
-        console.log(userId);
-        var formsOfUser = [];
+        var deferred = q.defer();
+        // find retrieves all matching documents
+        FormModel.find(
 
-        for (var i in forms) {
-            console.log(forms[i].userId);
-            if (forms[i].userId == userId) {
-                formsOfUser.push(forms[i]);
-            }
-        }
+            // first argument is predicate
+            { userId: userId},
 
-        return formsOfUser;
+            // doc is unique instance matches predicate
+            function(err, doc) {
+
+                if (err) {
+                    // reject promise if error
+                    deferred.reject(err);
+                } else {
+                    // resolve promise
+                    deferred.resolve(doc);
+                }
+
+            });
+
+
+
+        return deferred.promise;
+
+
+
     }
 
 
 
     function findFormById(formId) {
-        for (var i in forms) {
-
-            if(forms[i]._id === formId) {
-
-                return forms[i];
+        var deferred = q.defer();
+        FormModel.findById(formId, function (err, doc) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(doc);
             }
-        }
-        return null;
+
+        });
+        return deferred.promise;
 
     }
 
 
     function deleteFormById(formId) {
-        for (var i in forms) {
-
-            if (forms[i]._id == formId) {
-
-                forms.splice(i,1);
-                break;
-            }
-        }
-        return forms;
+        var deferred = q.defer();
+        FormModel
+            .remove (
+                {_id: formId},
+                function (err, stats) {
+                    if (!err) {
+                        deferred.resolve(stats);
+                    } else {
+                        deferred.reject(err);
+                    }
+                }
+            );
+        return deferred.promise;
     }
 
 
     function updateFormById(formId, form) {
-
-        for (var i in forms) {
-
-            if(forms[i]._id == formId) {
-
-                forms[i] = form;
-                return form;
-            }
-        }
+        var deferred = q.defer();
+        FormModel
+            .update (
+                {_id: formId},
+                {$set: form},
+                function (err, stats) {
+                    if (!err) {
+                        deferred.resolve(stats);
+                    } else {
+                        deferred.reject(err);
+                    }
+                }
+            );
+        return deferred.promise;
 
     }
 

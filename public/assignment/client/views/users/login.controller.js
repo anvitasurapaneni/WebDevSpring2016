@@ -15,8 +15,7 @@
 
         function login(user)
         {
-            console.log(user);
-            console.log(user.username);
+
             UserService.findUserByCredentials(user.username, user.password)
                 .then(function(response){
 
@@ -24,7 +23,10 @@
 
                     $rootScope.user = response.data;
                     console.log("rs="+$rootScope.user);
-                    if($rootScope.user == null){
+                    console.log($rootScope.user);
+                    vm.user.username = $rootScope.user.username;
+                    vm.user = $rootScope.user;
+                    if($rootScope.currentUser == null){
                         $location.url('/home') ;
                     }
                     else{

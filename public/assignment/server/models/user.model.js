@@ -20,7 +20,7 @@ module.exports = function(db, mongoose){
     return api;
 
     function findUserById(userId) {
-
+                console.log(userId);
                         var deferred = q.defer();
                         UserModel.findById(userId, function (err, doc) {
                                     if (err) {
@@ -65,11 +65,12 @@ module.exports = function(db, mongoose){
     function findAllUsers(){
         var deferred = q.defer ();
         UserModel.find (
-            function (err, developers) {
-                if (!err) {
-                    deferred.resolve (developers);
-                } else {
+            function (err, users) {
+                if (err) {
                     deferred.reject (err);
+
+                } else {
+                    deferred.resolve (users);
                 }
             }
         );
@@ -81,18 +82,26 @@ module.exports = function(db, mongoose){
     function createUser(user){
         var deferred = q.defer();
 
-  UserModel.create(user, function (err, doc) {
-      if (err) {
-                         // reject promise if error
-                              deferred.reject(err);
+        UserModel.create(user, function (err, doc) {
+
+      if (!err) {
+          // resolve promise
+          console.log("doc");
+          console.log(doc);
+          deferred.resolve(doc);
+
                       } else {
-                          // resolve promise
-                              deferred.resolve(doc);
+          // reject promise if error
+          deferred.reject(err);
                       }
 
                     });
+        console.log("deff promise");
+        console.log(deferred.promise);
         return deferred.promise;
     }
+
+
 
 
     function deleteUserById(userId){
@@ -128,11 +137,6 @@ module.exports = function(db, mongoose){
                 }
             );
         return deferred.promise;
-
-
-
-
-
     }
 
 }

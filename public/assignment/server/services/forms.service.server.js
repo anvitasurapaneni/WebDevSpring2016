@@ -20,7 +20,16 @@ module.exports = function(app, formModel, uuid) {
     function findAllformsForUser(req, res) {
         var userId = req.params.userId;
         //var forms = formModel.findAllFormsByUserId(userId);
-        res.json(formModel.findAllFormsByUserId(userId));
+        formModel.findAllFormsByUserId(userId)
+    .then (
+            function (forms1) {
+                res.json (forms1);
+            },
+            function (err) {
+                res.status(400).send(err);
+            }
+        );
+
     }
 
     function createFormForUser (req, res) {
@@ -29,25 +38,45 @@ module.exports = function(app, formModel, uuid) {
         var userId = req.params.userId;
 
        // form.userId = userId;
-        form._id = parseInt(uuid.v4(), 16);
+
        // form._id = uuid.v4();
 
         formModel.createFormForUser(userId, form);
-        var formsOfUser = formModel.findAllFormsByUserId(userId);
-        res.json(formsOfUser);
+                formModel.findAllFormsByUserId(userId)
+                    .then (
+                        function (forms2) {
+                            res.json (forms2);
+                        },
+                        function (err) {
+                            res.status(400).send(err);
+                        }
+                    );
     }
 
 
     function findAllForms(req, res) {
-var forms1 = formModel.findAllForms();
-        res.json(forms1);
+ formModel.findAllForms() .then (
+    function (forms1) {
+        res.json (forms1);
+    },
+    function (err) {
+        res.status(400).send(err);
+    }
+);
+   //     res.json(forms1);
     }
 
     function findFormById(req, res) {
 
         var formId = req.params.formId;
-var formWithId = formModel.findFormById(formId);
-        res.json(formWithId);
+ formModel.findFormById(formId) .then (
+    function (forms1) {
+        res.json (forms1);
+    },
+    function (err) {
+        res.status(400).send(err);
+    }
+);
     }
 
     function updateFormById(req, res) {
@@ -55,18 +84,32 @@ var formWithId = formModel.findFormById(formId);
         var formId = req.params.formId;
         var form = req.body;
 
-      var forms2 =  formModel.updateFormById(formId, form);
+      formModel.updateFormById(formId, form).then (
+          function (forms1) {
+              res.json (forms1);
+          },
+          function (err) {
+              res.status(400).send(err);
+          }
+      );
 
-        res.json(forms2);
+
     }
 
     function deleteFormById(req, res) {
 
         var formId = req.params.formId;
 
-        formModel.deleteFormById(formId);
+        formModel.deleteFormById(formId).then (
+            function (forms1) {
+                res.send(200);
+            },
+            function (err) {
+                res.status(400).send(err);
+            }
+        );
 
-        res.send(200);
+
     }
 
 };

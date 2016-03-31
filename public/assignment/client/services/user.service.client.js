@@ -11,7 +11,7 @@
 
 
 
-    function UserService($http,$rootScope) {
+    function UserService($http,$rootScope, $q) {
 
 
         var api = {
@@ -22,13 +22,21 @@
             updateUser: updateUser,
             setCurrentUser: setCurrentUser,
             getCurrentUser: getCurrentUser,
-            findUserById: findUserById
+            findUserById: findUserById,
+            findUserByUsername: findUserByUsername
         };
 
         return api;
 
+        function findUserByUsername(username){
+
+            return $http.get("/api/assignment/user?username=" + username);
+
+        }
+
         function findUserById(id){
-            return $http.get("/api/assignment/user/",+id);
+            console.log(id);
+            return $http.get("/api/assignment/getuser?id="+id);
         }
 
 // findUserByUsernameAndPassword
@@ -62,6 +70,7 @@
 
 // updateUser
             function updateUser(userId, user) {
+                console.log(user);
                 return  $http.put("/api/assignment/user/"+userId, user);
 
             }

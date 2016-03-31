@@ -14,21 +14,26 @@
 
 function init(){
 
+console.log("id"+$rootScope.user._id);
 
-        UserService.findUserById($rootScope.user._id)
+        UserService.findUserByCredentials($rootScope.user.username,$rootScope.user.password)
             .then(function(response){
+                console.log("response for user pc:");
+                console.log(response);
 
             $rootScope.user = response.data;
-            vm.currentUser = $rootScope.user;
+            vm.user = $rootScope.user;
+                console.log(vm.user);
 
         });
 }
         init();
         function update(user){
+            console.log("update user");
             console.log(user);
             var userid = $rootScope.user._id;
 
-            var updatedUser ={"_id":userid,
+            var updatedUser ={
                 "firstName":user.firstName,
                 "lastName":user.lastName,
                 "username": user.username,
