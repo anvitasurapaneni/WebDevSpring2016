@@ -26,7 +26,7 @@
                     console.log($rootScope.user);
                     vm.user.username = $rootScope.user.username;
                     vm.user = $rootScope.user;
-                    if($rootScope.currentUser == null){
+                    if($rootScope.user == null){
                         $location.url('/home') ;
                     }
                     else{

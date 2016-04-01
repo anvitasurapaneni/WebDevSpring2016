@@ -11,7 +11,8 @@ module.exports = function(app, userModel) {
     app.delete("/api/assignment/user/:id", deleteUserById);
     app.put("/api/assignment/user/:id", updateUser);
     app.get("/api/assignment/users/loggedin", loggedIn);
-    app.get("/api/assignment/getuser", findUserById);
+    app.get("/api/assignment/user/:id", findUserById);
+    app.post("/api/assignment/user/logout", logout);
 
 
 
@@ -25,7 +26,7 @@ module.exports = function(app, userModel) {
             var credentials = {username: username, password: password};
              userModel.findUserByCredentials(credentials).then(
                                 function (doc) {
-                                        req.session.currentUser = doc;
+                                        req.session.user = doc;
                                         res.json(doc);
                                     },
                                 // send error if promise rejected
@@ -56,7 +57,8 @@ module.exports = function(app, userModel) {
         var createdUser = userModel.createUser(user).then(
                             // login user if promise resolved
                                 function ( doc ) {
-                                    req.session.currentUser = doc;
+                                    console.log(doc);
+                                    req.session.user = doc;
                                     res.json(createdUser);
                                     },
                             // send error if promise rejected
@@ -109,14 +111,14 @@ module.exports = function(app, userModel) {
 
 
     function loggedIn(req, res) {
-        res.json(req.session.currentUser);
+        res.json(req.session.user);
     }
 
 
 
     function findUserById(req, res){
 
-        var userId = req.query.id;
+        var userId = req.params.id;
 
 
         console.log("USER ID"+userId);
@@ -126,12 +128,18 @@ module.exports = function(app, userModel) {
             .then (
                 function (doc) {
                     res.json (doc);
-                    req.session.currentUser = doc;
+                    req.session.user = doc;
                 },
                 function (err) {
                     res.status(400).send(err);
                 }
             );
+    }
+
+
+    function logout(req, res) {
+        req.session.destroy();
+        res.status(200).send(null);
     }
 
 

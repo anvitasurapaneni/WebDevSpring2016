@@ -22,13 +22,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.bodyParser({ uploadDir: './public/uploads' }));
 app.use(multer());
 
+
+app.use(cookieParser());
 app.use(session({
     resave: true,
     saveUninitialized: true,
     secret: process.env.PASSPORT_SECRET
 }));
 
-app.use(cookieParser());
+
 
 
 var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';

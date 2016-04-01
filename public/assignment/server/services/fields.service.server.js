@@ -4,7 +4,7 @@
 
 "use strict";
 
-module.exports = function (app, formModel, uuid) {
+module.exports = function (app, fieldModel, uuid) {
     console.log("is it going to server services for fields");
 
 
@@ -18,62 +18,108 @@ module.exports = function (app, formModel, uuid) {
 
     app.delete("/api/assignment/form/:formId/field/:fieldId", deleteFieldByFieldIdAndFormId);
 
-    function createFormField(req, res) {
-        console.log("create form fields is being called");
+    function createFormField(req, res){
+        console.log("creating field");
 
         var field = req.body;
-        console.log("fields and formID")
+        var formId = req.params.formId;
         console.log(field);
-
-        var formId = parseInt(req.params.formId);
         console.log(formId);
 
-        field._id = parseInt(uuid.v4(), 16);
-        console.log("field with ID");
-        console.log(field);
 
-        formModel.createFieldForForm(formId, field);
-        var fieldsOfForms = formModel.findAllFieldsForForm(formId);
-        res.json(fieldsOfForms);
+        fieldModel.createFieldForForm(formId, field)
+            .then (
+                function (form) {
+                    console.log(form);
+                    res.json (form);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 
-    function findAllFieldsForForm(req, res) {
 
-        var formId = parseInt(req.params.formId);
+    function findAllFieldsForForm(req, res){
+        var formId = req.params.formId;
+        //var forms = formModel.findAllFormsByUserId(userId);
+        fieldModel.findAllFieldsForForm(formId)
+            .then (
+                function (form) {
+                    console.log("in then");
 
-        var fieldsOfForms1 = formModel.findAllFieldsForForm(formId);
-        res.json(fieldsOfForms1);
+                    res.json (form.fields);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+
     }
 
-    function findFieldByFieldIdAndFormId(req, res) {
 
-        var formId = parseInt(req.params.formId, 16);
-        var fieldId = parseInt(req.params.fieldId, 16);
-        var field1 = formModel.findFieldByFieldIdAndFormId(formId, fieldId);
-        res.json(field1);
+
+
+    function findFieldByFieldIdAndFormId(req, res){
+        var formId = req.params.formId;
+        var fieldId = req.params.fieldId;
+        //var forms = formModel.findAllFormsByUserId(userId);
+        fieldModel.findFieldByFieldIdAndFormId(formId, fieldId)
+            .then (
+                function (field1) {
+                    res.json (field1);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+
     }
 
-        function updateFieldByFieldIdAndFormId(req, res) {
 
-            var formId = parseInt(req.params.formId, 16);
-            var fieldId = parseInt(req.params.fieldId, 16);
-            var field = req.body;
-
-            res.send(formModel.updateFieldByFieldIdAndFormId);
-        }
-
-        function deleteFieldByFieldIdAndFormId(req, res) {
-            console.log("reached delete field server side");
+        function updateFieldByFieldIdAndFormId(req, res){
+            console.log("updating field");
 
             var formId = req.params.formId;
             var fieldId = req.params.fieldId;
-            console.log("form ID server side" + formId);
+            var field = req.body;
+            console.log(formId);
             console.log(fieldId);
+            console.log(field);
 
-            formModel.deleteFieldByFieldIdAndFormId(formId, fieldId);
 
-            res.send(200);
+            fieldModel.updateFieldByFieldIdAndFormId(fieldId, formId, field)
+                .then (
+                function (field) {
+                    console.log(field);
+                    res.json (field);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+
+
         }
 
+
+
+        function deleteFieldByFieldIdAndFormId(req, res){
+
+            var formId = req.params.formId;
+            var fieldId = req.params.fieldId;
+
+            fieldModel.deleteFieldByFieldIdAndFormId(formId, fieldId)
+                .then (
+                function (stats) {
+                    res.send(200);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+
+
+        }
 
 }

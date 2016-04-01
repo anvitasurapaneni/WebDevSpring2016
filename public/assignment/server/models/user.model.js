@@ -84,20 +84,17 @@ module.exports = function(db, mongoose){
 
         UserModel.create(user, function (err, doc) {
 
-      if (!err) {
-          // resolve promise
-          console.log("doc");
-          console.log(doc);
-          deferred.resolve(doc);
+            if (err) {
 
-                      } else {
+                    deferred.reject(err);
+
+            } else {
           // reject promise if error
-          deferred.reject(err);
+                    deferred.resolve(doc);
                       }
 
                     });
-        console.log("deff promise");
-        console.log(deferred.promise);
+
         return deferred.promise;
     }
 

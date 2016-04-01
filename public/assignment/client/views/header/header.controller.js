@@ -20,7 +20,11 @@
 
         function logout() {
 
-            $rootScope.user = null;
+            UserService
+                .logout()
+                .then(function(user){
+                    $location.url("/home");
+                });
         }
 
     }

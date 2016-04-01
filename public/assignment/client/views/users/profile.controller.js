@@ -14,9 +14,13 @@
 
 function init(){
 
-console.log("id"+$rootScope.user._id);
+    console.log("user name at profile: "+$rootScope.user.username);
+    console.log("password at profile: "+$rootScope.user.password);
+    console.log("_id at profile: "+$rootScope.user._id);
 
-        UserService.findUserByCredentials($rootScope.user.username,$rootScope.user.password)
+
+  //  UserService.findUserByCredentials($rootScope.user.username,$rootScope.user.password)
+    UserService.findUserById($rootScope.user._id)
             .then(function(response){
                 console.log("response for user pc:");
                 console.log(response);
@@ -48,10 +52,11 @@ console.log("id"+$rootScope.user._id);
                 .then (function(response){
                 console.log("this is response for update"+response);
                 console.log(response);
-                    $rootScope.user = response.config.data;
-                    console.log("root scope user after update");
-                    console.log($rootScope.user);
-                $location.url('/profile') ;
+               //     $rootScope.user = response.config.data;
+               //     console.log("root scope user after update");
+               //     console.log($rootScope.user);
+               //     $location.url('/profile');
+
             });
         }
 

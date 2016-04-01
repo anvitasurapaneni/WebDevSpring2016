@@ -23,7 +23,8 @@
             setCurrentUser: setCurrentUser,
             getCurrentUser: getCurrentUser,
             findUserById: findUserById,
-            findUserByUsername: findUserByUsername
+            findUserByUsername: findUserByUsername,
+            logout : logout
         };
 
         return api;
@@ -36,7 +37,7 @@
 
         function findUserById(id){
             console.log(id);
-            return $http.get("/api/assignment/getuser?id="+id);
+            return $http.get("/api/assignment/user/"+id);
         }
 
 // findUserByUsernameAndPassword
@@ -76,7 +77,7 @@
             }
         function setCurrentUser(user) {
 
-            $rootScope.currentUser = user;
+            $rootScope.user = user;
         }
 
         function getCurrentUser() {
@@ -84,9 +85,18 @@
             return $http.get("/api/assignment/users/loggedin");
         }
 
-
+        function logout() {
+            return $http.post("/api/assignment/user/logout")
+                .success(function () {
+                    $rootScope.user = null;
+                });
+        }
 
     }
+
+
+
+
 
 
 })();

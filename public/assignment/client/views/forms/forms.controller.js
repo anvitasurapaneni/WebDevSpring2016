@@ -66,10 +66,15 @@ console.log("in add form");
             FormService.updateFormById(form._id, newForm)
                 .then(function (response) {
                     console.log(response);
-                vm.forms[index_position] = response;
+                    if(response.nModified == 1){
+                vm.forms[index_position].title = form.title;
                 vm.form.title = null;
                 vm.index_position = null;
-
+                    }
+                    else{
+                        vm.form.title = null;
+                        vm.index_position = null;
+                    }
 
             });
 

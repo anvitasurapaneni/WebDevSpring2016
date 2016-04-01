@@ -29,11 +29,10 @@
                     UserService.createUser(user)
                         .then(function (response) {
 
-                            console.log("response");
-                            console.log(response.config.data);
+                            console.log(response);
 
                             $rootScope.user = response.config.data;
-                            vm.user.username = $rootScope.user.username;
+
                             console.log($rootScope.user);
 
                             //data reached

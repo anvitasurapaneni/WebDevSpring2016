@@ -20,17 +20,17 @@ module.exports = function(db, mongoose){
         findFormById: findFormById,
         deleteFormById: deleteFormById,
         updateFormById: updateFormById,
+        getMongooseModel: getMongooseModel
 
-        // field functions
 
-        createFieldForForm: createFieldForForm,
-        findAllFieldsForForm: findAllFieldsForForm,
-        findFieldByFieldIdAndFormId: findFieldByFieldIdAndFormId,
-        updateFieldByFieldIdAndFormId: updateFieldByFieldIdAndFormId,
-        deleteFieldByFieldIdAndFormId: deleteFieldByFieldIdAndFormId
 
     };
     return api;
+
+
+    function getMongooseModel() {
+        return FormModel
+    }
 
 // form function definitons
     function createFormForUser(userId, form){
@@ -39,7 +39,7 @@ module.exports = function(db, mongoose){
         FormModel.create(
             {userId : userId,
                 title : form.title,
-                created: new Date()},function (err, doc) {
+                created: Date.now()},function (err, doc) {
 
             if (!err) {
                 // resolve promise
@@ -52,19 +52,6 @@ module.exports = function(db, mongoose){
 
         });
 
-
-        //FormModel
-        //    .update (
-        //        {userId: userId,
-        //            created: new Date()},
-        //        function (err, stats) {
-        //            if (!err) {
-        //                deferred.resolve(stats);
-        //            } else {
-        //                deferred.reject(err);
-        //            }
-        //        }
-        //    );
 
         return deferred.promise;
 
@@ -145,7 +132,7 @@ forms.push(form);
 
     function updateFormById(formId, form) {
         var deferred = q.defer();
-        FormModel
+       FormModel
             .update (
                 {_id: formId},
                 {$set: form},
@@ -158,103 +145,10 @@ forms.push(form);
                     }
                 }
             );
+
         return deferred.promise;
 
     }
 
-    // field munction definitons
-    function createFieldForForm(formId, field) {
-        console.log("in forms model for create field function");
-        console.log()
-        for (var i in forms) {
-
-            if (forms[i]._id == formId) {
-
-                if(!forms[i].fields) {
-                    forms[i].fields = [];
-                }
-
-                forms[i].fields.push(field);
-                console.log(forms[i].fields);
-                console.log("end of create field function");
-                break;
-            }
-        }
-    }
-
-    function findAllFieldsForForm (formId) {
-
-        for (var i in forms) {
-
-            if (forms[i]._id == formId) {
-                console.log("forms fields");
-console.log(forms[i].fields);
-                return forms[i].fields;
-            }
-        }
-        return null;
-    }
-
-    function findFieldByFieldIdAndFormId(formId, fieldId) {
-        for (var i in forms) {
-
-            if (forms[i]._id === formId) {
-
-                for (var j in forms[i].fields) {
-
-                    if (forms[i].fields[j]._id === fieldId) {
-
-                        return forms[i].fields[j];
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
-    function updateFieldByFieldIdAndFormId(formId, fieldId, field) {
-
-        for (var i in forms) {
-
-            if (forms[i]._id === formId) {
-
-                for (var j in forms[i].fields) {
-
-                    if (forms[i].fields[j]._id === fieldId) {
-
-                        forms[i].fields[j] = field;
-
-                        return field;
-                    }
-                }
-            }
-        }
-    }
-
-    function deleteFieldByFieldIdAndFormId(formId, fieldId) {
-        console.log("delete field in model");
-        console.log(formId);
-        console.log(fieldId);
-
-        for (var i in forms) {
-            console.log("compare");
-console.log("forms.id in loop:"+forms[i]._id);
-            console.log("form id:"+formId);
-            if (forms[i]._id == formId) {
-
-                for (var j in forms[i].fields) {
-                    console.log("compare");
-                    console.log("field id in loop:"+forms[i].fields[j]._id);
-                    console.log("field id:"+fieldId);
-
-
-                    if (forms[i].fields[j]._id == fieldId) {
-
-                        forms[i].fields.splice(j,1);
-                    }
-                }
-            }
-        }
-    }
 
 }

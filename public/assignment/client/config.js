@@ -98,8 +98,9 @@
                 $location.url("/home");
             }
         });
-
+        console.log(deferred.promise);
         return deferred.promise;
+
     }
 
 
@@ -119,6 +120,7 @@
 
         });
 
+        console.log(deferred.promise);
         return deferred.promise;
     }
 
