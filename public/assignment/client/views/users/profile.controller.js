@@ -27,22 +27,33 @@ function init(){
 
             $rootScope.user = response.data;
             vm.user = $rootScope.user;
+                vm.user.phones = joinArrayItems(vm.user.phones);
+                vm.user.email = joinArrayItems(vm.user.email);
                 console.log(vm.user);
 
         });
 }
         init();
+
+
+        function joinArrayItems(value){
+            return value.join(',');
+        }
+
+
         function update(user){
             console.log("update user");
             console.log(user);
             var userid = $rootScope.user._id;
+
 
             var updatedUser ={
                 "firstName":user.firstName,
                 "lastName":user.lastName,
                 "username": user.username,
                 "password":user.password,
-                "email": user.email                };
+                "email": user.email.trim().split(","),
+            "phones": user.phones.trim().split(",")};
 
             console.log("profile controller user id and updated user" );
             console.log($rootScope.user._id);

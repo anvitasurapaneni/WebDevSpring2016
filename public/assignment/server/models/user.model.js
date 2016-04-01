@@ -15,7 +15,8 @@ module.exports = function(db, mongoose){
         createUser: createUser,
         deleteUserById: deleteUserById,
         updateUser: updateUser,
-        findUserById: findUserById
+        findUserById: findUserById,
+        findUserByUsername: findUserByUsername
     };
     return api;
 
@@ -44,6 +45,33 @@ module.exports = function(db, mongoose){
             // first argument is predicate
             { username: credentials.username,
                 password: credentials.password },
+
+            // doc is unique instance matches predicate
+            function(err, doc) {
+
+                if (err) {
+                    // reject promise if error
+                    deferred.reject(err);
+                } else {
+                    // resolve promise
+                    deferred.resolve(doc);
+                }
+
+            });
+
+        return deferred.promise;
+    }
+
+
+    function findUserByUsername(username) {
+
+        var deferred = q.defer();
+
+        // find one retrieves one document
+        UserModel.findOne(
+
+            // first argument is predicate
+            { username: username },
 
             // doc is unique instance matches predicate
             function(err, doc) {

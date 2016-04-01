@@ -18,8 +18,7 @@
             deleteFormById: deleteFormById,
             updateFormById: updateFormById,
             findFormById: findFormById
-           // setForms: setForms,
-           // getForms: getForms
+
         };
 
         return api;

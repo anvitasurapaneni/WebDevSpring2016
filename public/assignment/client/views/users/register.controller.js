@@ -15,19 +15,28 @@
                 .then(function (users) {
                     console.log("find all users:")
                     console.log(users);
+                //    vm.user.email = joinArrayItems1(vm.user.email);
                 });
         }
 
         init();
+
+
         function register(user) {
+            console.log("user");
+            console.log(user);
 
             if (user != null) {
+                if (user.password != user.verifypassword){
+                    alert("passwords do not match");
+                }
 
-                if (user.username != null) {
+                if ((user.username != null) && (user.password == user.verifypassword)) {
 
 
                     UserService.createUser(user)
                         .then(function (response) {
+                            user.email =  user.email.trim().split(",")
 
                             console.log(response);
 

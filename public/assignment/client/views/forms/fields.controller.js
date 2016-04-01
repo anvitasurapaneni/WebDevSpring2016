@@ -56,7 +56,10 @@
                 {name: "Date", value: "date"},
                 {name: "Dropdown", value: "dropdown"},
                 {name: "Checkboxes", value: "checkbox"},
-                {name: "Radio Buttons", value: "radio"}
+                {name: "Radio Buttons", value: "radio"},
+                {name: "EMail", value: "e-mail"},
+                {name: "PassWord", value: "password"}
+
             ];
         }
         init();
@@ -142,6 +145,23 @@
                     ]};
                     break;
 
+                case "e-mail":
+                    vm.field = {
+                        label: "EMail",
+                        type: "EMAIL",
+                        placeholder: "email"
+                    };
+                    break;
+
+                case "password":
+                    vm.field = {
+                        label: "PassWord",
+                        type: "PASSWORD",
+                        placeholder: "password"
+                    };
+                    break;
+
+
             }
 
             console.log("vm and vm.field");
@@ -226,7 +246,7 @@
 
                 if($scope.newPlaceholder) {
 
-                    if($scope.field.type === "TEXT" || $scope.field.type === "TEXTAREA") {
+                    if($scope.field.type === "TEXT" || $scope.field.type === "TEXTAREA" || $scope.field.type === "PASSWORD" || $scope.field.type === "EMAIL") {
 
                         $scope.field.placeholder = $scope.newPlaceholder;
 

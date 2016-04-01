@@ -27,12 +27,55 @@
                 Checkbox Field
             </h3>
 
-            <h3 class="modal-title" ng-switch-when="RADIOS">
-                Radio Button Field
+            <h3 class="modal-title" ng-switch-when="EMAIL">
+                EMail Field
             </h3>
+
+            <h3 class="modal-title" ng-switch-when="PASSWORD">
+                PassWord Field
+            </h3>
+
         </div>
 
         <form class="form" ng-switch on="field.type">
+
+            <div class="row" ng-switch-when="EMAIL">
+
+                <div class="form-group col-md-12" >
+
+                    <label for="labelForEmail">Label</label>
+                    <input type="text" id="labelForEmail" class="form-control" ng-model="$parent.newLabel">
+
+                </div>
+
+                <div class="form-group col-md-12">
+
+                    <label for="placeholderForField">Placeholder</label>
+                    <input type="text" id="placeholderForField" class="form-control" ng-model="$parent.newPlaceholder">
+
+                </div>
+
+            </div>
+
+            <div class="row" ng-switch-when="PASSWORD">
+
+                <div class="form-group col-md-12" >
+
+                    <label for="labelForPW">Label</label>
+                    <input type="text" id="labelForPW" class="form-control" ng-model="$parent.newLabel">
+
+                </div>
+
+                <div class="form-group col-md-12">
+
+                    <label for="placeholderForField">Placeholder</label>
+                    <input type="text" id="placeholderForField" class="form-control" ng-model="$parent.newPlaceholder">
+
+                </div>
+
+            </div>
+
+
 
             <div class="row" ng-switch-when="TEXT">
 

@@ -35,6 +35,19 @@ module.exports = function(app, userModel) {
                                         }
                             );
         }
+        if(username != null){
+            userModel.findUserByUsername(username).then(
+                function (doc) {
+                    req.session.user = doc;
+                    res.json(doc);
+                },
+                // send error if promise rejected
+                function ( err ) {
+                    res.status(400).send(err);
+                }
+            );
+
+        }
         else {
             userModel
                 .findAllUsers ()
