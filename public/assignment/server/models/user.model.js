@@ -1,7 +1,7 @@
 /**
  * Created by anvitasurapaneni on 3/16/16.
  */
-var initialUsers = require("./user.mock.json");
+
 var q = require("q");
 
 
