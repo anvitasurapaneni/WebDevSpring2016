@@ -50,31 +50,23 @@
             .when("/todo", {
                 templateUrl: "views/widgets/todoWidget/todoWidget.view.html",
                 controller: "toDoController"
-                resolve: {
-                    checkLoggedIn: checkLoggedIn
-                }
+
             })
             .when("/image", {
                 templateUrl: "views/widgets/imageWidget/imageWidget.view.html",
                 controller: "imageController"
-                resolve: {
-                    checkLoggedIn: checkLoggedIn
-                }
+
             })
             .when("/youtube", {
                 templateUrl: "views/widgets/youtubeApiWidget/youtubeApiWidget.view.html",
                 controller: "YouTubeController"
-                resolve: {
-                    checkLoggedIn: checkLoggedIn
-                }
+
             })
             .when("/notebook", {
                 templateUrl: "views//notebook/notebook.view.html",
                 controller: "noteBookController",
                 controllerAs: "model",
-                resolve: {
-                    checkLoggedIn: checkLoggedIn
-                }
+
             })
             .when("/login", {
                 templateUrl: "views/users/login.view.html",
