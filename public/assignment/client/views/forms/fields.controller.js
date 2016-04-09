@@ -18,6 +18,22 @@
         vm.addField = addField;
         vm.editField = editField;
         vm.updateSingleLineText = updateSingleLineText;
+        vm.sortField     = sortField;
+
+
+        function sortField(start, end) {
+            FieldService
+                            .sortWidget($routeParams.formId, start, end)
+                            .then(
+                                    function (response) {
+                                        },
+                                    function (err) {
+                                            vm.error = err;
+                                        }
+                                );
+                    }
+
+
 
         function updateSingleLineText(popfields){
             console.log("hello came from modal"+popfields);

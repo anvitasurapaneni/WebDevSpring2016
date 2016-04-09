@@ -24,10 +24,17 @@
 
             deleteFieldFromForm: deleteFieldFromForm,
 
-            updateField: updateField
+            updateField: updateField,
+
+            sortWidget: sortWidget
 
         };
         return api;
+
+
+        function sortWidget(formId, startIndex, endIndex) {
+                        return $http.put("/api/assignment/form/"+formId+"/field?startIndex="+startIndex+"&endIndex="+endIndex);
+                    }
 
         function createFieldForForm(formId, field) {
 

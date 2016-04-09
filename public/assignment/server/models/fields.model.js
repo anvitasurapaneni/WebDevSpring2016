@@ -17,7 +17,8 @@ module.exports = function(db, mongoose, formModel) {
         findAllFieldsForForm: findAllFieldsForForm,
         findFieldByFieldIdAndFormId: findFieldByFieldIdAndFormId,
         updateFieldByFieldIdAndFormId: updateFieldByFieldIdAndFormId,
-        deleteFieldByFieldIdAndFormId: deleteFieldByFieldIdAndFormId
+        deleteFieldByFieldIdAndFormId: deleteFieldByFieldIdAndFormId,
+        sortField: sortField
 
     };
     return api;
@@ -87,4 +88,27 @@ module.exports = function(db, mongoose, formModel) {
             { $pull: { 'fields': { _id : fieldId } } }
         );
     }
+
+
+    function sortField(formId, startIndex, endIndex) {
+        console.log("model sortable");
+        console.log(formId);
+        console.log(startIndex);
+        console.log(endIndex);
+
+                return FormModel
+                        .findById(formId)
+                    .then(
+                            function(form) {
+                                    form.fields.splice(endIndex, 0, form.fields.splice(startIndex, 1)[0]);
+
+                                        // notify mongoose 'pages' field changed
+                                            form.markModified("fields");
+
+                                        form.save();
+                                }
+                        );
+            }
+
+
 }

@@ -169,7 +169,7 @@
     </ul>
 
     <div class="container darker" style="margin:0">
-        <form action="" id="my-form" field-sortable field-axis="y">
+        <form action="" id="my-form" field-sortable field-sortable-callback="model.sortField(start, end)" field-axis="y">
         <div class="row" ng-repeat="field in model.fields">
             <div class="form-group col-6 col-xs-6 col-md-6" ng-switch on="field.type">
                 <div ng-switch-default>

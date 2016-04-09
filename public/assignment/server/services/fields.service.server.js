@@ -18,6 +18,40 @@ module.exports = function (app, fieldModel, uuid) {
 
     app.delete("/api/assignment/form/:formId/field/:fieldId", deleteFieldByFieldIdAndFormId);
 
+    app.put    ("/api/assignment/form/:formId/field", updateField);
+
+
+    function updateField(req, res) {
+
+                var formId = req.params.formId;
+                var startIndex = req.query.startIndex;
+                var endIndex = req.query.endIndex;
+        console.log("at server update sortable");
+        console.log(formId);
+        console.log(startIndex);
+        console.log(endIndex);
+
+
+                    if (startIndex && endIndex) {
+                        fieldModel
+                            .sortField(formId, startIndex, endIndex)
+                            .then(
+                                    function (stat) {
+                                        console.log("sort fields calleed");
+                                            return res.json(200);
+
+                                        },
+                                    function (err) {
+                                            res.status(400).send(err);
+                                        }
+                                );
+                    }
+            }
+
+
+
+
+
     function createFormField(req, res){
         console.log("creating field");
 
@@ -46,7 +80,7 @@ module.exports = function (app, fieldModel, uuid) {
         fieldModel.findAllFieldsForForm(formId)
             .then (
                 function (form) {
-                    console.log("in then");
+                    console.log("in thenn");
 
                     res.json (form.fields);
                 },
