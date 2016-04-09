@@ -2,17 +2,64 @@
  * Created by anvitasurapaneni on 3/16/16.
  */
 
+var passport         = require('passport');
+var LocalStrategy    = require('passport-local').Strategy;
+
 module.exports = function(app, userModel) {
 
     console.log("is it going to server services");
  //   app.get("/api/assignment/user?username=alice&password=alice", findAllUsers1);
-    app.get("/api/assignment/user", findAllUsers);
-    app.post("/api/assignment/user", createUser);
-    app.delete("/api/assignment/user/:id", deleteUserById);
-    app.put("/api/assignment/user/:id", updateUser);
+    var auth = authorized;
+    app.post  ('/api/login', passport.authenticate('local'), login);
+    app.get("/api/assignment/user",auth, findAllUsers);
+    app.post("/api/assignment/user",auth, createUser);
+    app.delete("/api/assignment/user/:id",auth, deleteUserById);
+    app.put("/api/assignment/user/:id",auth, updateUser);
     app.get("/api/assignment/users/loggedin", loggedIn);
     app.get("/api/assignment/user/:id", findUserById);
     app.post("/api/assignment/user/logout", logout);
+
+
+    passport.use(new LocalStrategy(localStrategy));
+    passport.serializeUser(serializeUser);
+    passport.deserializeUser(deserializeUser);
+
+
+/* local strategy , serialize , deserialize */
+
+    function localStrategy(username, password, done) {
+        userModel
+            .findUserByCredentials({username: username, password: password})
+            .then(
+                function(user) {
+                    if (!user) { return done(null, false); }
+                    return done(null, user);
+                },
+                function(err) {
+                    if (err) { return done(err); }
+                }
+            );
+    }
+
+    function serializeUser(user, done) {
+        done(null, user);
+    }
+
+    function deserializeUser(user, done) {
+        userModel
+            .findUserById(user._id)
+            .then(
+                function(user){
+                    done(null, user);
+                },
+                function(err){
+                    done(err, null);
+                }
+            );
+    }
+
+
+
 
 
 
@@ -154,6 +201,22 @@ module.exports = function(app, userModel) {
         req.session.destroy();
         res.status(200).send(null);
     }
+
+
+    function login(req, res) {
+        var user = req.user;
+        res.json(user);
+    }
+
+
+
+
+    function authorized (req, res, next) {
+        if (!req.isAuthenticated()) {
+            res.send(401);
+        } else {
+            next();
+        }}
 
 
 };

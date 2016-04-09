@@ -6,6 +6,7 @@ var uuid = require('node-uuid');
 var cookieParser  = require('cookie-parser');
 var session       = require('express-session');
 var mongoose      = require('mongoose');
+var passport = require('passport');
 
 
 var connectionString = 'mongodb://127.0.0.1:27017/cs5610fall2015exmpl1';
@@ -29,6 +30,8 @@ app.use(session({
     saveUninitialized: true,
     secret: process.env.PASSPORT_SECRET
 }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 

@@ -24,10 +24,15 @@
             getCurrentUser: getCurrentUser,
             findUserById: findUserById,
             findUserByUsername: findUserByUsername,
-            logout : logout
+            logout : logout,
+            login: login
         };
 
         return api;
+
+        function login(user) {
+            return $http.post("/api/login", user);
+        }
 
         function findUserByUsername(username){
 
