@@ -22,15 +22,16 @@
 
 
                     $rootScope.user = response.data;
-                    console.log("rs="+$rootScope.user);
+                    console.log("rootscope user"+$rootScope.user);
                     console.log($rootScope.user);
+
                     vm.user.username = $rootScope.user.username;
                     vm.user = $rootScope.user;
                     if($rootScope.user == null){
                         $location.url('/home') ;
                     }
                     else{
-                    $location.url('/profile') ;
+                        $location.url('/profile') ;
                     }
 
                 });

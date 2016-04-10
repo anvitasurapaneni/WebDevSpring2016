@@ -41,6 +41,7 @@
                             console.log(response);
 
                             $rootScope.user = response.config.data;
+                            console.log("rootscope user after register"+$rootScope.user);
 
                             console.log($rootScope.user);
 

@@ -1,18 +1,15 @@
-/**
- * Created by anvitasurapaneni on 3/16/16.
- */
-
 var passport         = require('passport');
 var LocalStrategy    = require('passport-local').Strategy;
+var bcrypt = require("bcrypt-nodejs");
 
 module.exports = function(app, userModel) {
 
     console.log("is it going to server services");
- //   app.get("/api/assignment/user?username=alice&password=alice", findAllUsers1);
+    //   app.get("/api/assignment/user?username=alice&password=alice", findAllUsers1);
     var auth = authorized;
-    app.post  ('/api/login', passport.authenticate('local'), login);
+    app.post  ('/api/assignment/login', passport.authenticate('local'), login);
     app.get("/api/assignment/user",auth, findAllUsers);
-    app.post("/api/assignment/user",auth, createUser);
+    app.post("/api/assignment/user", createUser);
     app.delete("/api/assignment/user/:id",auth, deleteUserById);
     app.put("/api/assignment/user/:id",auth, updateUser);
     app.get("/api/assignment/users/loggedin", loggedIn);
@@ -25,21 +22,30 @@ module.exports = function(app, userModel) {
     passport.deserializeUser(deserializeUser);
 
 
-/* local strategy , serialize , deserialize */
-
+    /* local strategy , serialize , deserialize */
     function localStrategy(username, password, done) {
+        // lookup developer by username only. cant compare password since it's encrypted
         userModel
-            .findUserByCredentials({username: username, password: password})
+            .findUserByUsername(username)
             .then(
                 function(user) {
-                    if (!user) { return done(null, false); }
-                    return done(null, user);
+                    // if the user exists, compare passwords with bcrypt.compareSync
+                    if(user && bcrypt.compareSync(password, user.password)) {
+                        return done(null, user);
+                    } else {
+                        console.log("not able to becrypt");
+                        return done(null, false);
+
+                    }
                 },
                 function(err) {
                     if (err) { return done(err); }
                 }
             );
     }
+
+
+
 
     function serializeUser(user, done) {
         done(null, user);
@@ -71,16 +77,16 @@ module.exports = function(app, userModel) {
 
         if (username != null && password != null) {
             var credentials = {username: username, password: password};
-             userModel.findUserByCredentials(credentials).then(
-                                function (doc) {
-                                        req.session.user = doc;
-                                        res.json(doc);
-                                    },
-                                // send error if promise rejected
-                                    function ( err ) {
-                                            res.status(400).send(err);
-                                        }
-                            );
+            userModel.findUserByCredentials(credentials).then(
+                function (doc) {
+                    req.session.user = doc;
+                    res.json(doc);
+                },
+                // send error if promise rejected
+                function ( err ) {
+                    res.status(400).send(err);
+                }
+            );
         }
         if(username != null){
             userModel.findUserByUsername(username).then(
@@ -110,26 +116,65 @@ module.exports = function(app, userModel) {
     }
 
 
-    function createUser(req, res) {
+    function createUser(req, res){
+        var user1 = req.body;
+        user1.rolesc= ['syudent'];
+        console.log("user1");
+        console.log(user1);
+
+        userModel
+            .findUserByUsername(user1.username)
+            .then(
+                function(user){
+                  //  console.log(user);
+                    if(user) {
+                        res.json(null);
+                    } else {
+                        // encrypt the password when registering
+                        user1.password = bcrypt.hashSync(user1.password);
+                        return userModel.createUser(user1);
+                    }
+                },
+                function ( err ) {
+                    res.status(400).send(err);
+                }
+            )
+            .then(
+                function(user){
+                    if(user){
+                        req.login(user, function(err) {
+                            if(err) {
+                                res.status(400).send(err);
+                            } else {
+                                res.json(user);
+                            }
+                        });
+                    }
+                },
+                function(err){
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+
+  /*  {
         var user = req.body;
         console.log("create user server side:");
         console.log(user);
         var createdUser = userModel.createUser(user).then(
-                            // login user if promise resolved
-                                function ( doc ) {
-                                    console.log(doc);
-                                    req.session.user = doc;
-                                    res.json(createdUser);
-                                    },
-                            // send error if promise rejected
-                                function ( err ) {
-                                        res.status(400).send(err);
-                                    }
-                        );
+            // login user if promise resolved
+            function ( doc ) {
+                console.log(doc);
+                req.session.user = doc;
+                res.json(createdUser);
+            },
+            // send error if promise rejected */
 
 
 
-    }
+
+
 
     function deleteUserById(req, res) {
         var userId = req.query.id;
@@ -146,32 +191,32 @@ module.exports = function(app, userModel) {
                 }
             );
 
-    /*   var users = userModel.deleteUserById(userId);
-            res.json(users); */
+        /*   var users = userModel.deleteUserById(userId);
+         res.json(users); */
 
     }
 
-        function updateUser(req, res) {
+    function updateUser(req, res) {
 
-            var userId = req.params.id;
-            var user = req.body;
-            userModel
-                .updateUser (userId, user)
-                .then(
-                    function(doc){
-                        res.json(doc);
-                    },
+        var userId = req.params.id;
+        var user = req.body;
+        userModel
+            .updateUser (userId, user)
+            .then(
+                function(doc){
+                    res.json(doc);
+                },
 
-                    function(err){
-                        res.status(400).send(err);
-                    }
-                );
+                function(err){
+                    res.status(400).send(err);
+                }
+            );
 
-        }
+    }
 
 
     function loggedIn(req, res) {
-        res.json(req.session.user);
+        res.send(req.isAuthenticated() ? req.user : '0');
     }
 
 
@@ -184,22 +229,22 @@ module.exports = function(app, userModel) {
         console.log("USER ID"+userId);
         var user=
             userModel
-            .findUserById (userId)
-            .then (
-                function (doc) {
-                    res.json (doc);
-                    req.session.user = doc;
-                },
-                function (err) {
-                    res.status(400).send(err);
-                }
-            );
+                .findUserById (userId)
+                .then (
+                    function (doc) {
+                        res.json (doc);
+                        req.session.user = doc;
+                    },
+                    function (err) {
+                        res.status(400).send(err);
+                    }
+                );
     }
 
 
     function logout(req, res) {
-        req.session.destroy();
-        res.status(200).send(null);
+        req.logOut();
+        res.send(200);
     }
 
 
@@ -220,6 +265,3 @@ module.exports = function(app, userModel) {
 
 
 };
-
-
-

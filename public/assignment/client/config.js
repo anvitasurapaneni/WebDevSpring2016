@@ -87,18 +87,19 @@
         UserService.getCurrentUser().then(function (response) {
 
             var currentUser = response.data;
+            console.log(response);
 
             if (currentUser) {
                 UserService.setCurrentUser(currentUser);
                 deferred.resolve();
 
             } else {
-
+console.log("get current user not working");
                 deferred.reject();
                 $location.url("/home");
             }
         });
-        console.log(deferred.promise);
+        //console.log(deferred.promise);
         return deferred.promise;
 
     }

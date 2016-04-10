@@ -31,7 +31,7 @@
         return api;
 
         function login(user) {
-            return $http.post("/api/login", user);
+            return $http.post("/api/assignment/login", user);
         }
 
         function findUserByUsername(username){
@@ -47,39 +47,32 @@
 
 // findUserByUsernameAndPassword
         function findUserByCredentials(username, password) {
-
-
-
-            return $http.get("/api/assignment/user?username="+username+"&password="+password);
-
-
-
-
+        return $http.get("/api/assignment/user?username="+username+"&password="+password);
         }
 
 // findAllUsers
-            function findAllUsers() {
-                return $http.get("/api/assignment/user");
-            }
+        function findAllUsers() {
+            return $http.get("/api/assignment/user");
+        }
 
 // createUser
-            function createUser(user) {
-                console.log(user);
-                return $http.post("/api/assignment/user", user);
- }
+        function createUser(user) {
+            console.log(user);
+            return $http.post("/api/assignment/user", user);
+        }
 
 // deleteUserById
-            function deleteUserById(userId) {
-               return $http.delete("/api/assignment/user/:id");
+        function deleteUserById(userId) {
+            return $http.delete("/api/assignment/user/:id");
 
-            }
+        }
 
 // updateUser
-            function updateUser(userId, user) {
-                console.log(user);
-                return  $http.put("/api/assignment/user/"+userId, user);
+        function updateUser(userId, user) {
+            console.log(user);
+            return  $http.put("/api/assignment/user/"+userId, user);
 
-            }
+        }
         function setCurrentUser(user) {
 
             $rootScope.user = user;

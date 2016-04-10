@@ -38,6 +38,8 @@ module.exports = function(db, mongoose){
     function findUserByCredentials(credentials) {
 
         var deferred = q.defer();
+        console.log("credentials");
+        console.log(credentials);
 
         // find one retrieves one document
         UserModel.findOne(
@@ -64,6 +66,7 @@ module.exports = function(db, mongoose){
 
 
     function findUserByUsername(username) {
+        console.log(username);
 
         var deferred = q.defer();
 
