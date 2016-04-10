@@ -34,7 +34,7 @@
                 if ((user.username != null) && (user.password == user.verifypassword)) {
 
 
-                    UserService.createUser(user)
+                    UserService.register(user)
                         .then(function (response) {
                             user.email =  user.email.trim().split(",")
 

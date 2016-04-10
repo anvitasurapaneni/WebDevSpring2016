@@ -25,10 +25,15 @@
             findUserById: findUserById,
             findUserByUsername: findUserByUsername,
             logout : logout,
-            login: login
+            login: login,
+            register: register
         };
 
         return api;
+
+        function register(user){
+            return $http.post("/api/assignment/register",user);
+                    }
 
         function login(user) {
             return $http.post("/api/assignment/login", user);

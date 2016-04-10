@@ -15,6 +15,7 @@ module.exports = function(app, userModel) {
     app.get("/api/assignment/users/loggedin", loggedIn);
     app.get("/api/assignment/user/:id", findUserById);
     app.post("/api/assignment/user/logout", logout);
+    app.post("/api/assignment/register", register);
 
 
     passport.use(new LocalStrategy(localStrategy));
@@ -69,7 +70,6 @@ module.exports = function(app, userModel) {
 
 
 
-
     function findAllUsers(req, res) {
 
         var username = req.query.username;
@@ -77,48 +77,36 @@ module.exports = function(app, userModel) {
 
         if (username != null && password != null) {
             var credentials = {username: username, password: password};
-            userModel.findUserByCredentials(credentials).then(
-                function (doc) {
-                    req.session.user = doc;
-                    res.json(doc);
-                },
-                // send error if promise rejected
-                function ( err ) {
-                    res.status(400).send(err);
-                }
-            );
-        }
-        if(username != null){
-            userModel.findUserByUsername(username).then(
-                function (doc) {
-                    req.session.user = doc;
-                    res.json(doc);
-                },
-                // send error if promise rejected
-                function ( err ) {
-                    res.status(400).send(err);
-                }
-            );
+            findUserByCredentials(credentials, req, res);}
+        else if(username != null && password == null){
+                findUserByUsername(username,req, res);
+            }
+            else{
+                if(isAdmin(req.user)){
+                    var users=[];
+                    var user = userModel.findAllUsers()
+                        .then(
+                            function(doc){
+                                for(var i in doc){
+                                    if(doc[i].roles.indexOf("admin") == -1){
+                                        users.push(doc[i]);
+                                    }
+                                }
 
-        }
-        else {
-            userModel
-                .findAllUsers ()
-                .then (
-                    function (users) {
-                        res.json (users);
-                    },
-                    function (err) {
-                        res.status(400).send(err);
-                    }
-                );
-        }
+                                res.json(users);
+                            },
+                            function(err){
+                                res.status(400).send(err);
+                            }
+                        );
+                }
+            }
     }
 
 
-    function createUser(req, res){
+    function register(req, res){
         var user1 = req.body;
-        user1.rolesc= ['syudent'];
+        user1.roles= ['student'];
         console.log("user1");
         console.log(user1);
 
@@ -132,7 +120,7 @@ module.exports = function(app, userModel) {
                     } else {
                         // encrypt the password when registering
                         user1.password = bcrypt.hashSync(user1.password);
-                        return userModel.createUser(user1);
+                        return userModel.register(user1);
                     }
                 },
                 function ( err ) {
@@ -158,18 +146,67 @@ module.exports = function(app, userModel) {
     }
 
 
-  /*  {
-        var user = req.body;
-        console.log("create user server side:");
-        console.log(user);
-        var createdUser = userModel.createUser(user).then(
-            // login user if promise resolved
-            function ( doc ) {
-                console.log(doc);
-                req.session.user = doc;
-                res.json(createdUser);
-            },
-            // send error if promise rejected */
+    function createUser(req, res) {
+        var newUser = req.body;
+        console.log(newUser);
+        if(newUser.roles && newUser.roles.length > 1) {
+            newUser.roles = newUser.roles.split(",");
+        } else {
+            newUser.roles = ["student"];
+        }
+
+        // first check if a user already exists with the username
+        UserModel
+            .findUserByUsername(newUser.username)
+            .then(
+                function(user){
+                    // if the user does not already exist
+                    if(user == null) {
+                        // create a new user
+                        newUser.password = bcrypt.hashSync(newUser.password);
+                        return UserModel.createUser(newUser)
+                            .then(
+                                // fetch all the users
+                                function(){
+                                    return UserModel.findAllUsers();
+                                },
+                                function(err){
+                                    res.status(400).send(err);
+                                }
+                            );
+                        // if the user already exists, then just fetch all the users
+                    } else {
+                        return UserModel.findAllUsers();
+                    }
+                },
+                function(err){
+                    res.status(400).send(err);
+                }
+            )
+            .then(
+                function(users){
+                    res.json(users);
+                },
+                function(){
+                    res.status(400).send(err);
+                }
+            )
+    }
+
+
+
+    /*  {
+          var user = req.body;
+          console.log("create user server side:");
+          console.log(user);
+          var createdUser = userModel.createUser(user).then(
+              // login user if promise resolved
+              function ( doc ) {
+                  console.log(doc);
+                  req.session.user = doc;
+                  res.json(createdUser);
+              },
+              // send error if promise rejected */
 
 
 
@@ -178,6 +215,7 @@ module.exports = function(app, userModel) {
 
     function deleteUserById(req, res) {
         var userId = req.query.id;
+        console.log("user id to be deleted"+userId);
 
 
         userModel
@@ -251,6 +289,14 @@ module.exports = function(app, userModel) {
     function login(req, res) {
         var user = req.user;
         res.json(user);
+    }
+
+
+    function isAdmin(user) {
+        if(user.roles.indexOf("admin") > 0) {
+            return true
+        }
+        return false;
     }
 
 
