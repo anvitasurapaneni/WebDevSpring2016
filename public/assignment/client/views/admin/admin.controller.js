@@ -5,21 +5,24 @@
 (function(){
     angular
         .module("FormBuilderApp")
-        .controller("AdminController", adminController);
+        .controller("AdminController", AdminController);
 
-    function adminController($rootScope){
+    function AdminController($rootScope, UserService){
         var vm = this;
 
         vm.addUser = addUser;
         vm.deleteUser = deleteUser;
+        vm.selectUser = selectUser;
+        vm.updateUser = updateUser;
 
         (function init() {
             UserService.findAllUsers()
                             .then(
                                    function(allUsers){
+                                       console.log("returned from find all users");
                                             console.log(allUsers);
                                             vm.users = allUsers.data;
-                                        }
+                                                         }
                                 );
 
         })();
@@ -31,17 +34,7 @@
                 .then(
                     function(response){
 
-                        var users1 = response.data;
-
-                        // Display users except Admin
-
-                        for(var i in users1){
-                            if(users1[i].roles.indexOf("admin") == -1){
-                                newUsers.push(users1[i]);
-                            }
-                        }
-
-                        vm.users = newUsers;
+                        init();
                     }
                 );
             vm.user = {};
@@ -53,8 +46,39 @@
 
             UserService.deleteUserById(userId)
                 .then(
-                    function(users2){
-                        vm.users = users2.data;
+                    function(users){
+
+                        init();
+
+                    }
+                );
+        }
+
+
+        function selectUser($index){
+
+            var userId = vm.users[$index]._id;
+
+            UserService.findUserById(userId)
+                .then(
+                    function(response){
+                        var user = response.data;
+                        console.log("user");
+                        vm.user = user;
+                    }
+                );
+        }
+
+
+        function updateUser(user){
+
+            var userId = user._id;
+            var newUsers=[];
+            UserService.updateUser(userId, user)
+                .then(
+                    function(response){
+                        init();
+                        vm.user = {};
 
                     }
                 );
