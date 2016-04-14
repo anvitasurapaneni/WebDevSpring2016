@@ -8,6 +8,7 @@
 
     function noteBookController(NoteService,$rootScope, $location ){
         var vm = this;
+       var  selectedIndex = -1;
         /*var noteBooks  = [
             {"_id": "000", "name": "notebook1","description": "this is notebook1",
                 "notes": [{"id": "03", "name":"note3"}]},
@@ -77,11 +78,12 @@
         {
             console.log("select clien side"+$index);
             var NBId = vm.notebooks[$index]._id;
+            console.log("client side note book ID"+NBId);
             NoteService.selectNoteBookById(NBId)
                 .then(function(response){
                     if(response){
                         var selectedNoteBook = response.data;
-                        //console.log(selectedNote);
+                        console.log(selectedNoteBook);
                         vm.notebook =  selectedNoteBook;
                     }
                 });
@@ -117,8 +119,9 @@
                         console.log(response.data);
                         console.log(selectedIndex);
                         vm.notebooks[selectedIndex] = response.data;
-                        vm.notebook.name = null;
+                        vm.notebook = null;
                         vm.selectedIndex = -1;
+                        init();
             });
 
         }}
@@ -129,7 +132,7 @@
             if (notebook != -1){
 
                 var newNB = {
-                    "_id": (new Date).getTime(),
+                 //   "_id": (new Date).getTime(),
                     "name": notebook.name,
                     "description": notebook.description,
                     "notes": notebook.notes,

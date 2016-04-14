@@ -113,6 +113,8 @@ module.exports = function(db, mongoose){
 
 
     function deleteUserById(userId){
+        console.log("user ID");
+        console.log(userId);
         var deferred = q.defer();
         UserModel
             .remove (
@@ -121,6 +123,7 @@ module.exports = function(db, mongoose){
                     if (!err) {
                         deferred.resolve(stats);
                     } else {
+                        console.log("error in deleting");
                         deferred.reject(err);
                     }
                 }

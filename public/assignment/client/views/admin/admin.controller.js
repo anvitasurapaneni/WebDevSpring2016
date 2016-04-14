@@ -15,7 +15,8 @@
         vm.selectUser = selectUser;
         vm.updateUser = updateUser;
 
-        (function init() {
+        function init() {
+            console.log("in admin controller");
             UserService.findAllUsers()
                             .then(
                                    function(allUsers){
@@ -25,9 +26,13 @@
                                                          }
                                 );
 
-        })();
+        }
+
+        init();
 
         function addUser(user){
+            console.log("add user");
+            console.log(user);
 
             var newUsers = [];
             UserService.createUser(user)

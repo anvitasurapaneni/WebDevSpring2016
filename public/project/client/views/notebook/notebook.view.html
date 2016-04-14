@@ -1,6 +1,31 @@
 
 <div class=" main col-sm-9 col-sm-offset-5 col-md-10 col-md-offset-2" ng-controller="noteBookController as model">
 
+
+
+    <table>
+        <tr>
+            <td align="right">Search :</td>
+            <td ><input class="form-control" ng-model="query[queryBy]" /></td>
+        </tr>
+        <tr>
+            <td align="right">Search By :</td>
+            <td>
+                <select class="form-control" ng-model="queryBy">
+
+                    <option value="name">NAME</option>
+                    <option value="description">DESCRIPTION</option>
+
+                </select>
+            </td>
+        </tr>
+    </table>
+
+
+
+
+
+
     <h1>Note Book
         <div style="float: right">
         <a   ng-click="showTableAdd = 1; showPlus = 1; showPencil = 2; showDelete = 2;
@@ -106,7 +131,7 @@
                 </td>
             </tr>
 
-            <tr ng-repeat="notebook in model.notebooks">
+            <tr ng-repeat="notebook in model.notebooks | filter:query">
                 <td>
                     <h3>  {{notebook.name}}</h3>
                     <text> <b>Description:</b> {{notebook.description}} </text>

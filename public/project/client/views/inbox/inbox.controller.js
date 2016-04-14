@@ -1,12 +1,13 @@
 /**
- * Created by paulomimahidharia on 2/12/16.
+ * Created by anvitasurapaneni on 4/14/16.
  */
+
 (function(){
     angular
         .module("NoteSpace")
-        .controller("NoteController", NoteController);
+        .controller("InboxController", InboxController);
 
-    function NoteController(NoteService,UserService, $rootScope, $location){
+    function InboxController(NoteService,UserService, $rootScope, $location){
 
         var vm = this;
 
@@ -60,7 +61,7 @@
                         vm.notes = response;
                         init();
                     }
-            });
+                });
         }
 
         function editNote($index){

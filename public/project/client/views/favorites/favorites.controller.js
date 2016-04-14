@@ -7,7 +7,7 @@
         .module("NoteSpace")
         .controller("FavoriteNotesController", FavoriteNotesController);
 
-    function FavoriteNotesController($location, NoteService, $rootScope) {
+    function FavoriteNotesController($location, NoteService, $rootScope, UserService) {
 
         var vm = this;
 
@@ -15,27 +15,53 @@
 
         function init() {
 
+            UserService.findNoteLikes($rootScope.currentUser._id)
 
-            NoteService.findAllNotesLikedByUser($rootScope.currentUser._id)
-                .then(function (foundNotes) {
-                    vm.notes = foundNotes.data;
-                    vm.$location = $location;
-                });
+                .then(
+                    function(response){
+
+                        vm.notes = response.data.likesNotes;
+                    }
+                );
         }
         init();
 
         function deleteFavNote($index){
-            var noteId = vm.notes[$index].id;
-            //console.log(noteId);
-            NoteService.deleteNoteById(noteId)
-                .then(function(response) {
+            var noteId = vm.notes[$index]._id;
 
-                if(response) {
-                    vm.notes = response;
-                    init();
-                }
-                //console.log("No");
-            });
+            /*NoteService.findNoteById(noteId)
+                .then(function(response){
+                    if(response) {
+
+
+                        var note = response.data;
+                        //console.log(note);
+
+
+
+                        NoteService
+                            .removeLikedNote(note.likes.indexOf($rootScope.currentUser._id), note);
+                    }
+                })*/
+
+            UserService.removeLikedNote($rootScope.currentUser._id, noteId)
+                .then(function(response){
+                    if(response.data == "OK"){
+                        vm.notes.splice($index,1);
+
+                        NoteService.removeLikedNote($rootScope.currentUser._id, noteId)
+                            .then(function(response){
+                                if(response.data == "OK"){
+                                    //vm.notes.splice($index,1);
+                                    console.log("Done");
+                                }
+                            });
+
+                    }
+                })
+
+
+
         }
     }
 })();

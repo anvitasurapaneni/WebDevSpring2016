@@ -79,12 +79,18 @@
             });
     }
 
-
+// /api/assignment/users/loggedin
     function checkLoggedIn(UserService, $q, $location) {
 
         var deferred = $q.defer();
 
+
+
         UserService.getCurrentUser().then(function (response) {
+
+
+
+
 
             var currentUser = response.data;
             console.log(response);
@@ -103,6 +109,24 @@ console.log("get current user not working");
         return deferred.promise;
 
     }
+
+
+
+    /*     $http.get('/api/assignment/users/loggedin').success(function (user) {
+     $rootScope.errorMessage = null;
+     // User is Authenticated
+     if (user !== '0') {
+     $rootScope.user = user;
+     deferred.resolve();
+     }
+     // User is Not Authenticated
+     else {
+     $rootScope.error = 'You need to log in.';
+     deferred.reject();
+     $location.url('/');
+     }
+     });
+     } */
 
 
 

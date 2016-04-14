@@ -4,77 +4,140 @@
 "use strict";
 
 var notes = require("./note.mock.json");
+var q = require("q");
 
-module.exports = function() {
+module.exports = function(db, mongoose) {
+
+    var NoteSchema = require("./note.schema.server.js")(mongoose);
+    var Note = mongoose.model('Note', NoteSchema);
+
     var api = {
-        findAllNotesLikedByUser: findAllNotesLikedByUser,
+
         deleteNoteById: deleteNoteById,
         findAllNotesForUser: findAllNotesForUser,
-        selectNoteById: selectNoteById,
+        findNoteById: findNoteById,
         updateNoteById: updateNoteById,
-        createNote: createNote
+        createNote: createNote,
+        userLikesNote: userLikesNote,
+        findNotesByIds: findNotesByIds,
+        removeLikedNote: removeLikedNote
     };
 
     return api;
 
-    function findAllNotesLikedByUser(userId) {
-        var userNotes = [];
-        for (var i in notes) {
-            var noteObj = notes[i];
-            for(var j in noteObj.likedBy){
-                if(noteObj.likedBy[j] == userId){
-                    userNotes.push(noteObj);
+    function removeLikedNote(userId, noteId){
+        /*var deferred = q.defer();
+        //console.log("In here");
 
+        // find the note by noteId
+        Note.findOne({_id: note._id},
+
+            function (err, doc) {
+
+                // reject promise if error
+                if (err) {
+                    deferred.reject(err);
                 }
+
+                // if there's a note
+                if (doc) {
+                    // add user to likes
+                    console.log("In doc");
+                    console.log(userId);
+                    doc.likes.splice(userId, 1);
+                    // save changes
+                    doc.save(function(err, doc){
+                        if (err) {
+                            deferred.reject(err);
+                        } else {
+                            deferred.resolve(doc);
+                        }
+                    });
+                }
+            });
+
+        return deferred.promise;*/
+
+        return Note.update(
+            { _id: noteId },
+            { $pull: { 'likes': { $in: [userId]} } }
+        );
+    }
+
+
+    function userLikesNote(userId, note){
+        var deferred = q.defer();
+
+        // find the note by noteId
+        Note.findOne({_id: note._id},
+
+            function (err, doc) {
+
+                // reject promise if error
+                if (err) {
+                    deferred.reject(err);
+                }
+
+                // if there's a note
+                if (doc) {
+                    // add user to likes
+                    doc.likes.push (userId);
+                    // save changes
+                    doc.save(function(err, doc){
+                        if (err) {
+                            deferred.reject(err);
+                        } else {
+                            deferred.resolve(doc);
+                        }
+                    });
+                }
+            });
+
+        return deferred.promise;
+    }
+
+    function findNotesByIds(noteIds){
+
+        var deferred = q.defer();
+
+        // find all users in array of user IDs
+        Note.find({
+            _id: {$in: noteIds}
+        }, function (err, notes) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(notes);
             }
-        }
-        return userNotes;
+        });
+
+        return deferred.promise;
     }
 
     function deleteNoteById(noteId){
-        //console.log(noteId);
-        for (var noteObj in notes) {
-            if (notes[noteObj].id == noteId) {
-                notes.splice(noteObj,1);
-                break;
-            }
-        }
-        return notes;
+
+        return Note.findByIdAndRemove(noteId);
     }
 
     function findAllNotesForUser(userId){
-        var userNotes = [];
-        for(var i in notes){
-            var noteObj = notes[i];
-            //console.log(noteObj.createdBy);
-            if(noteObj.createdBy == userId){
-                userNotes.push(noteObj);
-            }
-        }
-        //console.log(userNotes);
-        return userNotes;
+
+        return Note.find();
     }
 
-    function selectNoteById(noteId){
-        for (var noteObj in notes) {
-            if(notes[noteObj].id == noteId) {
-                return notes[noteObj];
-            }
-        }
-        return null;
+    function findNoteById(noteId){
+
+        return Note.findById(noteId);
     }
 
     function updateNoteById(noteId, newNote){
-        for (var noteObj in notes) {
-            if (notes[noteObj].id == noteId) {
-                notes[noteObj] = newNote;
-                console.log(notes[noteObj]);
-                return notes[noteObj];
-            }
-        }
+
+        return Note.findByIdAndUpdate(noteId, newNote);
     }
 
     function createNote(newNote){
-        notes.push(newNote);
+
+        return Note.create(newNote);
+
     }
+
 };

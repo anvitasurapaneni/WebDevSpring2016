@@ -57,6 +57,7 @@
 
 // findAllUsers
         function findAllUsers() {
+            console.log("user service");
             return $http.get("/api/assignment/user");
         }
 
@@ -68,7 +69,8 @@
 
 // deleteUserById
         function deleteUserById(userId) {
-            return $http.delete("/api/assignment/user/:id");
+            console.log(userId);
+            return $http.delete("/api/assignment/user/"+userId);
 
         }
 

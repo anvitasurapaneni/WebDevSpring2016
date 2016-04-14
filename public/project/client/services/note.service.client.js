@@ -14,9 +14,12 @@
             findAllNotesLikedByUser: findAllNotesLikedByUser,
             deleteNoteById: deleteNoteById,
             findAllNotesForUser: findAllNotesForUser,
-            selectNoteById: selectNoteById,
+            //selectNoteById: selectNoteById,
             updateNoteById: updateNoteById,
             createNoteForUser: createNoteForUser,
+            findNoteById: findNoteById,
+            removeLikedNote: removeLikedNote,
+
 
             //Notebook services
             deleteNotebookById: deleteNotebookById,
@@ -29,8 +32,15 @@
 
         return api;
 
+        function removeLikedNote(userId, noteId){
+            //console.log(userId);
+            //console.log(note._id);
+
+            return $http.delete("/api/project/user/"+userId+"/note/"+noteId);
+        }
+
         function userLikesNote(userId, note){
-            return $http.post("/api/project/user/"+userId+"/note/"+note.id, note);
+            return $http.post("/api/project/user/"+userId+"/note/"+note._id, note);
         }
 
         function findAllNotesLikedByUser(userId){
@@ -38,7 +48,7 @@
         }
 
         function deleteNoteById(noteId) {
-           // console.log(noteId);
+           //console.log(noteId);
            return $http.delete("/api/project/note/"+noteId);
         }
 
@@ -46,13 +56,11 @@
             return $http.get("/api/project/user/"+userId+"/note");
         }
 
-        function selectNoteById(noteId){
+        function findNoteById(noteId){
             return $http.get("/api/project/note/"+noteId);
         }
 
-        function findAllNoteBooksForUser(userId){
-            return $http.get("/api/project/user/"+userId+"/notebook");
-        }
+
 
         function updateNoteById(noteId, newNote){
             //console.log(newNote);
@@ -60,11 +68,22 @@
         }
 
         function createNoteForUser(userId, newNote){
+            //console.log("gcdng");
             return $http.post("/api/project/user/"+userId+"/note", newNote);
         }
 
+        /*function removeNoteLikes(userId, noteId){
+
+            return $http.delete("/api/project/user/"+userId+"/note/"+noteId);
+        }*/
+
+
 
         ////////////////////////////////////////////////////////////////////
+        function findAllNoteBooksForUser(userId){
+            return $http.get("/api/project/user/"+userId+"/notebook");
+        }
+
         function deleteNotebookById(NBId){
             console.log(NBId);
             return $http.delete("/api/project/notebook/"+NBId);

@@ -4,5 +4,6 @@
 "use strict";
 (function(){
     angular
-        .module("NoteSpace", ["ngRoute"]);
+        .module("NoteSpace", ["ngRoute", "textAngular"]);
 })();
+// "angucomplete-alt"

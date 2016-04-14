@@ -40,8 +40,16 @@
                 }
             })
             .when("/createnote", {
-                templateUrl: "views//createnote/createnote.view.html",
-                controller: "NoteController",
+                templateUrl: "views/createnote/createnote.view.html",
+                controller: "CreateNoteController",
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
+            })
+            .when("/editnote/:noteId", {
+                templateUrl: "views/createnote/editnote.view.html",
+                controller: "EditNoteController",
                 controllerAs: "model",
                 resolve: {
                     checkLoggedIn: checkLoggedIn
@@ -49,39 +57,23 @@
             })
             .when("/todo", {
                 templateUrl: "views/widgets/todoWidget/todoWidget.view.html",
-                controller: "toDoController",
-                controllerAs: "model",
-                resolve: {
-                    checkLoggedIn: checkLoggedIn
-                }
-
+                controller: "toDoController"
             })
             .when("/image", {
                 templateUrl: "views/widgets/imageWidget/imageWidget.view.html",
-                controller: "imageController",
-                controllerAs: "model",
-                resolve: {
-                    checkLoggedIn: checkLoggedIn
-                }
-
+                controller: "imageController"
             })
             .when("/youtube", {
                 templateUrl: "views/widgets/youtubeApiWidget/youtubeApiWidget.view.html",
-                controller: "YouTubeController",
-                controllerAs: "model",
-                resolve: {
-                    checkLoggedIn: checkLoggedIn
-                }
-
+                controller: "YouTubeController"
             })
             .when("/notebook", {
                 templateUrl: "views//notebook/notebook.view.html",
                 controller: "noteBookController",
                 controllerAs: "model",
-            resolve: {
-            checkLoggedIn: checkLoggedIn
-        }
-
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
             })
             .when("/login", {
                 templateUrl: "views/users/login.view.html",
@@ -123,6 +115,11 @@
                 resolve: {
                     checkLoggedIn: checkLoggedIn
                 }
+            })
+            .when("/inbox", {
+                templateUrl: "views/inbox/inbox.view.html",
+                controller: "InboxController",
+                controllerAs : "model"
             })
 
             .otherwise({

@@ -10,6 +10,20 @@
             </a>
         </button>
 
+
+        <button class="btn btn-default"
+                ng-click="showTableAdd = 1; showPlus = 1; showPencil = 2; showDelete = 2;
+                          showTable = 2; ; showColumn = 2;hideDeleteButton = 2;showHideDeleteButton = 2">
+
+            <a href="#/inbox" >
+                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+            </a>
+        </button>
+
+
+
+
+
         <button class="btn btn-default" ng-click="showTable = 1; showPencil = 1; showTableAdd = 2; showDelete = 2;
                  showColumn = 1;hideDeleteButton = 2;showHideDeleteButton = 2; showStar = 1">
 
@@ -30,6 +44,15 @@
 
             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
         </button>
+
+        <!-- share -->
+        <button class="btn btn-default"
+
+                ng-click="showShare=1">
+
+            <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+        </button>
+
     </div>
 
 
@@ -41,29 +64,28 @@
         <table class="table table-bordered table-striped"   border="3" style="border-collapse:collapse" >
 
             <tbody>
-            <tr ng-show="showTable==1">
+            <!-- for share  -->
+            <tr ng-show="showShare==1">
                 <td><b>Name :</b><br/> <input type="text" class="form-control"
-                                ng-model = "model.widget.name"
+                                ng-model = "model.note"
                                 id="name" placeholder="Note Title">
                     <br/>
 
-                    <b>Select notebook to which this note belongs:</b>
+                    <b>Select user to be shared with:</b>
 
-                    <select ng-model="model.widget.notebook"
+                    <select ng-model="model.userToBeshared"
                             class="form-control">
 
-                       <option ng-repeat="notebook in model.notebooks"
-                               value="{{notebook.name}}">
-                           {{notebook.name}}
+                       <option ng-repeat="user in model.allusers"
+                               value="{{user.name}}">
+                           {{user.name}}
                        </option>
 
                     </select>
                 </td>
                 <td>
-                    <!--<button class="btn btn-default" ng-click="addNote(widget)">
-                        <span  class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                    </button>-->
-                    <button class="btn btn-default" ng-click="model.updateNote(model.widget);
+
+                    <button class="btn btn-default" ng-click="model.shareNote(model.userToBeshared, model.note);
                                                               showTable = 2;
                                                               showPencil = 2;
                                                               showColumn = 2"
@@ -73,12 +95,13 @@
                     </button>
                 </td>
             </tr>
+            <!-- end for share -->
 
             <tr ng-repeat="note in model.notes">
                 <td>
-                    <h3>{{note.name}}</h3>
+                    <h3>{{note.title}}</h3>
                     <br/>
-                    Notebook of {{note.name}} : {{note.notebook}}
+                    Notebook of {{note.title}} : {{note.notebook}}
                 </td>
                 <td ng-show="showColumn==1">
                     <button class="btn btn-default"
@@ -91,7 +114,7 @@
                     </button>
 
                     <button class="btn btn-default"
-                            ng-click="model.selectNote($index)"
+                            ng-click="model.editNote($index)"
                             ng-show="showPencil==1">
                         <span
                               class="glyphicon glyphicon-pencil"
@@ -100,11 +123,11 @@
                     </button>
 
                     <button class="btn btn-default" ng-show="showStar==1"
-                            ng-click="model.favorite(model.note)">
+                            ng-click="model.favorite($index)">
 
-                            <span ng-show="note.likes.indexOf(currentUser._id) > -1"
+                            <span ng-show="model.note.likes.indexOf(currentUser._id) > -1"
                                   class="glyphicon glyphicon-star "></span>
-                            <span ng-show="!note || !note.likes || note.likes.indexOf(currentUser._id) == -1"
+                            <span ng-show="!model.note || !model.note.likes || model.note.likes.indexOf(currentUser._id) == -1"
                                   class="glyphicon glyphicon-star-empty "></span>
 
                     </button>

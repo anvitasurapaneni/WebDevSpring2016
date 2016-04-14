@@ -10,7 +10,7 @@ module.exports = function(app, userModel) {
     app.post  ('/api/assignment/login', passport.authenticate('local'), login);
     app.get("/api/assignment/user",auth, findAllUsers);
     app.post("/api/assignment/user", createUser);
-    app.delete("/api/assignment/user/:id",auth, deleteUserById);
+    app.delete("/api/assignment/user/:userId",auth, deleteUserById);
     app.put("/api/assignment/user/:id",auth, updateUser);
     app.get("/api/assignment/users/loggedin", loggedIn);
     app.get("/api/assignment/user/:id", findUserById);
@@ -83,6 +83,8 @@ module.exports = function(app, userModel) {
             }
             else{
                 if(isAdmin(req.user)){
+
+                    console.log("find all users server side");
                     var users=[];
                     var user = userModel.findAllUsers()
                         .then(
@@ -156,7 +158,7 @@ module.exports = function(app, userModel) {
         }
 
         // first check if a user already exists with the username
-        UserModel
+        userModel
             .findUserByUsername(newUser.username)
             .then(
                 function(user){
@@ -164,11 +166,11 @@ module.exports = function(app, userModel) {
                     if(user == null) {
                         // create a new user
                         newUser.password = bcrypt.hashSync(newUser.password);
-                        return UserModel.createUser(newUser)
+                        return userModel.createUser(newUser)
                             .then(
                                 // fetch all the users
                                 function(){
-                                    return UserModel.findAllUsers();
+                                    return userModel.findAllUsers();
                                 },
                                 function(err){
                                     res.status(400).send(err);
@@ -176,7 +178,7 @@ module.exports = function(app, userModel) {
                             );
                         // if the user already exists, then just fetch all the users
                     } else {
-                        return UserModel.findAllUsers();
+                        return userModel.findAllUsers();
                     }
                 },
                 function(err){
@@ -214,7 +216,7 @@ module.exports = function(app, userModel) {
 
 
     function deleteUserById(req, res) {
-        var userId = req.query.id;
+        var userId = req.query.userId;
         console.log("user id to be deleted"+userId);
 
 
@@ -293,7 +295,7 @@ module.exports = function(app, userModel) {
 
 
     function isAdmin(user) {
-        if(user.roles.indexOf("admin") > 0) {
+        if(user.roles.indexOf("admin") > -1) {
             return true
         }
         return false;
@@ -307,7 +309,8 @@ module.exports = function(app, userModel) {
             res.send(401);
         } else {
             next();
-        }}
+        }
+    }
 
 
 };

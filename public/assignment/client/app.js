@@ -4,7 +4,7 @@
 "use strict";
 (function(){
     angular
-        .module("FormBuilderApp", ["ngRoute","fieldSortable", "ui.bootstrap"]);
+        .module("FormBuilderApp", ["ngRoute","fieldSortable", "ui.bootstrap" ]);
 
      //   .config(configuration);
 
