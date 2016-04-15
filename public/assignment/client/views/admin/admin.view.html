@@ -3,33 +3,50 @@
             <h1>Admin</h1>
             <h2>Users</h2><br>
 <div class="table-responsive">
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered table-striped table-hover">
                 <thead>
                 <!-- row with  Headers -->
+
+
                 <tr>
-                    <td><a href="#" class="btn btn-default transparent">
-                        <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="triangle-bottom"></span></a>
-                        Username</td>
-                    <td><a href="#" class="btn btn-default transparent">
-                        <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="triangle-bottom"></span></a>
+                    <td ng-click="model.order('username')" class="hover">
+                        <span class="sortorder glyphicon glyphicon-triangle-top hover"
+                              ng-show="model.predicate === 'username' && !model.reverse"
+                              ng-class="{reverse:!model.reverse}"></span>
+                        <span class="sortorder glyphicon glyphicon-triangle-bottom hover"
+                              ng-show="model.predicate === 'username' && model.reverse"
+                              ng-class="{reverse:model.reverse}"></span>
+                        Username
+                    </td>
+                    <td>
                         Password</td>
-                    <td><a href="#" class="btn btn-default transparent">
-                        <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="triangle-bottom"></span></a>
-                        FirstName</td>
-                    <td><a href="#" class="btn btn-default transparent">
-                        <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="triangle-bottom"></span></a>
-                        LastName</td>
-                    <td><a href="#" class="btn btn-default transparent">
-                        <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="triangle-bottom"></span></a>
+                    <td ng-click="model.order('firstName')" class="hover">
+                        <span class="sortorder glyphicon glyphicon-triangle-top hover"
+                              ng-show="model.predicate === 'firstName' && !model.reverse"
+                              ng-class="{reverse:!model.reverse}"></span>
+                        <span class="sortorder glyphicon glyphicon-triangle-bottom hover"
+                              ng-show="model.predicate === 'firstName' && model.reverse"
+                              ng-class="{reverse:model.reverse}"></span>
+                        First Name
+                    </td>
+                    <td ng-click="model.order('lastName')" class="hover">
+                        <span class="sortorder glyphicon glyphicon-triangle-top hover"
+                              ng-show="model.predicate === 'lastName' && !model.reverse"
+                              ng-class="{reverse:!model.reverse}"></span>
+                        <span class="sortorder glyphicon glyphicon-triangle-bottom hover"
+                              ng-show="model.predicate === 'lastName' && model.reverse"
+                              ng-class="{reverse:model.reverse}"></span>
+                        Last Name
+                    </td>
+                    <td>
                         Role</td>
-                    <td><a href="#" class="btn btn-default transparent">
-                        <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="triangle-bottom"></span></a>
+                    <th>
                         Action
 
 
 
 
-                    </td>
+                    </th>
 
 
                 </tr></thead>
@@ -66,7 +83,7 @@
                         <input type="text" class="form-control" ng-model="user.username"/>
                     </td>
                     <td>
-                        <input type="text" class="form-control" ng-model="user.password"/>
+                        <input type="password" class="form-control" ng-model="user.password"/>
                     </td>
                     <td>
                         <input type="text" class="form-control" ng-model="user.firstName"/>

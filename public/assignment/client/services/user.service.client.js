@@ -69,6 +69,7 @@
 
 // deleteUserById
         function deleteUserById(userId) {
+            console.log("delete user by id step2:");
             console.log(userId);
             return $http.delete("/api/assignment/user/"+userId);
 
@@ -91,6 +92,7 @@
         }
 
         function logout() {
+
             return $http.post("/api/assignment/user/logout")
                 .success(function () {
                     $rootScope.user = null;

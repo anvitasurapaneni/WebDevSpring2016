@@ -48,6 +48,8 @@
         function deleteUser($index){
 
             var userId = vm.users[$index]._id;
+            console.log("user id to be deleted: step 1");
+            console.log(userId);
 
             UserService.deleteUserById(userId)
                 .then(

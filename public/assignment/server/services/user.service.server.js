@@ -12,15 +12,22 @@ module.exports = function(app, userModel) {
     app.post("/api/assignment/user", createUser);
     app.delete("/api/assignment/user/:userId",auth, deleteUserById);
     app.put("/api/assignment/user/:id",auth, updateUser);
-    app.get("/api/assignment/users/loggedin", loggedIn);
     app.get("/api/assignment/user/:id", findUserById);
     app.post("/api/assignment/user/logout", logout);
     app.post("/api/assignment/register", register);
+    app.get("/api/assignment/users/loggedin", loggedin);
 
 
     passport.use(new LocalStrategy(localStrategy));
     passport.serializeUser(serializeUser);
     passport.deserializeUser(deserializeUser);
+
+
+
+    function loggedin(req, res) {
+        res.send(req.isAuthenticated() ? req.user : '0');
+    }
+
 
 
     /* local strategy , serialize , deserialize */
@@ -216,8 +223,8 @@ module.exports = function(app, userModel) {
 
 
     function deleteUserById(req, res) {
-        var userId = req.query.userId;
-        console.log("user id to be deleted"+userId);
+        var userId = req.params.userId;
+        console.log("delete user step 3"+userId);
 
 
         userModel
@@ -255,9 +262,7 @@ module.exports = function(app, userModel) {
     }
 
 
-    function loggedIn(req, res) {
-        res.send(req.isAuthenticated() ? req.user : '0');
-    }
+
 
 
 

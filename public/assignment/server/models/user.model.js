@@ -17,9 +17,12 @@ module.exports = function(db, mongoose){
         updateUser: updateUser,
         findUserById: findUserById,
         findUserByUsername: findUserByUsername,
-        register: register
+        register: register,
+
     };
     return api;
+
+
 
     function createUser(user) {
         return UserModel.create(user);
@@ -113,7 +116,7 @@ module.exports = function(db, mongoose){
 
 
     function deleteUserById(userId){
-        console.log("user ID");
+        console.log(" user ID step 4:");
         console.log(userId);
         var deferred = q.defer();
         UserModel
