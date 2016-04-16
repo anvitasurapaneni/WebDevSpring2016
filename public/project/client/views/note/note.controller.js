@@ -6,20 +6,25 @@
         .module("NoteSpace")
         .controller("NoteController", NoteController);
 
-    function NoteController(NoteService,UserService, $rootScope, $location){
+    function NoteController(NoteService, $rootScope, $location, UserService){
 
         var vm = this;
 
         vm.deleteNote = deleteNote;
         vm.editNote = editNote;
         vm.favorite = favorite;
+        vm.isNoteInFavourites = isNoteInFavourites;
+        vm.shareNote = shareNote;
 
         function init() {
 
-            NoteService.findAllNotesForUser($rootScope.currentUser._id)
+            NoteService.findAllNotesReceivedByUser($rootScope.currentUser._id)
                 .then(function (foundNotes) {
 
+                    var favNotes = [];
+
                     vm.notes = foundNotes.data;
+                    //console.log(vm.notes);
 
                     vm.$location = $location;
                 });
@@ -30,21 +35,19 @@
 
                     vm.notebooks = foundNoteBooks.data;
                     vm.$location = $location;
-                });
-
-            UserService.findAllUsers()
-
-                .then(function (allUsers){
-
-                    vm.allusers = = allUsers.data;
-                    vm.$location = $location;
                 })
-
-
-
-
         }
         init();
+
+        //share note
+
+        function shareNote($index){
+            var noteId = vm.notes[$index]._id;
+
+            $location.url("/sharenote/"+noteId);
+        }
+
+
 
         // event handlers implementation
 
@@ -54,10 +57,11 @@
             NoteService.deleteNoteById(noteId)
                 .then(function(response) {
 
-
-
                     if(response) {
                         vm.notes = response;
+
+
+
                         init();
                     }
             });
@@ -72,19 +76,39 @@
         function favorite($index){
 
             var noteId = vm.notes[$index]._id;
-            //console.log(noteId);
+
+            var userFav = $rootScope.currentUser.likes;
+            for(var index in userFav){
+                if(userFav[index] === noteId){
+                    alert("Already added to favourites");
+                    return;
+                }
+            }
+            $rootScope.currentUser.likes.push(vm.notes[$index]._id);
 
             NoteService.findNoteById(noteId)
                 .then(function(response){
                     if(response) {
 
                         var note = response.data;
-                        note.likes.push($rootScope.currentUser._id);
+                        vm.notes[$index].likes.push($rootScope.currentUser._id);
 
                         NoteService
                             .userLikesNote($rootScope.currentUser._id, note);
                     }
-                })
+                });
+
+
         }
+    }
+
+    function isNoteInFavourites(favourites, note) {
+
+       var noteId = note._id;
+        for(var i in favourites) {
+            if(favourites[i] === noteId)
+                return true;
+        }
+        return false;
     }
 })();

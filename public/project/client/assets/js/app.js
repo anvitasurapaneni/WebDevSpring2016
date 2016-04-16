@@ -6,4 +6,6 @@
     angular
         .module("NoteSpace", ["ngRoute", "textAngular"]);
 })();
-// "angucomplete-alt"
+
+
+//,"angucomplete-alt"

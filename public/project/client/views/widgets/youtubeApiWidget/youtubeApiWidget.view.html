@@ -13,15 +13,12 @@
 
 
 
-                <iframe width="250" height="250"
-                        ng-src="{{SafeYoutubeUrl(slelectedUrl)}}">
+             <!--   <iframe width="200" height="200"
+                        src="{{trustSrcurl(slelectedUrl)}}">
                 </iframe>
+                <br>-->
+              <b>  <a href="{{slelectedUrl}}" target="_blank">{{slelectedUrl}}</a> </b><br>
 
-                <br>
-
-
-             <br>
-                <b>  <a href="{{slelectedUrl}}" target="_blank">{{slelectedUrl}}</a> </b>
 
             </div>
 
@@ -39,11 +36,11 @@
                 <tbody>
                 <tr ng-repeat="url in urls">
                     <td>
-                        <iframe width="250" height="250"
-                                ng-src="{{SafeYoutubeUrl(url)}}">
-                        </iframe>
+                     <!--   <iframe width="50" height="50"
+                                src="{{url}}">
+                        </iframe> -->
 
-                  <!--    <br> <a href="{{url}}" target="_blank"> {{url}}</a> -->
+                      <br> <a href="{{url}}" target="_blank"> {{url}}</a>
                         </td>
                 <td>
                     <a class="btn btn-default transparent"

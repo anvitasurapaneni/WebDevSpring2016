@@ -7,13 +7,22 @@
         .module("FormBuilderApp")
         .controller("AdminController", AdminController);
 
-    function AdminController($rootScope, UserService){
+    function AdminController($rootScope, UserService, $filter){
         var vm = this;
 
         vm.addUser = addUser;
         vm.deleteUser = deleteUser;
         vm.selectUser = selectUser;
         vm.updateUser = updateUser;
+
+        vm.predicate = 'age';
+        var orderBy = $filter('orderBy');
+        vm.reverse = true;
+        vm.order = function(predicate) {
+            vm.reverse = (vm.predicate === predicate) ? !vm.reverse : false;
+            vm.predicate = predicate;
+            vm.users = orderBy(vm.users, vm.predicate, vm.reverse);
+        };
 
         function init() {
             console.log("in admin controller");

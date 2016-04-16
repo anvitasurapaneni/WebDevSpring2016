@@ -9,13 +9,19 @@
         .module("NoteSpace")
         .controller("EditNoteController", EditNoteController);
 
-    function EditNoteController(NoteService, $routeParams, $location) {
+    function EditNoteController(NoteService, $routeParams, $location, $sce, WidgetService) {
 
         var vm = this;
 
+        vm.trustAsHtml = trustAsHtml;
+        vm.editWidget = editWidget;
+
+        var noteId;
+
         function init() {
 
-            var noteId = $routeParams.noteId;
+            noteId = $routeParams.noteId;
+            vm.noteId = noteId;
 
             NoteService.findNoteById(noteId)
                 .then(
@@ -24,8 +30,28 @@
                         vm.widget = response.data;
                     }
                 );
+
+            WidgetService.getWidgets(noteId)
+                .then(
+                    function(response){
+                        vm.widgets = response.data;
+                    }
+                );
         }
         init();
+
+        function trustAsHtml(html) {
+            return $sce.trustAsHtml(html);
+        }
+
+        function editWidget(widget){
+            //console.log(widget);
+            if(widget.widgetType == "TEXT"){
+
+                //console.log("in text");
+                $location.url("/note/"+noteId+"/text/"+widget._id);
+            }
+        }
 
     }
 })();

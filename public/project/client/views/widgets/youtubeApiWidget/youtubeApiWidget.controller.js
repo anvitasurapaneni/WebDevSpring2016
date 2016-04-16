@@ -11,12 +11,12 @@
         .module("NoteSpace")
         .controller("YouTubeController", YouTubeController);
 
-    function YouTubeController($http, $scope, $sce) {
+    function YouTubeController($http, $scope) {
         //$(init);
         //var $MovieName;
         //var $SearchMovieTitle;
         //var $tbody;
-        $scope.SafeYoutubeUrl = SafeYoutubeUrl;
+
         $scope.selectVideo = selectVideo;
         $scope.trustSrcurl = function(data)
         {
@@ -29,10 +29,6 @@
 
             console.log(url);
 
-        }
-
-        function  SafeYoutubeUrl(url){
-return $sce.trustAsResourceUrl(url);
         }
 
         function init() {
@@ -65,7 +61,7 @@ return $sce.trustAsResourceUrl(url);
 
         function callback(response) {
 
-            var url_temp = "http://www.youtube.com/embed/ID";
+            var url_temp = "http://www.youtube.com/embed/ID?autoplay=1";
             $scope.data = response.items;
             console.log("Data");
             console.log($scope.data);
@@ -87,7 +83,7 @@ return $sce.trustAsResourceUrl(url);
                // urls.push(url_link);
                 urls.push(v1);
                 console.log(urls);
-                url_temp = "http://www.youtube.com/embed/ID"
+                url_temp = "http://www.youtube.com/embed/ID?autoplay=1"
                 $scope.urls = urls;
             }
         }

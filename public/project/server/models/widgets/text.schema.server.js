@@ -12,6 +12,3 @@ module.exports = function(mongoose) {
 
     return TextSchema;
 };
-
-
-

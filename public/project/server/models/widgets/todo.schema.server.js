@@ -1,5 +1,5 @@
 /**
- * Created by anvitasurapaneni on 4/8/16.
+ * Created by paulomimahidharia on 4/8/16.
  */
 module.exports = function(mongoose) {
 

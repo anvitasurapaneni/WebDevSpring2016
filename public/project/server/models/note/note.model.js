@@ -3,13 +3,15 @@
  */
 "use strict";
 
-var notes = require("./note.mock.json");
+
 var q = require("q");
 
-module.exports = function(db, mongoose) {
+module.exports = function(db, mongoose, UserModel) {
 
     var NoteSchema = require("./note.schema.server.js")(mongoose);
     var Note = mongoose.model('Note', NoteSchema);
+
+    var User = UserModel.getMongooseModel();
 
     var api = {
 
@@ -20,14 +22,40 @@ module.exports = function(db, mongoose) {
         createNote: createNote,
         userLikesNote: userLikesNote,
         findNotesByIds: findNotesByIds,
-        removeLikedNote: removeLikedNote
+        removeLikedUser: removeLikedUser,
+        getMongooseModel: getMongooseModel,
+        findAllNotesReceivedByUser: findAllNotesReceivedByUser,
+        userReceivesNote: userReceivesNote,
+        shareNoteWithUser:shareNoteWithUser,
+        deleteReceivedNoteForUser: deleteReceivedNoteForUser
+
     };
 
     return api;
+    function deleteReceivedNoteForUser(noteId, userId) {
+        return User.update(
+            { _id: userId },
+            { $pull: { 'receivesNotes': { _id : noteId } } }
+        );
+    }
 
-    function removeLikedNote(userId, noteId){
-        /*var deferred = q.defer();
-        //console.log("In here");
+    function shareNoteWithUser(note, userId){
+        console.log(userId);
+        console.log(note);
+        return   User.findById(userId)
+            .then(
+                function(user){
+                    user.receivesNotes.push(note);
+                    return user.save();
+
+                }
+            );
+    }
+
+
+
+    function userReceivesNote(userId, note){
+        var deferred = q.defer();
 
         // find the note by noteId
         Note.findOne({_id: note._id},
@@ -42,9 +70,7 @@ module.exports = function(db, mongoose) {
                 // if there's a note
                 if (doc) {
                     // add user to likes
-                    console.log("In doc");
-                    console.log(userId);
-                    doc.likes.splice(userId, 1);
+                    doc.receives.push (userId);
                     // save changes
                     doc.save(function(err, doc){
                         if (err) {
@@ -56,7 +82,18 @@ module.exports = function(db, mongoose) {
                 }
             });
 
-        return deferred.promise;*/
+        return deferred.promise;
+    }
+
+
+
+
+    function findAllNotesReceivedByUser(userID){
+        return Note.find();
+
+    }
+
+    function removeLikedUser(userId, noteId){
 
         return Note.update(
             { _id: noteId },
@@ -139,5 +176,11 @@ module.exports = function(db, mongoose) {
         return Note.create(newNote);
 
     }
+
+    function getMongooseModel() {
+
+        return Note
+    }
+
 
 };

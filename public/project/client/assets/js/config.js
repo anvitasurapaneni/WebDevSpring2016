@@ -19,9 +19,15 @@
                 controller: "HeaderController",
                 controllerAs : "model"
             })
-            .when("/text", {
+            .when("/note/:noteId/text", {
                 templateUrl: "views/widgets/text/text.view.html",
-                controller: "TextEditorController"
+                controller: "TextEditorController",
+                controllerAs : "model"
+            })
+            .when("/note/:noteId/text/:widgetId", {
+                templateUrl: "views/widgets/text/text.view.html",
+                controller: "TextEditorController",
+                controllerAs : "model"
             })
             .when("/map", {
                 templateUrl: "views/widgets/googlemap/map.view.html",
@@ -68,7 +74,7 @@
                 controller: "YouTubeController"
             })
             .when("/notebook", {
-                templateUrl: "views//notebook/notebook.view.html",
+                templateUrl: "views/notebook/notebook.view.html",
                 controller: "noteBookController",
                 controllerAs: "model",
                 resolve: {
@@ -121,6 +127,25 @@
                 controller: "InboxController",
                 controllerAs : "model"
             })
+            .when("/sharenote/:noteId", {
+                templateUrl: "views/sharenote/sharenote.view.html",
+                controller: "ShareNoteController",
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
+            })
+            .when("/group", {
+                templateUrl: "views/group/group.view.html",
+                controller: "GroupController",
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
+            })
+
+
+
 
             .otherwise({
                 redirectTo: "/home"

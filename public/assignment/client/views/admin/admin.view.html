@@ -3,13 +3,13 @@
             <h1>Admin</h1>
             <h2>Users</h2><br>
 <div class="table-responsive">
-            <table class="table table-bordered table-striped table-hover">
+            <table class="table table-bordered table-striped ">
                 <thead>
                 <!-- row with  Headers -->
 
 
                 <tr>
-                    <td ng-click="model.order('username')" class="hover">
+                    <th ng-click="model.order('username')" class="hover">
                         <span class="sortorder glyphicon glyphicon-triangle-top hover"
                               ng-show="model.predicate === 'username' && !model.reverse"
                               ng-class="{reverse:!model.reverse}"></span>
@@ -17,10 +17,10 @@
                               ng-show="model.predicate === 'username' && model.reverse"
                               ng-class="{reverse:model.reverse}"></span>
                         Username
-                    </td>
-                    <td>
-                        Password</td>
-                    <td ng-click="model.order('firstName')" class="hover">
+                    </th>
+                    <th>
+                        Password</th>
+                    <th ng-click="model.order('firstName')" class="hover">
                         <span class="sortorder glyphicon glyphicon-triangle-top hover"
                               ng-show="model.predicate === 'firstName' && !model.reverse"
                               ng-class="{reverse:!model.reverse}"></span>
@@ -28,8 +28,8 @@
                               ng-show="model.predicate === 'firstName' && model.reverse"
                               ng-class="{reverse:model.reverse}"></span>
                         First Name
-                    </td>
-                    <td ng-click="model.order('lastName')" class="hover">
+                    </th>
+                    <th ng-click="model.order('lastName')" class="hover">
                         <span class="sortorder glyphicon glyphicon-triangle-top hover"
                               ng-show="model.predicate === 'lastName' && !model.reverse"
                               ng-class="{reverse:!model.reverse}"></span>
@@ -37,9 +37,9 @@
                               ng-show="model.predicate === 'lastName' && model.reverse"
                               ng-class="{reverse:model.reverse}"></span>
                         Last Name
-                    </td>
-                    <td>
-                        Role</td>
+                    </th>
+                    <th>
+                        Role</th>
                     <th>
                         Action
 
@@ -69,6 +69,7 @@
                       </a>
                             <a ng-click="model.updateUser(model.user)"
                                class="btn btn-default transparent">
+
                             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                         </a>
                             </div>

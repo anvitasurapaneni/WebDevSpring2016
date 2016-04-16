@@ -21,10 +21,56 @@ module.exports = function(db, mongoose) {
         deleteUserById: deleteUserById,
         updateUser: updateUser,
         userLikesNote: userLikesNote,
-        removeLikedNote: removeLikedNote
+        removeLikedNote: removeLikedNote,
+        isNoteFavForUser: isNoteFavForUser,
+        userReceivesNote: userReceivesNote,
+        getMongooseModel: getMongooseModel
     };
 
     return api;
+
+    function getMongooseModel() {
+        return User;
+    }
+
+    function userReceivesNote(userId, note) {
+
+        var deferred = q.defer();
+
+        // find the user
+        User.findById(userId, function (err, doc) {
+
+            // reject promise if error
+            if (err) {
+                deferred.reject(err);
+            } else {
+
+                // add movie id to user likes
+                doc.receives.push (note._id);
+
+                // save user
+                doc.save (function (err, doc) {
+
+                    if (err) {
+                        deferred.reject(err);
+                    } else {
+
+                        // resolve promise with user
+                        deferred.resolve (doc);
+                    }
+                });
+            }
+        });
+
+        return deferred;
+    }
+
+    function isNoteFavForUser(userId, noteId){
+
+        return User.findOne({_id: userId, 'likes': {$in : [noteId]}}) ;
+    }
+
+
 
     function removeLikedNote (userId, noteId) {
 
@@ -113,7 +159,7 @@ module.exports = function(db, mongoose) {
 
     function findAllUsers(){
 
-        return users;
+        return User.find();
     }
 
     function updateUser(userId, user){

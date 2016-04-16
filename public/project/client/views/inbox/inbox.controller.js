@@ -11,16 +11,18 @@
 
         var vm = this;
 
-        vm.deleteNote = deleteNote;
-        vm.editNote = editNote;
-        vm.favorite = favorite;
+        vm.deleteReceivedNoteForUser = deleteReceivedNoteForUser;
+
 
         function init() {
+            console.log("inbox controller");
 
-            NoteService.findAllNotesForUser($rootScope.currentUser._id)
-                .then(function (foundNotes) {
+            UserService.findUserById($rootScope.currentUser._id)
+                .then(function (user) {
+                    console.log(user);
 
-                    vm.notes = foundNotes.data;
+                    vm.receivedNotes = user.data.receivesNotes;
+
 
                     vm.$location = $location;
                 });
@@ -37,7 +39,7 @@
 
                 .then(function (allUsers){
 
-                    vm.allusers = = allUsers.data;
+                    vm.allusers =  allUsers.data;
                     vm.$location = $location;
                 })
 
@@ -49,43 +51,28 @@
 
         // event handlers implementation
 
-        function deleteNote($index){
-            var noteId = vm.notes[$index]._id;
+        function deleteReceivedNoteForUser($index){
+            console.log("client side remove field called");
 
-            NoteService.deleteNoteById(noteId)
-                .then(function(response) {
+            var noteId = vm.receivedNotes[$index]._id;
+            console.log("noteId"+noteId);
 
 
+            NoteService.deleteReceivedNoteForUser(noteId, $rootScope.currentUser._id).then(function (response) {
+                console.log("remove filed response");
+                console.log(response);
 
-                    if(response) {
-                        vm.notes = response;
-                        init();
-                    }
-                });
+                if(response == "OK") {
+                    init();
+                }
+            });
         }
 
-        function editNote($index){
-            var noteId = vm.notes[$index]._id;
 
-            $location.url("/editnote/"+noteId);
-        }
 
-        function favorite($index){
 
-            var noteId = vm.notes[$index]._id;
-            //console.log(noteId);
 
-            NoteService.findNoteById(noteId)
-                .then(function(response){
-                    if(response) {
 
-                        var note = response.data;
-                        note.likes.push($rootScope.currentUser._id);
 
-                        NoteService
-                            .userLikesNote($rootScope.currentUser._id, note);
-                    }
-                })
-        }
     }
 })();
