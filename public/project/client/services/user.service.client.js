@@ -21,11 +21,17 @@
             getCurrentUser: getCurrentUser,
             findNoteLikes: findNoteLikes,
             removeLikedNote: removeLikedNote,
-            isNoteFavForUser: isNoteFavForUser
+            isNoteFavForUser: isNoteFavForUser,
+            createGroupForUser: createGroupForUser
 
         };
 
         return api;
+
+        function createGroupForUser(group){
+            return $http.post("/api/project/group/user",group);
+        }
+
 
         function isNoteFavForUser(userId, noteId){
 

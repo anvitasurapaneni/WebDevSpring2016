@@ -24,7 +24,7 @@
             </td>
             <td>
                 <button class="btn btn-default"
-                        ng-click="model.createGroup(model.group); showrest = 1" ng-hide="showrest==1">
+                        ng-click="model.createGroupForUser(model.group); showrest = 1" ng-hide="showrest==1">
                     <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
                 </button>
             </td>
@@ -43,7 +43,7 @@
 
                     </select></td>
                 <td><button class="btn btn-default"
-                            ng-click="model.createGroup(model.group)">
+                            ng-click="model.addMember(model.group)">
                     <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                 </button></td>
             </tr>
@@ -58,7 +58,7 @@
             <th>User Name</th>
             <th>Action</th>
         </tr>
-        <tr ng-repeat="user in model.memberUsers">
+        <tr ng-repeat="user in model.members">
             <td>
                 <h3>{{user.username}}</h3>
 

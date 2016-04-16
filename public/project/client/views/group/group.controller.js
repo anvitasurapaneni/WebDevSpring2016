@@ -11,12 +11,14 @@
     function GroupController(UserService, $rootScope, $location){
 
         var vm = this;
+        vm.createGroupForUser = createGroupForUser;
 
 
 
 
         function init() {
             console.log("group controller");
+            console.log($rootScope.currentUser);
 
 
             UserService.findAllUsers()
@@ -32,6 +34,29 @@
 
         }
         init();
+
+        function createGroupForUser(group){
+
+            if (group != -1){
+
+                var newGroup = {
+                    //   "_id": (new Date).getTime(),
+                    "title": group.title,
+                    "adminId": $rootScope.currentUser._id
+                };
+                console.log(newGroup);
+
+
+                UserService.createGroupForUser(newGroup)
+                    .then(function (response) {
+                        if(response) {
+
+                            init();
+                        }
+                    });
+
+            }}
+
 
         // event handlers implementation
 

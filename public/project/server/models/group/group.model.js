@@ -9,13 +9,13 @@ module.exports = function(db, mongoose) {
     var Group = mongoose.model('Group', GroupSchema);
 
     var api = {
-        createGroup: createGroup
+        createGroupForUser: createGroupForUser
     };
 
     return api;
 
 
-    function createGroup(group) {
+    function createGroupForUser(group) {
         return Group.create(group);
     }
 
