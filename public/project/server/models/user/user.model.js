@@ -24,10 +24,15 @@ module.exports = function(db, mongoose) {
         removeLikedNote: removeLikedNote,
         isNoteFavForUser: isNoteFavForUser,
         userReceivesNote: userReceivesNote,
-        getMongooseModel: getMongooseModel
+        getMongooseModel: getMongooseModel,
+
     };
 
     return api;
+
+
+
+
 
     function getMongooseModel() {
         return User;

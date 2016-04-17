@@ -136,7 +136,7 @@
                 }
             })
             .when("/group", {
-                templateUrl: "views/group/group.view.html",
+                templateUrl: "views/group/creategroup.view.html",
                 controller: "GroupController",
                 controllerAs: "model",
                 resolve: {

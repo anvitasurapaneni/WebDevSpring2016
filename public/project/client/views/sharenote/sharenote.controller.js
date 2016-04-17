@@ -10,6 +10,7 @@
     function ShareNoteController( UserService, NoteService, $routeParams, $rootScope, $location) {
         var vm = this;
         vm.shareNoteWithUser = shareNoteWithUser;
+        vm.shareNoteWithGroup = shareNoteWithGroup;
 
 
         function init() {
@@ -34,8 +35,27 @@
                 });
 
 
+            UserService.findAllGroups()
+                .then(function (foundGroups) {
+
+                    vm.toShareGroups = foundGroups.data;
+                    vm.$location = $location;
+                    console.log(vm.toShareGroups);
+                });
+
+
+
         }
         init();
+
+        function shareNoteWithGroup(note, group){
+            console.log("group length"+group.members.length);
+            for(i=0; i< group.members.length; i++ ){
+                console.log(group.members[i]);
+                shareNoteWithUser(note, group.members[i]);
+            }
+        }
+
 
         function shareNoteWithUser(note, user){
             console.log(note);

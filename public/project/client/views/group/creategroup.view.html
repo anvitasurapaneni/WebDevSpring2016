@@ -1,7 +1,8 @@
-<div class="main col-sm-9 col-sm-offset-5 col-md-10 col-md-offset-2"
+<text class="main col-sm-9 col-sm-offset-5 col-md-10 col-md-offset-2"
      ng-controller="GroupController as model">
 
     <h1>Create Group</h1>
+   </text> <h3  style="color: orange" ng-show="showrest==1">Group Name: {{model.group.title}}</h3><br>
     <div style="float: right">
 
 
@@ -14,7 +15,7 @@
         <table  class="table table-bordered table-striped"   border="3" style="border-collapse:collapse" >
 
             <tbody>
-<tr>
+<tr ng-hide="showrest==1">
             <td><b>Enter Name for Group :</b><br/> <input type="text" class="form-control"
                                           ng-model = "model.group.title"
                                           id="name" placeholder="Group Title">
@@ -24,12 +25,12 @@
             </td>
             <td>
                 <button class="btn btn-default"
-                        ng-click="model.createGroupForUser(model.group); showrest = 1" ng-hide="showrest==1">
+                        ng-click="model.createGroupForUser(model.group); showrest = 1" >
                     <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
                 </button>
             </td>
 </tr>
-            <tr>
+            <tr ng-show="showrest==1">
                 <td><b>Select users to add to the group:</b>
 
 
@@ -37,33 +38,33 @@
                             class="form-control">
 
                         <option ng-repeat="user in model.allusers"
-                                value="{{user.username}}">
+                                value="{{user}}">
                             {{user.username}}
                         </option>
 
                     </select></td>
                 <td><button class="btn btn-default"
-                            ng-click="model.addMember(model.group)">
-                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                            ng-click="model.addMemberToGroup(model.userToBeAddedToGroup)">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                 </button></td>
             </tr>
             </tbody>
         </table>
         </br>
     <br>
-    <table  class="table table-bordered table-striped"   border="3" style="border-collapse:collapse" >
+    <table  class="table table-bordered table-striped"   border="3" style="border-collapse:collapse" ng-show="showrest==1">
 
         <tbody>
         <tr>
             <th>User Name</th>
             <th>Action</th>
         </tr>
-        <tr ng-repeat="user in model.members">
+        <tr ng-repeat="user in model.currentGroup.members">
             <td>
                 <h3>{{user.username}}</h3>
 
             </td>
-            <td ng-show="showColumn==1">
+            <td>
                 <button class="btn btn-default"
                         ng-click="model.deleteMemberFromGroup($index)"
                         >

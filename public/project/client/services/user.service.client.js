@@ -7,7 +7,7 @@
         .module("NoteSpace")
         .factory("UserService", UserService);
 
-    function UserService($http, $rootScope){
+    function UserService($http, $rootScope, $q){
 
         var api = {
             findUserByCredentials: findUserByCredentials,
@@ -22,11 +22,49 @@
             findNoteLikes: findNoteLikes,
             removeLikedNote: removeLikedNote,
             isNoteFavForUser: isNoteFavForUser,
-            createGroupForUser: createGroupForUser
+            createGroupForUser: createGroupForUser,
+            addMemberToGroup: addMemberToGroup,
+            getGroupById: getGroupById,
+            deleteMemberFromGroup: deleteMemberFromGroup,
+            findAllGroups: findAllGroups
 
         };
 
         return api;
+
+        function findAllGroups(){
+
+            return $http.get("/api/project/group");
+        }
+
+        function deleteMemberFromGroup(userId, groupId) {
+
+            var deferred = $q.defer();
+
+            var url = "/api/project/user/:userId/group/:groupId";
+            url = url.replace(":userId", userId);
+            url = url.replace(":groupId", groupId);
+
+            $http.delete(url).success(function(response) {
+                deferred.resolve(response);
+            });
+
+            return deferred.promise;
+        }
+
+
+        function getGroupById(groupId){
+
+            return $http.get("/api/project/user/group/"+groupId);
+        }
+
+        function addMemberToGroup(user, groupId){
+
+
+
+            console.log(user);
+ $http.post("/api/project/group/"+groupId+"/member",user);
+        }
 
         function createGroupForUser(group){
             return $http.post("/api/project/group/user",group);

@@ -1,24 +1,27 @@
-<div class="main col-sm-9 col-sm-offset-5 col-md-10 col-md-offset-2"
->
+<div class="main col-sm-9 col-sm-offset-5 col-md-10 col-md-offset-2 table-responsive">
     <h1>Share </h1>
 
     <p>share {{model.noteToBeShared.title}} with selected user</p><br><br>
+
+
+
+    <div style="float: left; width: 40%">
 
     Search by username: <input type="text" ng-model="search.username">
 
 
 
+        <!--
+           <div class="table-responsive darker padding-all-sides" >
 
-    <div class="table-responsive darker padding-all-sides" >
-
-   <!--     <div>  <table> <tr><td width="100%"><input type="text" class="form-control"
-                                                   ng-model = "model.key"
-                                                   id="key" placeholder="search key"> </td>
-            <td>   <a
-                    ng-click="model.search(model.key)" >
-                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-            </a> </td></tr></table>
-        </div> -->
+            <div>  <table> <tr><td width="100%"><input type="text" class="form-control"
+                                                          ng-model = "model.key"
+                                                          id="key" placeholder="search key"> </td>
+                   <td>   <a
+                           ng-click="model.search(model.key)" >
+                       <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                   </a> </td></tr></table>
+               </div> -->
 
         <table class="table table-bordered table-striped"   border="3" style="border-collapse:collapse" >
 
@@ -44,6 +47,41 @@
 
             </tbody>
         </table>
+</div>
+
+<div style="float: right; width: 40%">
+        Search by groupname: <input type="text" ng-model="search1.title">
+        <table class="table table-bordered table-striped"   border="3" style="border-collapse:collapse" >
+
+            <tbody>
+
+
+            <tr ng-repeat="group in model.toShareGroups| filter:search1">
+                <td>
+                    <h3>{{group.title}}</h3>
+                    <h2>Members of group</h2>
+                    <ul ng-repeat="user1 in group.members" >
+                        <li><b>-></b> {{user1.username}} </li>
+                    </ul></td>
+
+
+
+
+                <td><button class="btn btn-default"  ng-click="model.shareNoteWithGroup(model.noteToBeShared, group)" >
+
+                    <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+
+                </button></td>
+
+            </tr>
+
+
+
+
+            </tbody>
+        </table>
+</div>
+
 
 
 

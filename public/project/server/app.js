@@ -1,11 +1,11 @@
 module.exports = function(app, uuid, db, mongoose) {
     var UserModel   = require("./models/user/user.model.js")(db, mongoose);
 
-    var GroupModel   = require("./models/group/group.model.js")(db, mongoose);
+    var GroupModel   = require("./models/group/group.model.js")(db, mongoose, UserModel);
 
     var NoteModel = require("./models/note/note.model.js")(db, mongoose, UserModel);
 
-    var NotebookModel  = require("./models/notebook/notebook.model.js")(db, mongoose, NotebookModel);
+    var NotebookModel = require("./models/notebook/notebook.model.js")(db, mongoose, NotebookModel);
 
     var WidgetModel = require("./models/widgets/widget.model.server.js")(db, mongoose, NoteModel);
 

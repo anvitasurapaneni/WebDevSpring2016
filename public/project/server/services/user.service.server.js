@@ -187,6 +187,7 @@ module.exports = function(app, UserModel, NoteModel, uuid){
 
         var userId = req.params.UserId;
 
+
         var user = UserModel.findUserById(userId)
             .then(
                 function (doc) {
