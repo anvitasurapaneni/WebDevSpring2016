@@ -26,6 +26,8 @@ module.exports = function(db, mongoose) {
         userReceivesNote: userReceivesNote,
         getMongooseModel: getMongooseModel,
 
+
+
     };
 
     return api;
@@ -37,6 +39,10 @@ module.exports = function(db, mongoose) {
     function getMongooseModel() {
         return User;
     }
+
+
+
+
 
     function userReceivesNote(userId, note) {
 

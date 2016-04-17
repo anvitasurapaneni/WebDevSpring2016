@@ -61,9 +61,9 @@
         function addMemberToGroup(user, groupId){
 
 
-
+            console.log("Adding member!");
             console.log(user);
- $http.post("/api/project/group/"+groupId+"/member",user);
+            return $http.post("/api/project/group/"+groupId+"/member",user);
         }
 
         function createGroupForUser(group){

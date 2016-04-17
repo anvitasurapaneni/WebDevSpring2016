@@ -2,7 +2,7 @@
  * Created by anvitasurapaneni on 4/15/16.
  */
 
-module.exports = function(app,GroupModel, uuid){
+module.exports = function(app,GroupModel, UserModel, uuid){
 
     app.post("/api/project/group/user", createGroupForUser);
     app.post("/api/project/group/:groupId/member", addMemberToGroup);
@@ -94,20 +94,33 @@ function findGroupById(req, res){
 
 
     function createGroupForUser(req,res){
+
         var group = req.body;
+        var adminId = group.adminId;
+        var groupId;
 
-         GroupModel.createGroupForUser(group).then(
-             function (doc) {
-                 //console.log(doc);
-                 res.json(doc);
-             },
 
-             // send error if promise rejected
-             function ( err ) {
+         GroupModel.createGroupForUser(group)
+             .then(
+                 function (doc) {
+                     groupId = doc._id;
+                     console.log("doc");
+                     console.log(groupId);
+                     return GroupModel.userIsAdminOfGroup(adminId);
 
-                 res.status(400).send(err);
-             }
-         );
+                 }
+             )
+             .then(
+                 function (user) {
+                     user.userIsAdminOfGroup = groupId;
+                     user.save();
+
+                     res.json(user);
+                 }
+             );
+
+
+
 
 
     }

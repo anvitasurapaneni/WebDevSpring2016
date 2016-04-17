@@ -19,13 +19,28 @@
 
             UserService.findUserById($rootScope.currentUser._id)
                 .then(function (user) {
-                    console.log(user);
+                    console.log(user.data);
 
                     vm.receivedNotes = user.data.receivesNotes;
 
 
+                    for(i=0; i<vm.receivedNotes.length; i++){
+                        UserService.findUserById(vm.receivedNotes[i]._id)
+                            .then(function (user1) {
+                                console.log(user1.data);
+                            });
+
+
+                        //   vm.receivedNotes[i].createdBy = username1;
+                    }
+
+
+
                     vm.$location = $location;
                 });
+
+
+
 
             NoteService.findAllNoteBooksForUser($rootScope.currentUser._id)
 

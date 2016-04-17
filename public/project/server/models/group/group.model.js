@@ -15,17 +15,21 @@ module.exports = function(db, mongoose, UserModel) {
         findGroupById :findGroupById,
         addMemberToGroup: addMemberToGroup,
         deleteMemberFromGroup: deleteMemberFromGroup,
-        findAllGroups: findAllGroups
+        findAllGroups: findAllGroups,
+        userIsAdminOfGroup: userIsAdminOfGroup
     };
 
     return api;
+
+    function userIsAdminOfGroup(adminId){
+
+        return User.findById(adminId);
+    }
 
     function findAllGroups(){
 
         return Group.find();
     }
-
-
 
     function deleteMemberFromGroup(userId, groupId) {
         return Group.update(
@@ -34,11 +38,12 @@ module.exports = function(db, mongoose, UserModel) {
         );
     }
 
-
     function addMemberToGroup(member, groupId){
-        console.log("server group model step2");
+
+         console.log("server group model step2");
          console.log(member);
          console.log(groupId);
+
         return   Group.findById(groupId)
             .then(
                 function(group){
@@ -50,7 +55,9 @@ module.exports = function(db, mongoose, UserModel) {
                     //console.log(user1);
 
                     group.members.push(member);
+
                     console.log("member pushed");
+
                     return group.save();
 
                 }
@@ -87,6 +94,7 @@ module.exports = function(db, mongoose, UserModel) {
             }
 
         });
+
         return deferred.promise;
     }
 

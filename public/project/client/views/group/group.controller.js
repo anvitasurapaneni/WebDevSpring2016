@@ -67,33 +67,43 @@
                     console.log("returned group");
                     console.log(response.data);
                vm.currentGroup = response.data;
-                    $rootScope.currentGroup = response.data;
+                //    $rootScope.currentGroup = response.data;
 
 
             });
         }
 
         function addMemberToGroup(user){
-          //  console.log("add member client side1");
-          //  console.log(user);
-         //   console.log($rootScope.currentGroup._id);
-         //    console.log("username"+user.username);
-            vm.userToComapreId = user._id;
-            console.log("compARAble user Id"+user._id);
-            console.log(user);
-            if(isUserAlreadyThere()){
+
+            var existingUsers1 = vm.currentGroup.members;
+
+            console.log(vm.currentGroup.members);
+            console.log(user._id);
+
+           // console.log("index"+existingUsers1.indexOf(user));
+          //  if(!(existingUsers1.indexOf(user) == -1))
+
+            /*if(isUserAlreadyThere(user)){
                 alert("can not add same user again");
             }
 
-else{
-            UserService.addMemberToGroup(user, $rootScope.currentGroup._id);
-            getCurrentGroup();
-            }
+            else{*/
+                UserService
+                    .addMemberToGroup(user, $rootScope.currentGroup._id)
+                    .then(
+                        function (response){
+                            console.log(response);
+                        }
+                    );
+
+                getCurrentGroup();
+
 
         }
 
         function isUserAlreadyThere(user){
-            var existingUsers = $rootScope.currentGroup.members;
+            getCurrentGroup();
+            var existingUsers = vm.currentGroup.members;
 
             for(i=0; i<existingUsers.length; i++){
                 console.log("compare");
@@ -130,6 +140,9 @@ else{
                         init();
                     }
                 });
+
+
+
 
 
             }}
