@@ -152,6 +152,20 @@
                 }
             })
 
+            .when("/group/:groupId/editGroup", {
+
+                templateUrl: "views/group/editGroup.view.html",
+                controller: "GroupController",
+                controllerAs: "model"
+            })
+            .when("/group/:groupIdV/viewGroup", {
+
+                templateUrl: "views/group/viewGroup.view.html",
+                controller: "GroupController",
+                controllerAs: "model"
+            })
+
+
 
 
 

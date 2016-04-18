@@ -38,7 +38,7 @@
     </tbody>
     <tr ng-repeat="groupA in model.AdminGroups">
         <td>
-            <h3>{{groupA.title}}</h3>
+            <a href="#group/{{groupA._id}}/editGroup"> <h3>{{groupA.title}}</h3> </a>
 
         </td>
 
@@ -71,7 +71,7 @@
         </tr>
         <tr ng-repeat="groupM in model.MemberGroups">
             <td>
-                <h3> {{groupM.title}}</h3>
+                <a href="#group/{{groupM._id}}/viewGroup"> <h3> {{groupM.title}}</h3> </a>
 
             </td>
             <td>

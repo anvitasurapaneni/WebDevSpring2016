@@ -15,6 +15,53 @@ module.exports = function(app, GroupModel, UserModel, uuid){
     app.delete("/api/project/user/group/:id", deleteGroupById);
     app.delete("/api/project/user/:userId/unfollow1/group/:groupId", deleteGroupFromCurrentMember);
     app.get("/api/project/group/members/:groupId", getMembersOfGroup);
+    app.put("/api/project/user/group/:groupId/title/:title", renameGroup);
+
+    //share note
+    app.post("/api/project/user/group/share/:groupId/note", shareNoteWithGroup);
+
+
+
+    function shareNoteWithGroup(req, res){
+        var note = req.body;
+        var groupId = req.params.groupId;
+        var group =  GroupModel.findGroupById(groupId);
+
+        GroupModel.shareNoteWithGroup(note, groupId)
+            .then (
+                function (group) {
+                    //   console.log(form);
+                    res.json (group);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+
+
+
+    }
+
+
+
+
+    function renameGroup(req,res){
+            var groupId = req.params.groupId;
+            var title = req.params.title;
+
+            var renameGroup = GroupModel.renameGroup(groupId, title)
+                .then(
+                    function (doc) {
+
+                        res.json(doc);
+                    },
+
+                    // send error if promise rejected
+                    function ( err ) {
+
+                        res.status(400).send(err);
+                    });
+        }
 
 
 

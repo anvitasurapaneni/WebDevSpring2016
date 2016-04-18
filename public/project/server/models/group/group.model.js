@@ -22,11 +22,38 @@ module.exports = function(db, mongoose, UserModel) {
         deleteCurrentMemberFromGroup: deleteCurrentMemberFromGroup,
         deleteGroupById: deleteGroupById,
         deleteGroupFromCurrentMember: deleteGroupFromCurrentMember,
-        getMembersByGroupMemberIds: getMembersByGroupMemberIds
+        getMembersByGroupMemberIds: getMembersByGroupMemberIds,
+        renameGroup: renameGroup,
+        shareNoteWithGroup: shareNoteWithGroup
 
     };
 
     return api;
+
+    function shareNoteWithGroup(note, groupId){
+        return   Group.findById(groupId)
+            .then(
+                function(group){
+                    group.receivesNotes.push(note);
+                    return group.save();
+
+                }
+            );
+    }
+
+
+
+    function renameGroup(groupId, newTitle) {
+
+        var deferred = q.defer();
+
+        return Group.update(
+            {_id: groupId},
+            {
+                title: newTitle
+            }
+        );
+    }
 
     function getMembersByGroupMemberIds(userIds){
 
@@ -142,13 +169,6 @@ module.exports = function(db, mongoose, UserModel) {
         return   Group.findById(groupId)
             .then(
                 function(group){
-                    //console.log("member before pushing");
-                    //console.log(member._id);
-                    //var userId = member._id;
-                    //var user1 = User.findById(userId);
-                    //console.log("test user 1");
-                    //console.log(user1);
-
                     group.members.push(userId);
 
                     console.log("member pushed");

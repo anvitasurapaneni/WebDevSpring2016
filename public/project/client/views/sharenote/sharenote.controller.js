@@ -50,10 +50,19 @@
 
         function shareNoteWithGroup(note, group){
             console.log("group length"+group.members.length);
+
+
+            NoteService.shareNoteWithGroup(note, group._id)
+                .then(function (response) {
+                console.log("response");
+                 });
+
             for(i=0; i< group.members.length; i++ ){
                 console.log(group.members[i]);
                 NoteService.shareNoteWithUser(note, group.members[i]);
             }
+
+
         }
 
 

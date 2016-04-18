@@ -22,6 +22,8 @@
             findNoteLikes: findNoteLikes,
             removeLikedNote: removeLikedNote,
             isNoteFavForUser: isNoteFavForUser,
+
+            //group
             createGroupForUser: createGroupForUser,
             addMemberToGroup: addMemberToGroup,
             getGroupById: getGroupById,
@@ -32,11 +34,17 @@
             getMemberGroups: getMemberGroups,
             deleteCurrentMemberFromGroup: deleteCurrentMemberFromGroup,
             deleteGroupFromCurrentMember: deleteGroupFromCurrentMember,
-            getMembersOfGroup: getMembersOfGroup
+            getMembersOfGroup: getMembersOfGroup,
+            renameGroup: renameGroup
 
         };
 
         return api;
+
+        function renameGroup(groupId, title){
+
+            return $http.put("/api/project/user/group/"+groupId+"/title/"+title);
+        }
 
         function getMembersOfGroup(groupId){
 

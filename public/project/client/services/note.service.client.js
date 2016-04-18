@@ -32,11 +32,33 @@
 
             findAllNotesReceivedByUser: findAllNotesReceivedByUser,
             shareNoteWithUser: shareNoteWithUser,
-            deleteReceivedNoteForUser: deleteReceivedNoteForUser
+            deleteReceivedNoteForUser: deleteReceivedNoteForUser,
+            shareNoteWithGroup: shareNoteWithGroup
+
 
         };
 
         return api;
+
+        function shareNoteWithGroup(note, groupId){
+
+
+            var deferred = $q.defer();
+
+            var url = "/api/project/user/group/share/:groupId/note";
+            url = url.replace(":groupId", groupId);
+
+            $http.post(url, note).success(function(response) {
+
+                deferred.resolve(response);
+            });
+
+            return deferred.promise;
+
+        }
+
+
+
 
         function findAllNotesReceivedByUser(userId){
             return $http.get("/api/project/user/"+userId+"/note");
