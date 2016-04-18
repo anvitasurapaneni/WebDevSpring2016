@@ -9,7 +9,7 @@ module.exports = function(app, uuid, db, mongoose) {
 
     var WidgetModel = require("./models/widgets/widget.model.server.js")(db, mongoose, NoteModel);
 
-    var GroupService = require("./services/group.service.server.js")(app, GroupModel, UserModel, uuid);
+    var GroupService = require("./services/group.service.server.js")(app, GroupModel, UserModel, NoteModel, uuid);
 
     var UserService = require("./services/user.service.server.js")(app, UserModel, NoteModel, uuid);
 
