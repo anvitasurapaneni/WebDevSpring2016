@@ -16,14 +16,85 @@ module.exports = function(db, mongoose, UserModel) {
         addMemberToGroup: addMemberToGroup,
         deleteMemberFromGroup: deleteMemberFromGroup,
         findAllGroups: findAllGroups,
-        userIsAdminOfGroup: userIsAdminOfGroup
+        userIsAdminOfGroup: userIsAdminOfGroup,
+        findGroupsByGroupIDs: findGroupsByGroupIDs,
+        userIsMemberOfGroup: userIsMemberOfGroup,
+        deleteCurrentMemberFromGroup: deleteCurrentMemberFromGroup,
+        deleteGroupById: deleteGroupById,
+        deleteGroupFromCurrentMember: deleteGroupFromCurrentMember,
+        getMembersByGroupMemberIds: getMembersByGroupMemberIds
+
     };
 
     return api;
 
+    function getMembersByGroupMemberIds(userIds){
+
+        var deferred = q.defer();
+
+        User.find({
+            _id: {$in: userIds}
+        }, function (err, users) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(users);
+                console.log("server side last step");
+                console.log(users);
+            }
+        });
+        return deferred.promise;
+    }
+
+
+
+    function deleteGroupById(groupId){
+
+        var deferred = q.defer();
+
+        Group.findByIdAndRemove(groupId, function (err, doc) {
+
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(doc);
+            }
+        });
+
+        return deferred.promise;
+    }
+
+    function findGroupsByGroupIDs (groupIDs) {
+
+        console.log(" in find groups model");
+        console.log(groupIDs);
+        var deferred = q.defer();
+
+        // find all movies
+        // whose imdb IDs
+        // are in imdbIDs array
+        Group.find({
+            _id: {$in: groupIDs}
+        }, function (err, groups) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(groups);
+                console.log("server side last step");
+                console.log(groups);
+            }
+        });
+        return deferred.promise;
+    }
+
     function userIsAdminOfGroup(adminId){
 
         return User.findById(adminId);
+    }
+
+    function userIsMemberOfGroup(memberId){
+
+        return User.findById(memberId);
     }
 
     function findAllGroups(){
@@ -31,18 +102,42 @@ module.exports = function(db, mongoose, UserModel) {
         return Group.find();
     }
 
-    function deleteMemberFromGroup(userId, groupId) {
+    function deleteGroupFromCurrentMember(groupId, userId){
+        console.log("c2");
+        return User.update(
+            { '_id': userId },
+            { '$pull': { 'userIsMemberOfGroup': { '$in' : [groupId] } } }
+        );
+
+    }
+
+
+    function deleteCurrentMemberFromGroup(userId, groupId) {
+        console.log("c1");
         return Group.update(
-            { _id: groupId },
-            { $pull: { 'members': { _id : userId } } }
+            { '_id': groupId },
+            { '$pull': { 'members': { '$in' : [userId] } } }
         );
     }
 
-    function addMemberToGroup(member, groupId){
 
-         console.log("server group model step2");
-         console.log(member);
-         console.log(groupId);
+    function deleteMemberFromGroup(userId, groupId) {
+        User.update(
+            { _id: userId },
+            { $pull: { 'userIsMemberOfGroup': { $in : [groupId] } } }
+        );
+
+        return Group.update(
+            { _id: groupId },
+            { $pull: { 'members': { $in : userId } } }
+        );
+    }
+
+    function addMemberToGroup(userId, groupId){
+
+        console.log("server group model step2");
+        console.log(userId);
+        console.log(groupId);
 
         return   Group.findById(groupId)
             .then(
@@ -54,7 +149,7 @@ module.exports = function(db, mongoose, UserModel) {
                     //console.log("test user 1");
                     //console.log(user1);
 
-                    group.members.push(member);
+                    group.members.push(userId);
 
                     console.log("member pushed");
 
@@ -63,6 +158,7 @@ module.exports = function(db, mongoose, UserModel) {
                 }
             );
     }
+
 
 
 

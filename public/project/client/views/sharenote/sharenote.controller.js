@@ -52,7 +52,7 @@
             console.log("group length"+group.members.length);
             for(i=0; i< group.members.length; i++ ){
                 console.log(group.members[i]);
-                shareNoteWithUser(note, group.members[i]);
+                NoteService.shareNoteWithUser(note, group.members[i]);
             }
         }
 

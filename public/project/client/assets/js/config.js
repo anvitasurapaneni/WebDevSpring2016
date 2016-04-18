@@ -135,8 +135,16 @@
                     checkLoggedIn: checkLoggedIn
                 }
             })
-            .when("/group", {
+            .when("/createGroup", {
                 templateUrl: "views/group/creategroup.view.html",
+                controller: "GroupController",
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
+            })
+            .when("/group", {
+                templateUrl: "views/group/group.view.html",
                 controller: "GroupController",
                 controllerAs: "model",
                 resolve: {

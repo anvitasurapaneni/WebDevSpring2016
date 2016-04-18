@@ -9,7 +9,7 @@ module.exports = function(mongoose) {
     var GroupSchema = mongoose.Schema({
         title: String,
         adminId: String,
-        members: [UserSchema]
+        members: [String]
 
     }, {collection: 'project.group'});
 

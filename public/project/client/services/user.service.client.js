@@ -25,12 +25,48 @@
             createGroupForUser: createGroupForUser,
             addMemberToGroup: addMemberToGroup,
             getGroupById: getGroupById,
+            deleteGroupById: deleteGroupById,
             deleteMemberFromGroup: deleteMemberFromGroup,
-            findAllGroups: findAllGroups
+            findAllGroups: findAllGroups,
+            getAdminGroups: getAdminGroups,
+            getMemberGroups: getMemberGroups,
+            deleteCurrentMemberFromGroup: deleteCurrentMemberFromGroup,
+            deleteGroupFromCurrentMember: deleteGroupFromCurrentMember,
+            getMembersOfGroup: getMembersOfGroup
 
         };
 
         return api;
+
+        function getMembersOfGroup(groupId){
+
+            return $http.get("/api/project/group/members/"+groupId);
+        }
+
+        function deleteGroupById(groupId) {
+
+            return $http.delete("/api/project/user/group/"+groupId);
+        }
+
+       function deleteGroupFromCurrentMember(groupId, userId) {
+
+           return $http.delete("/api/project/user/"+userId+"/unfollow1/group/"+groupId);
+       }
+
+
+        function deleteCurrentMemberFromGroup(userId, groupId) {
+
+            return $http.delete("/api/project/user/"+userId+"/unfollow/group/"+groupId);
+        }
+
+        function getMemberGroups(userId){
+            return $http.get("/api/project/group/member/"+userId);
+        }
+
+        function  getAdminGroups(userId){
+            return $http.get("/api/project/group/admin/"+userId);
+        }
+
 
         function findAllGroups(){
 
@@ -58,16 +94,17 @@
             return $http.get("/api/project/user/group/"+groupId);
         }
 
-        function addMemberToGroup(user, groupId){
+        function addMemberToGroup(userId, groupId){
 
 
             console.log("Adding member!");
-            console.log(user);
-            return $http.post("/api/project/group/"+groupId+"/member",user);
+            console.log(userId);
+
+            return $http.post("/api/project/group/"+groupId+"/user/"+userId);
         }
 
-        function createGroupForUser(group){
-            return $http.post("/api/project/group/user",group);
+        function createGroupForUser(userId, group){
+            return $http.post("/api/project/user/"+userId+"/group",group);
         }
 
 

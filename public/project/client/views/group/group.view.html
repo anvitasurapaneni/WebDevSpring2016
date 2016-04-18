@@ -1,7 +1,14 @@
 <div class="main col-sm-9 col-sm-offset-5 col-md-10 col-md-offset-2"
       ng-controller="GroupController as model">
+    <a href="#/createGroup">
+        <div style="position: absolute; top: 0; right: 0;">
+            <button class="btn btn-default"
+                    ng-click= "s =1" >
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </button>
+        </div></a>
 
-    <h1>Create Group</h1>
+    <h1>Groups Of User</h1>
  <h3  style="color: orange" ng-show="showrest==1">Group Name: {{model.group.title}}
 <button class="btn btn-default"
                                                                                                          ng-click="model.editGroupForUser(model.group); showrest = 1" >
@@ -13,27 +20,31 @@
 </div>
 
 
-<p>All groups of users</p>
+<p>All groups of users  </p>
+
 <br/>
-<br class="table-responsive darker padding-all-sides" >
-<h4>User Is Admin</h4>
+<div class="table-responsive darker padding-all-sides" >
+
+
 <div style="float: right; width: 40%">
-<table  class="table table-bordered table-striped"   border="3" style="border-collapse:collapse" ng-show="showrest==1">
+    <h4>User Is Admin</h4>
+<table  class="table table-bordered table-striped"   border="3" style="border-collapse:collapse" >
 
     <tbody>
     <tr>
         <th>Group Name</th>
         <th>Action</th>
     </tr>
-    <tr ng-repeat="group in model.userIsAdminGroup">
+    </tbody>
+    <tr ng-repeat="groupA in model.AdminGroups">
         <td>
-            <h3>{{group.title}}</h3>
+            <h3>{{groupA.title}}</h3>
 
         </td>
+
         <td>
             <button class="btn btn-default"
-                    ng-click="model.deleteGroup($index)"
-            >
+                    ng-click="model.deleteGroup($index)">
                         <span>
                             Delete Group
                         </span>
@@ -43,28 +54,29 @@
 
         </td>
     </tr>
-    </tbody>
+
 </table>
     </div>
 
-<br>
-<h4>User is member</h4>
+
+
 <div style="float: left; width: 40%">
-    <table  class="table table-bordered table-striped"   border="3" style="border-collapse:collapse" ng-show="showrest==1">
+    <h4>User is member</h4>
+    <table  class="table table-bordered table-striped"   border="3" style="border-collapse:collapse" >
 
         <tbody>
         <tr>
             <th>Group Name</th>
             <th>Action</th>
         </tr>
-        <tr ng-repeat="group1 in model.userIsmemberGroup">
+        <tr ng-repeat="groupM in model.MemberGroups">
             <td>
-                <h3>{{group1.title}}</h3>
+                <h3> {{groupM.title}}</h3>
 
             </td>
             <td>
                 <button class="btn btn-default"
-                        ng-click="model.deleteMemberFromCurrentGroup($index, group1)"
+                        ng-click="model.LeaveGroup($index)"
                 >
                         <span>
                             Leave Group
@@ -79,7 +91,7 @@
     </table>
 </div>
 
-
+</div>
 
 
 </div>
