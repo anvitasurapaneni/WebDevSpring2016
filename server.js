@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var bodyParser    = require('body-parser');
-var multer        = require('multer');
+//var multer        = require('multer');
 var uuid = require('node-uuid');
 var cookieParser  = require('cookie-parser');
 var session       = require('express-session');
@@ -21,7 +21,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.bodyParser({ uploadDir: './public/uploads' }));
-app.use(multer());
+//app.use(multer());
 
 
 app.use(cookieParser());
