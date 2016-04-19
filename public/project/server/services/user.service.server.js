@@ -1,7 +1,19 @@
 /**
  * Created by paulomimahidharia on 3/16/16.
  */
+
+//var bcrypt = require("bcrypt-nodejs");
+var passport         = require('passport');
+var LocalStrategy    = require('passport-local').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
+
 module.exports = function(app, UserModel, NoteModel, uuid){
+
+    var auth = authorized;
+    app.post  ('/api/project/login', passport.authenticate('local'), login);
+
+    //creates a new user embedded in the body of the request, and responds with an array of all users
+    app.post("/api/project/user", createUser);
 
     //responds with an array of all users
     app.get("/api/project/user", findAllUsers);
@@ -12,9 +24,6 @@ module.exports = function(app, UserModel, NoteModel, uuid){
     //updates an existing user whose id property is equal to the id path parameter.
     //The new properties are set to the values in the user object embedded in the HTTP request. Responds with an array of all users
     app.put("/api/project/user/:id", updateUser);
-
-    //creates a new user embedded in the body of the request, and responds with an array of all users
-    app.post("/api/project/user", createUser);
 
     //removes an existing user whose id property is equal to the id path parameter.
     // Responds with an array of all users
@@ -32,6 +41,87 @@ module.exports = function(app, UserModel, NoteModel, uuid){
     app.delete("/api/project/user/:userId/note/:noteId", removeLikedNote);
 
     app.get("/api/project/user/:userId/note/:noteId/favorite", isNoteFavForUser);
+
+
+
+    //Facebook authentication!
+    app.get   ('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+    app.get('/auth/facebook/callback',
+         passport.authenticate('facebook', {
+             successRedirect: '/project/client/#/profile',
+             failureRedirect: '/project/client/#/login'
+         }
+         )
+    );
+
+    var facebookConfig = {
+        clientID        : "219912225053962",
+        clientSecret    : "a2a3e07c2744382c24bcbacdcd3fafa0",
+        //callbackURL     : "http://webdev2016-mahidhariapaulom.rhcloud.com/auth/facebook/callback"
+        callbackURL     : "http://localhost:3000/auth/facebook/callback"
+    };
+
+    passport.use(new FacebookStrategy(facebookConfig, facebookStrategy));
+    passport.use(new LocalStrategy(localStrategy));
+    passport.serializeUser(serializeUser);
+    passport.deserializeUser(deserializeUser);
+
+
+    function login(req, res) {
+
+        var user = req.user;
+        res.json(user);
+    }
+
+    function serializeUser(user, done) {
+        done(null, user);
+    }
+
+    function deserializeUser(user, done) {
+
+        UserModel
+            .findUserById(user._id)
+            .then(
+                function(user){
+                    done(null, user);
+                },
+                function(err){
+                    done(err, null);
+                }
+            );
+    }
+
+    function localStrategy(username, password, done) {
+        UserModel
+            .findUserByCredentials({username: username, password: password})
+            .then(
+                function(user) {
+                    if(user) {
+
+                        return done(null, user);
+
+                    } else {
+
+                        return done(null, false);
+                    }
+                },
+                function(err) {
+
+                    if (err) { return done(err); }
+                }
+            );
+    }
+
+    function loggedIn(req, res) {
+
+        res.send(req.isAuthenticated() ? req.user : '0');
+    }
+
+    function logout(req, res) {
+
+        req.logOut();
+        res.send(200);
+    }
 
 
     function isNoteFavForUser(req,res){
@@ -108,7 +198,9 @@ module.exports = function(app, UserModel, NoteModel, uuid){
 
         if(username != null && password!= null) {
 
-            var credentials = {username: username, password: password};
+            var credentials = {username: username,
+                               password: password};
+
             findUserByCredentials(credentials, req, res);
         }
 
@@ -155,16 +247,6 @@ module.exports = function(app, UserModel, NoteModel, uuid){
             );
     }
 
-    function loggedIn(req, res) {
-
-        res.json(req.session.currentUser);
-    }
-
-    function logout(req, res) {
-
-        req.session.destroy();
-        res.send(200);
-    }
 
     function findUserByUsername(req, res){
         var username = req.body;
@@ -186,7 +268,6 @@ module.exports = function(app, UserModel, NoteModel, uuid){
     function findUserById(req, res) {
 
         var userId = req.params.UserId;
-
 
         var user = UserModel.findUserById(userId)
             .then(
@@ -222,25 +303,50 @@ module.exports = function(app, UserModel, NoteModel, uuid){
     }
 
     function createUser(req,res){
-        var user = req.body;
 
-        user = UserModel.createUser(user)
-            // handle model promise
+        var newUser = req.body;
+
+        UserModel.findUserByUsername(newUser.username)
             .then(
 
-                // login user if promise resolved
-                function ( doc ) {
+                function(user){
 
-                    req.session.currentUser = doc;
-                    res.json(doc);
+                    if(user) {
+
+                        res.json(null);
+                    } else {
+
+                        return UserModel.createUser(newUser);
+                    }
                 },
+                function(err){
 
-                // send error if promise rejected
-                function ( err ) {
+                    res.status(400).send(err);
+                }
+            )
+            .then(
+                function(user){
+
+                    if(user){
+
+                        req.login(user, function(err) {
+
+                            if(err) {
+
+                                res.status(400).send(err);
+                            } else {
+
+                                res.json(user);
+                            }
+                        });
+                    }
+                },
+                function(err){
 
                     res.status(400).send(err);
                 }
             );
+
     }
 
     function deleteUserById(req, res){
@@ -263,4 +369,51 @@ module.exports = function(app, UserModel, NoteModel, uuid){
                 }
             );
     }
+
+    function authorized (req, res, next) {
+
+        if (!req.isAuthenticated()) {
+
+            res.send(401);
+        } else {
+            next();
+        }
+    }
+
+    function facebookStrategy(token, refreshToken, profile, done) {
+        UserModel
+            .findUserByFacebookId(profile.id)
+            .then(
+                function(user) {
+                    if(user) {
+                        return done(null, user);
+                    } else {
+                        var names = profile.displayName.split(" ");
+                        var newFacebookUser = {
+                            lastName:  names[1],
+                            firstName: names[0],
+                            email:     profile.emails ? profile.emails[0].value:"",
+                            facebook: {
+                                id:    profile.id,
+                                token: token
+                            }
+                        };
+                        return UserModel.createUser(newFacebookUser);
+                    }
+                },
+                function(err) {
+                    if (err) { return done(err); }
+                }
+            )
+            .then(
+                function(user){
+                    return done(null, user);
+                },
+                function(err){
+                    if (err) { return done(err); }
+                }
+            );
+    }
+
+
 };

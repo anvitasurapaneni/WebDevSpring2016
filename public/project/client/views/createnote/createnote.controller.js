@@ -1,4 +1,7 @@
 /**
+ * Created by paulomimahidharia on 4/15/16.
+ */
+/**
  * Created by paulomimahidharia on 3/25/16.
  */
 (function() {
@@ -12,26 +15,53 @@
 
         function init() {
 
+            NoteService
+                .findAllNoteBooksForUser($rootScope.currentUser._id)
+                .then(
+                    function (response){
+                        vm.notebooks = response.data;
+                    }
+                );
+
         }
         init();
 
         vm.addNote = addNote;
 
-       function addNote(note){
-           NoteService.createNoteForUser($rootScope.currentUser._id, note)
-               .then(
-                   function(response) {
-                       //console.log("oyee");
+        function addNote(note){
 
-                       console.log(response.data._id);
+            console.log(note);
 
-                       $location.url("/editnote/"+response.data._id);
-                       //return FormService.findAllFormsForUser($rootScope.currentUser._id)
-                   });
+            var currentUser = $rootScope.currentUser;
+            var currentUserId = currentUser._id;
 
+            note.createdBy = currentUser;
+            note.createdDate = new Date();
 
-           vm.widget = {};
-       }
+            NoteService
+                .selectNoteBookById(note.notebook)
+                .then(
+                    function(response){
+
+                        var createNote = {
+                            createdBy : note.createdBy,
+                            createdDate : note.createdDate,
+                            title : note.title,
+                            notebook : response.data.name
+                        };
+
+                        return NoteService
+                            .createNoteForUser(currentUserId, createNote);
+                    }
+                )
+                .then(
+                    function(response) {
+
+                        $location.url("/editnote/"+response.data._id);
+
+                    });
+            vm.widget = {};
+        }
 
     }
 })();

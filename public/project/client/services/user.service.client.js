@@ -7,7 +7,7 @@
         .module("NoteSpace")
         .factory("UserService", UserService);
 
-    function UserService($http, $rootScope, $q){
+    function UserService($http, $rootScope){
 
         var api = {
             findUserByCredentials: findUserByCredentials,
@@ -22,99 +22,12 @@
             findNoteLikes: findNoteLikes,
             removeLikedNote: removeLikedNote,
             isNoteFavForUser: isNoteFavForUser,
-
-            //group
-            createGroupForUser: createGroupForUser,
-            addMemberToGroup: addMemberToGroup,
-            getGroupById: getGroupById,
-            deleteGroupById: deleteGroupById,
-            deleteMemberFromGroup: deleteMemberFromGroup,
-            findAllGroups: findAllGroups,
-            getAdminGroups: getAdminGroups,
-            getMemberGroups: getMemberGroups,
-            deleteCurrentMemberFromGroup: deleteCurrentMemberFromGroup,
-            deleteGroupFromCurrentMember: deleteGroupFromCurrentMember,
-            getMembersOfGroup: getMembersOfGroup,
-            renameGroup: renameGroup
+            login: login,
+            logout: logout
 
         };
 
         return api;
-
-        function renameGroup(groupId, title){
-
-            return $http.put("/api/project/user/group/"+groupId+"/title/"+title);
-        }
-
-        function getMembersOfGroup(groupId){
-
-            return $http.get("/api/project/group/members/"+groupId);
-        }
-
-        function deleteGroupById(groupId) {
-
-            return $http.delete("/api/project/user/group/"+groupId);
-        }
-
-       function deleteGroupFromCurrentMember(groupId, userId) {
-
-           return $http.delete("/api/project/user/"+userId+"/unfollow1/group/"+groupId);
-       }
-
-
-        function deleteCurrentMemberFromGroup(userId, groupId) {
-
-            return $http.delete("/api/project/user/"+userId+"/unfollow/group/"+groupId);
-        }
-
-        function getMemberGroups(userId){
-            return $http.get("/api/project/group/member/"+userId);
-        }
-
-        function  getAdminGroups(userId){
-            return $http.get("/api/project/group/admin/"+userId);
-        }
-
-
-        function findAllGroups(){
-
-            return $http.get("/api/project/group");
-        }
-
-        function deleteMemberFromGroup(userId, groupId) {
-
-            var deferred = $q.defer();
-
-            var url = "/api/project/user/:userId/group/:groupId";
-            url = url.replace(":userId", userId);
-            url = url.replace(":groupId", groupId);
-
-            $http.delete(url).success(function(response) {
-                deferred.resolve(response);
-            });
-
-            return deferred.promise;
-        }
-
-
-        function getGroupById(groupId){
-
-            return $http.get("/api/project/user/group/"+groupId);
-        }
-
-        function addMemberToGroup(userId, groupId){
-
-
-            console.log("Adding member!");
-            console.log(userId);
-
-            return $http.post("/api/project/group/"+groupId+"/user/"+userId);
-        }
-
-        function createGroupForUser(userId, group){
-            return $http.post("/api/project/user/"+userId+"/group",group);
-        }
-
 
         function isNoteFavForUser(userId, noteId){
 
@@ -174,6 +87,16 @@
         function findNoteLikes(userId){
 
             return $http.get("/api/project/user/"+userId+"/notes", findNoteLikes);
+        }
+
+        function login(user) {
+
+            return $http.post("/api/project/login", user);
+        }
+
+        function logout(){
+
+            return $http.post("/api/project/user/logout")
         }
 
 

@@ -1,9 +1,6 @@
 /**
- * Created by anvitasurapaneni on 2/3/16.
+ * Created by paulomimahidharia on 4/17/16.
  */
-
-
-
 
 (function() {
 
@@ -11,84 +8,119 @@
         .module("NoteSpace")
         .controller("YouTubeController", YouTubeController);
 
-    function YouTubeController($http, $scope) {
-        //$(init);
-        //var $MovieName;
-        //var $SearchMovieTitle;
-        //var $tbody;
+    function YouTubeController($http, $sce, WidgetService, $routeParams, $location) {
 
-        $scope.selectVideo = selectVideo;
-        $scope.trustSrcurl = function(data)
-        {
-            return $sce.trustAsResourceUrl(data);
-        }
+        var vm =this;
 
-        function selectVideo(url){
-            $scope.slelectedUrl = url;
-            $scope.slelectedUrl.link = url.link;
+        vm.SafeYoutubeUrl = SafeYoutubeUrl;
+        vm.addVideo = addVideo;
+        vm.searchVideo = searchVideo;
 
-            console.log(url);
+        var noteId = $routeParams.noteId;
+        var widgetId = $routeParams.widgetId;
+        var keyword;
 
-        }
+        function init(){
 
-        function init() {
-           var $searchurl = "https://www.googleapis.com/youtube/v3/search?part=snippet" +
-               "&maxResults=5&q=CATEGORY&key=AIzaSyBId_35KFQKeZoRy-aRDZxma65PqdmkUI8";
+            if(widgetId){
 
-            $VideoName = $("#VideoName");
-            console.log($VideoName);
-            $SearchVideoTitle = $("#SearchVideoTitle");
-            $SearchVideoTitle.click(searchVideo);
+                console.log(widgetId);
 
-            function searchVideo(){
-                var category = $VideoName.val();
-                var url = $searchurl.replace("CATEGORY", category);
-                console.log("new url:");
-                console.log(url);
+                //Edit mode
+                WidgetService.getWidgetById(noteId, widgetId)
+                    .then(
+                        function(response){
 
+                            var widget = response.data;
+                            vm.widget = widget;
 
-                $http.get(url)
-                    .success(callback);
+                            searchVideo(widget);
+                        }
+                    );
+
             }
-
-
-
-
-
 
         }
         init();
 
-        function callback(response) {
+        function searchVideo(widget){
+            console.log(widget);
 
-            var url_temp = "http://www.youtube.com/embed/ID?autoplay=1";
-            $scope.data = response.items;
-            console.log("Data");
-            console.log($scope.data);
-            var data = $scope.data;
-            var url_link = {};
-            var urls = [];
-            for(var i =0; i<data.length; i++){
-                var newid = data[i].id.videoId;
-                var title = data[i].snippet.title;
-                console.log(newid);
+            keyword = widget.youtube.keyword;
+            console.log(keyword);
 
-                var v1 = url_temp.replace("ID", newid);
-                console.log("v1:");
-                console.log("title:");
-                console.log(title);
-                console.log(v1);
-             //   url_link = {"link": v1}
-             //   console.log(url_link);
-               // urls.push(url_link);
-                urls.push(v1);
-                console.log(urls);
-                url_temp = "http://www.youtube.com/embed/ID?autoplay=1"
-                $scope.urls = urls;
-            }
+            $http.get("https://www.googleapis.com/youtube/v3/search?part=snippet" +
+                "&maxResults=10&q="+keyword+"&key=AIzaSyBId_35KFQKeZoRy-aRDZxma65PqdmkUI8")
+                .then(
+                    function(response){
+                        console.log(response);
+
+                        var videos = response.data.items;
+
+                        console.log(videos);
+
+                        var videoURLs =[];
+
+                        for(var i in videos){
+                            videoURLs.push("http://www.youtube.com/embed/"+videos[i].id.videoId);
+                        }
+
+                        document.getElementById('searchResults').style.display = 'inline';
+
+                        vm.urls = videoURLs;
+                    },
+                    function (err){
+                        console.log(err);
+                    }
+                );
         }
-console.log($scope.urls);
+
+
+
+        function addVideo($index){
+
+            var widgetURL = vm.urls[$index];
+
+            var widget = {
+                widgetType : "YOUTUBE",
+                youtube : {
+                    keyword: keyword,
+                    url: widgetURL
+                }
+            };
+
+            if(widgetId){
+
+                //Update widget
+
+                WidgetService.updateWidget(noteId, widgetId, widget)
+                    .then(
+                        function(response){
+                            $location.url("/editnote/"+noteId);
+                        }
+                    );
+
+            }
+            else {
+
+                //Add Widget
+
+                WidgetService.addWidget(noteId, widget)
+                    .then(
+                        function(response){
+                            $location.url("/editnote/"+noteId);
+                        }
+                    );
+            }
+
+
+
+        }
+
+        function  SafeYoutubeUrl(url){
+
+            return $sce.trustAsResourceUrl(url);
+        }
+
     }
-
-
 })();

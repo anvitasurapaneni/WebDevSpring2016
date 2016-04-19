@@ -2,15 +2,18 @@
  * Created by anvitasurapaneni on 4/15/16.
  */
 
-// var notebooks = require("./notebook.mock.json");
+
 var q = require("q");
+
 module.exports = function(db, mongoose, UserModel) {
+
     var GroupSchema = require("./group.schema.server.js")(mongoose);
     var Group = mongoose.model('Group', GroupSchema);
 
     var User = UserModel.getMongooseModel();
 
     var api = {
+
         createGroupForUser: createGroupForUser,
         findGroupById :findGroupById,
         addMemberToGroup: addMemberToGroup,
@@ -24,14 +27,24 @@ module.exports = function(db, mongoose, UserModel) {
         deleteGroupFromCurrentMember: deleteGroupFromCurrentMember,
         getMembersByGroupMemberIds: getMembersByGroupMemberIds,
         renameGroup: renameGroup,
-        shareNoteWithGroup: shareNoteWithGroup
+        shareNoteWithGroup: shareNoteWithGroup,
+        deleteNoteFromGroup: deleteNoteFromGroup
 
     };
 
     return api;
 
+    function deleteNoteFromGroup(noteId, groupId){
+
+        return Group.update(
+            { _id: groupId },
+            { $pull: { 'receivesNotes': { _id : noteId } } }
+        );
+    }
+
     function shareNoteWithGroup(note, groupId){
-        return   Group.findById(groupId)
+
+        return Group.findById(groupId)
             .then(
                 function(group){
                     group.receivesNotes.push(note);
@@ -40,8 +53,6 @@ module.exports = function(db, mongoose, UserModel) {
                 }
             );
     }
-
-
 
     function renameGroup(groupId, newTitle) {
 
@@ -61,19 +72,17 @@ module.exports = function(db, mongoose, UserModel) {
 
         User.find({
             _id: {$in: userIds}
-        }, function (err, users) {
-            if (err) {
-                deferred.reject(err);
-            } else {
-                deferred.resolve(users);
-                console.log("server side last step");
-                console.log(users);
-            }
+        },
+            function (err, users) {
+                if (err) {
+                    deferred.reject(err);
+                } else {
+                    deferred.resolve(users);
+                }
         });
+
         return deferred.promise;
     }
-
-
 
     function deleteGroupById(groupId){
 

@@ -13,7 +13,7 @@ module.exports = function(mongoose) {
         description: String,
         notes: [NoteSchema],
         createdBy: String,
-        createdDate: String,
+        createdDate: String
         // collection property set
         // collection name to 'user'
     }, {collection: 'project.notebook'});

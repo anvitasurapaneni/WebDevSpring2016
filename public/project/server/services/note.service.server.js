@@ -13,7 +13,7 @@ module.exports = function(app, NoteModel, NotebookModel, UserModel, uuid) {
     app.put("/api/project/note/:noteId", updateNoteById);
     app.post("/api/project/user/:userId/note", createNoteForUser);
     app.post("/api/project/user/:userId/note/:noteId", userLikesNote);
-    app.delete("/api/project/user/:userId/note/:noteId", removeLikedUser);
+    app.delete("/api/project/note/:noteId/user/:userId", removeLikedUser);
 
     //Notebook api calls
     app.get("/api/project/user/:userId/notebook", findAllNoteBooksForUser);
@@ -22,106 +22,26 @@ module.exports = function(app, NoteModel, NotebookModel, UserModel, uuid) {
     app.put("/api/project/notebook/:NBId", updateNoteBookById);
     app.post("/api/project/user/:userId/notebook", addNoteBookForUser);
 
-    // share api calls
+    //Share api calls
     app.post("/api/project/user/share/:userId/note", shareNoteWithUser);
     app.get("/api/project/user/:userId/note/received", findAllNotesReceivedByUser);
     app.get("/api/project/user/:userId/note/receive/:noteId", userReceivesNote);
     app.delete("/api/project/user/share/:userId/note/:noteId", deleteReceivedNoteForUser);
 
 
-    function deleteReceivedNoteForUser(req, res){
-
-        var userId = req.params.userId;
-        var noteId = req.params.noteId;
-
-        NoteModel.deleteReceivedNoteForUser(noteId, userId)
-            .then (
-                function (stats) {
-                    res.send(200);
-                },
-                function (err) {
-                    res.status(400).send(err);
-                }
-            );
-
-
-    }
-
-    function shareNoteWithUser(req, res){
-        console.log("sharing note with user");
-
-        var note = req.body;
-        var userId = req.params.userId;
-        console.log(note);
-        console.log(userId);
-      var user =  UserModel.findUserById(userId);
-        console.log(user);
-
-        NoteModel.shareNoteWithUser(note, userId)
-            .then (
-                function (user) {
-                 //   console.log(form);
-                    res.json (user);
-                },
-                function (err) {
-                    res.status(400).send(err);
-                }
-            );
-
-
-
-    }
-
-
-
-    function findAllNotesReceivedByUser(req,res){
-        var userId = req.params.userId;
-        res.json(NoteModel.findAllNotesReceivedByUser(userId));
-    }
-
-
-    function userReceivesNote(req, res) {
-        var note  = req.body;
-        var userId = req.params.userId;
-        var noteId = req.params.noteId;
-        var newNote;
-
-        NoteModel
-            .userReceivesNote(userId, note)
-            // add user to note likes
-            .then(
-                function (note) {
-                    return UserModel.userReceivesNote(userId, note);
-                },
-                function (err) {
-                    res.status(400).send(err);
-                }
-            )
-            // add movie to user likes
-            .then(
-                function (user) {
-                    res.json(user);
-                },
-                function (err) {
-                    res.status(400).send(err);
-                }
-            );
-    }
-
-
-
-
     //Note functions
 
 
     function removeLikedUser(req, res) {
+
         var note  = req.body;
         var userId = req.params.userId;
         //console.log(userId);
         var noteId = req.params.noteId;
         var newNote;
 
-        NoteModel.removeLikedNote(userId, noteId)
+        NoteModel
+            .removeLikedUser(userId, noteId)
             .then(
                 function (stats) {
                     console.log(stats);
@@ -135,6 +55,7 @@ module.exports = function(app, NoteModel, NotebookModel, UserModel, uuid) {
 
 
     function userLikesNote(req, res) {
+
         var note  = req.body;
         var userId = req.params.userId;
         var noteId = req.params.noteId;
@@ -165,11 +86,13 @@ module.exports = function(app, NoteModel, NotebookModel, UserModel, uuid) {
 
 
     function findAllNotesLikedByUser(req, res){
+
         var userId = req.params.userId;
         res.json(NoteModel.findAllNotesLikedByUser(userId));
     }
 
     function deleteNoteById(req, res){
+
         var noteId = req.params.noteId;
 
         NoteModel.deleteNoteById(noteId)
@@ -188,6 +111,7 @@ module.exports = function(app, NoteModel, NotebookModel, UserModel, uuid) {
     }
 
     function findAllNotesForUser(req, res){
+
         var userId = req.params.userId;
 
         NoteModel.findAllNotesForUser(userId)
@@ -206,8 +130,9 @@ module.exports = function(app, NoteModel, NotebookModel, UserModel, uuid) {
     }
 
     function findNoteById(req, res){
+
         var noteId = req.params.noteId;
-        //res.send(NoteModel.selectNoteById(noteId));
+
         NoteModel.findNoteById(noteId)
             .then(
                 function (doc) {
@@ -223,12 +148,8 @@ module.exports = function(app, NoteModel, NotebookModel, UserModel, uuid) {
             );
     }
 
-    function findAllNoteBooksForUser(req, res){
-        var userId = req.params.userId;
-        res.json(NotebookModel.findAllNoteBooksForUser(userId));
-    }
-
     function updateNoteById(req, res){
+
         var noteId = req.params.noteId;
         var newNote = req.body;
 
@@ -272,8 +193,8 @@ module.exports = function(app, NoteModel, NotebookModel, UserModel, uuid) {
 
     //Notebook functions
 
-
     function findAllNoteBooksForUser(req, res){
+
         var userId = req.params.userId;
 
         NotebookModel.findAllNoteBooksForUser(userId)
@@ -291,11 +212,8 @@ module.exports = function(app, NoteModel, NotebookModel, UserModel, uuid) {
             );
     }
 
-
-
-
-
     function deleteNotebookById(req, res){
+
         var NBId = req.params.NBId;
 
         NotebookModel.deleteNotebookById(NBId)
@@ -313,15 +231,12 @@ module.exports = function(app, NoteModel, NotebookModel, UserModel, uuid) {
             );
     }
 
-
-
-
-
-
     function selectNoteBookById(req, res){
 
         var NBId = req.params.NBId;
-        NotebookModel.selectNoteBookById(NBId) .then (
+
+        NotebookModel.selectNoteBookById(NBId)
+            .then (
             function (NB) {
                 res.json (NB);
             },
@@ -331,17 +246,13 @@ module.exports = function(app, NoteModel, NotebookModel, UserModel, uuid) {
         );
     }
 
-
-
-
     function updateNoteBookById(req, res){
 
         var NBId = req.params.NBId;
         var newNB = req.body;
-        console.log(NBId);
-        console.log(newNB);
 
-        NotebookModel.updateNoteBookById(NBId, newNB).then (
+        NotebookModel.updateNoteBookById(NBId, newNB)
+            .then (
             function (NB) {
                 console.log(NB);
                 res.json (NB);
@@ -350,31 +261,10 @@ module.exports = function(app, NoteModel, NotebookModel, UserModel, uuid) {
                 res.status(400).send(err);
             }
         );
-
-
     }
 
+    function  addNoteBookForUser(req, res){
 
-
-
-
-
-
-
-
-
-
-
-    /*  {
-     //console.log("reached server side");
-     var NBId = req.params.NBId;
-     //console.log(NBId);
-     var newNB = req.body;
-     //console.log(newNB);
-     res.json(NotebookModel.updateNoteBookById(NBId, newNB));
-     } */
-
-    function  addNoteBookForUser(req, res){
         var userId = req.params.userId;
         var notebook = req.body;
 
@@ -384,7 +274,7 @@ module.exports = function(app, NoteModel, NotebookModel, UserModel, uuid) {
         NotebookModel.createNotebook(notebook)
             .then(
                 function (doc) {
-                    //console.log(doc);
+
                     res.json(doc);
                 },
 
@@ -394,9 +284,80 @@ module.exports = function(app, NoteModel, NotebookModel, UserModel, uuid) {
                     res.status(400).send(err);
                 }
             );
+    }
+
+    //Share Note Function
+    function deleteReceivedNoteForUser(req, res){
+
+        var userId = req.params.userId;
+        var noteId = req.params.noteId;
+
+        NoteModel.deleteReceivedNoteForUser(noteId, userId)
+            .then (
+                function (stats) {
+                    res.send(200);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+    function shareNoteWithUser(req, res){
+        console.log("sharing note with user");
+
+        var note = req.body;
+        var userId = req.params.userId;
+
+        var user =  UserModel.findUserById(userId);
+        console.log(user);
+
+        NoteModel.shareNoteWithUser(note, userId)
+            .then (
+                function (user) {
+                    res.json (user);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+
+    }
+
+    function findAllNotesReceivedByUser(req,res){
+
+        var userId = req.params.userId;
+
+        res.json(NoteModel.findAllNotesReceivedByUser(userId));
+
+    }
 
 
+    function userReceivesNote(req, res) {
+        var note  = req.body;
+        var userId = req.params.userId;
+        var noteId = req.params.noteId;
+        var newNote;
 
-        //      res.json(NotebookModel.addNoteBookForUser(userId, newNB));
+        NoteModel
+            .userReceivesNote(userId, note)
+            // add user to note likes
+            .then(
+                function (note) {
+                    return UserModel.userReceivesNote(userId, note);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            )
+            // add movie to user likes
+            .then(
+                function (user) {
+                    res.json(user);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
     }
 };

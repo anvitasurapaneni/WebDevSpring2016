@@ -12,7 +12,10 @@
             .when("/home", {
                 templateUrl: "views/home/home.view.html",
                 controller: "HomeController",
-                controllerAs : "model"
+                controllerAs : "model",
+                resolve: {
+                    getLoggedIn: getLoggedIn
+                }
             })
             .when("/header", {
                 templateUrl: "views/header/header.view.html",
@@ -22,20 +25,50 @@
             .when("/note/:noteId/text", {
                 templateUrl: "views/widgets/text/text.view.html",
                 controller: "TextEditorController",
-                controllerAs : "model"
+                controllerAs : "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
             })
             .when("/note/:noteId/text/:widgetId", {
-                templateUrl: "views/widgets/text/text.view.html",
+                templateUrl: "views/widgets/text/edittext.view.html",
                 controller: "TextEditorController",
-                controllerAs : "model"
+                controllerAs : "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
             })
-            .when("/map", {
+            .when("/note/:noteId/map", {
                 templateUrl: "views/widgets/googlemap/map.view.html",
-                controller: "MapController"
+                controller: "MapController",
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
             })
-            .when("/fileupload", {
+            .when("/note/:noteId/map/:widgetId", {
+                templateUrl: "views/widgets/googlemap/editmap.view.html",
+                controller: "MapController",
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
+            })
+            .when("/note/:noteId/fileupload", {
                 templateUrl: "views/widgets/fileupload/fileupload.view.html",
-                controller: "myCtrl"
+                controller: "FileUploadController",
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
+            })
+            .when("/note/:noteId/fileupload/:widgetId", {
+                templateUrl: "views/widgets/fileupload/fileupload.view.html",
+                controller: "FileUploadController",
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
             })
             .when("/note", {
                 templateUrl: "views/note/note.view.html",
@@ -61,20 +94,64 @@
                     checkLoggedIn: checkLoggedIn
                 }
             })
-            .when("/todo", {
+            .when("/previewnote/:noteId", {
+                templateUrl: "views/createnote/previewnote.view.html",
+                controller: "EditNoteController",
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
+            })
+            .when("/note/:noteId/todo", {
                 templateUrl: "views/widgets/todoWidget/todoWidget.view.html",
-                controller: "toDoController"
+                controller: "ToDoController",
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
             })
-            .when("/image", {
+            .when("/note/:noteId/todo/:widgetId", {
+                templateUrl: "views/widgets/todoWidget/todoWidget.view.html",
+                controller: "ToDoController",
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
+            })
+            .when("/note/:noteId/image", {
                 templateUrl: "views/widgets/imageWidget/imageWidget.view.html",
-                controller: "imageController"
+                controller: "ImageController",
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
             })
-            .when("/youtube", {
+            .when("/note/:noteId/image/:widgetId", {
+                templateUrl: "views/widgets/imageWidget/imageWidget.view.html",
+                controller: "ImageController",
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
+            })
+            .when("/note/:noteId/youtube", {
                 templateUrl: "views/widgets/youtubeApiWidget/youtubeApiWidget.view.html",
-                controller: "YouTubeController"
+                controller: "YouTubeController",
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
+            })
+            .when("/note/:noteId/youtube/:widgetId", {
+                templateUrl: "views/widgets/youtubeApiWidget/youtubeApiWidget.view.html",
+                controller: "YouTubeController",
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
             })
             .when("/notebook", {
-                templateUrl: "views/notebook/notebook.view.html",
+                templateUrl: "views//notebook/notebook.view.html",
                 controller: "noteBookController",
                 controllerAs: "model",
                 resolve: {
@@ -109,7 +186,8 @@
             })
             .when("/sidebar", {
                 templateUrl: "views/sidebar/sidebar.view.html",
-                controller: "SidebarController",
+                controller: "HeaderController",
+                controllerAs : "model",
                 resolve: {
                     checkLoggedIn: checkLoggedIn
                 }
@@ -125,7 +203,10 @@
             .when("/inbox", {
                 templateUrl: "views/inbox/inbox.view.html",
                 controller: "InboxController",
-                controllerAs : "model"
+                controllerAs : "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
             })
             .when("/sharenote/:noteId", {
                 templateUrl: "views/sharenote/sharenote.view.html",
@@ -156,15 +237,20 @@
 
                 templateUrl: "views/group/editGroup.view.html",
                 controller: "GroupController",
-                controllerAs: "model"
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
             })
             .when("/group/:groupIdV/viewGroup", {
 
                 templateUrl: "views/group/viewGroup.view.html",
                 controller: "GroupController",
-                controllerAs: "model"
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
             })
-
 
 
 
@@ -174,7 +260,7 @@
             });
     }
 
-    function checkLoggedIn(UserService, $q, $location) {
+    /*function checkLoggedIn(UserService, $q, $location) {
 
         var deferred = $q.defer();
 
@@ -194,5 +280,50 @@
         });
 
         return deferred.promise;
+    }*/
+    function checkLoggedIn($q, $location, $http, $rootScope, $timeout) {
+
+        var deferred = $q.defer();
+
+        $http.get('/api/project/user/loggedin').success(function(user)
+        {
+            $rootScope.errorMessage = null;
+            // User is Authenticated
+            if (user !== '0')
+            {
+                $rootScope.currentUser = user;
+                deferred.resolve();
+            }
+            // User is Not Authenticated
+            else
+            {
+                $rootScope.currentUser = null;
+                $rootScope.errorMessage = 'You need to log in.';
+                deferred.reject();
+                $location.url('/home');
+            }
+        });
+
+        return deferred.promise;
+    }
+
+
+    function getLoggedIn($q, $http, $rootScope, $timeout) {
+
+        var deferred = $q.defer();
+
+        $http.get('/api/project/user/loggedin').success(function(user)
+        {
+            $rootScope.errorMessage = null;
+            // User is Authenticated
+            if (user !== '0')
+            {
+                $rootScope.currentUser = user;
+            }
+            deferred.resolve();
+        });
+
+        return deferred.promise;
+
     }
 })();

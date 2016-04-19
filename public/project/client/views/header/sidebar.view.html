@@ -7,21 +7,27 @@
         <li ng-class="{'active': $location.url() == '/textedit'}"><a href="#/textedit">   Text Editor</a></li>
     </ul>
 </div>-->
-<br/><br/><br/><br>
-<div id="wrapper">
+<br/></br>
+<div id="wrapper" ng-controller="HeaderController as model" >
 
 
-    <div id="sidebar-wrapper">
-        <ul class="sidebar-nav">
+    <div id="sidebar-wrapper" ng-show="currentUser" >
+        <br>
+        <br>
+        <br>
+        <ul class="sidebar-nav text-uppercase" >
+            <br>
+            <br>
+            <br>
 
             <li>
-                <a href="#/createnote">
+                <a href="#/createnote" >
                     <span id="plus" class="glyphicon glyphicon-plus"></span>
                         <span style="padding-left: 5px">CREATE NOTE</span>
                 </a>
             </li>
             <li>
-                <a href="#/search">
+              <a href="#/search">
                     <span class="glyphicon glyphicon-search"></span>
                     <span style="padding-left: 5px">SEARCH</span>
                 </a>
@@ -50,35 +56,52 @@
                     <span style="padding-left: 5px">GROUPS</span>
                 </a>
             </li>
-            <!--<li>
-                <a href="#">Dashboard</a>
-            </li>
+
+            <!-- ---------------------------------- -->
+
             <li>
-                <a href="#">Shortcuts</a>
+                <a href="#/home" data-toggle="collapse" data-target=".navbar-collapse" ng-hide="currentUser">
+                    <span class="glyphicon glyphicon-home"></span>
+                    <span style="padding-left: 5px">HOME</span>
             </li>
-            <li>
-                <a href="#">Overview</a>
+
+            <li ng-class="{'active': model.$location.url() == '/register'}" ng-hide="currentUser">
+                <a href="#/register" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span style="padding-left: 5px">CREATE ACOUNT</span>
+                </a>
             </li>
-            <li>
-                <a href="#">Events</a>
+
+            <li ng-class="{'active': model.$location.url() == '/login'}" ng-hide="currentUser">
+                <a href="#/login" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="glyphicon glyphicon-log-in"></span>
+                    <span style="padding-left: 5px">SIGN IN</span>
+                </a>
             </li>
-            <li>
-                <a href="#">About</a>
+            <li ng-show="currentUser">
+                <a href="#/home" data-toggle="collapse" data-target=".navbar-collapse" ng-click="model.logout()">
+                    <span class="glyphicon glyphicon-log-out"></span>
+                    <span style="padding-left: 5px">LOGOUT</span>
+                </a>
             </li>
-            <li>
-                <a href="#">Services</a>
+
+            <li ng-class="{'active': model.$location.url() == '/profile'}" ng-show="currentUser">
+                <a href="#/profile" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="glyphicon glyphicon-user"></span>
+                    <span style="padding-left: 5px">{{currentUser.username}}</span>
+
+                </a>
             </li>
-            <li>
-                <a href="#">Contact</a>
-            </li>-->
         </ul>
     </div>
     <div id="page-content-wrapper">
     </div>
     <script type="text/javascript">
         $("#menu-toggle").click(function(e) {
-            e.preventDefault();
+
             $("#wrapper").toggleClass("toggled");
         });
     </script>
 </div>
+
+<!-- e.preventDefault(); -->

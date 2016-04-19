@@ -3,7 +3,7 @@
  */
 "use strict";
 
-
+var notes = require("./note.mock.json");
 var q = require("q");
 
 module.exports = function(db, mongoose, UserModel) {
@@ -24,6 +24,8 @@ module.exports = function(db, mongoose, UserModel) {
         findNotesByIds: findNotesByIds,
         removeLikedUser: removeLikedUser,
         getMongooseModel: getMongooseModel,
+
+        // share note functions
         findAllNotesReceivedByUser: findAllNotesReceivedByUser,
         userReceivesNote: userReceivesNote,
         shareNoteWithUser:shareNoteWithUser,
@@ -32,66 +34,6 @@ module.exports = function(db, mongoose, UserModel) {
     };
 
     return api;
-    function deleteReceivedNoteForUser(noteId, userId) {
-        return User.update(
-            { _id: userId },
-            { $pull: { 'receivesNotes': { _id : noteId } } }
-        );
-    }
-
-    function shareNoteWithUser(note, userId){
-        console.log(userId);
-        console.log(note);
-        return   User.findById(userId)
-            .then(
-                function(user){
-                    user.receivesNotes.push(note);
-                    return user.save();
-
-                }
-            );
-    }
-
-
-
-    function userReceivesNote(userId, note){
-        var deferred = q.defer();
-
-        // find the note by noteId
-        Note.findOne({_id: note._id},
-
-            function (err, doc) {
-
-                // reject promise if error
-                if (err) {
-                    deferred.reject(err);
-                }
-
-                // if there's a note
-                if (doc) {
-                    // add user to likes
-                    doc.receives.push (userId);
-                    // save changes
-                    doc.save(function(err, doc){
-                        if (err) {
-                            deferred.reject(err);
-                        } else {
-                            deferred.resolve(doc);
-                        }
-                    });
-                }
-            });
-
-        return deferred.promise;
-    }
-
-
-
-
-    function findAllNotesReceivedByUser(userID){
-        return Note.find();
-
-    }
 
     function removeLikedUser(userId, noteId){
 
@@ -180,6 +122,59 @@ module.exports = function(db, mongoose, UserModel) {
     function getMongooseModel() {
 
         return Note
+    }
+
+    function deleteReceivedNoteForUser(noteId, userId) {
+
+        return User.update(
+            { _id: userId },
+            { $pull: { 'receivesNotes': { _id : noteId } } }
+        );
+
+    }
+
+    function shareNoteWithUser(note, userId){
+
+        return User.findById(userId)
+            .then(
+                function(user){
+                    user.receivesNotes.push(note);
+                    return user.save();
+                }
+            );
+    }
+
+    function userReceivesNote(userId, note){
+        var deferred = q.defer();
+
+        Note.findOne({_id: note._id},
+
+            function (err, doc) {
+
+                if (err) {
+                    deferred.reject(err);
+                }
+
+                if (doc) {
+                    doc.receives.push (userId);
+                    // save changes
+                    doc.save(function(err, doc){
+                        if (err) {
+                            deferred.reject(err);
+                        } else {
+                            deferred.resolve(doc);
+                        }
+                    });
+                }
+            });
+
+        return deferred.promise;
+    }
+
+    function findAllNotesReceivedByUser(userID){
+
+        return Note.find();
+
     }
 
 

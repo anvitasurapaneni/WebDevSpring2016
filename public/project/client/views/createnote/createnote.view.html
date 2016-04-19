@@ -2,16 +2,22 @@
      ng-controller="CreateNoteController as model">
 
     <h1>Create Note</h1>
+
     <div style="float: right">
+
         <button class="btn btn-default"
                 ng-click="model.addNote(model.widget)">
-                <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         </button>
-        <button class="btn btn-default">
-            <a href="#/note">
+
+        <a href="#/note">
+            <button class="btn btn-default">
+
                 <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
-            </a>
-        </button>
+
+            </button>
+        </a>
     </div>
 
 
@@ -33,7 +39,7 @@
                             class="form-control">
 
                         <option ng-repeat="notebook in model.notebooks"
-                                value="{{notebook.name}}">
+                                value="{{notebook._id}}">
                             {{notebook.name}}
                         </option>
 

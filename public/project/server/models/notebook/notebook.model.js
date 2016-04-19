@@ -3,7 +3,9 @@
  */
 // var notebooks = require("./notebook.mock.json");
 var q = require("q");
+
 module.exports = function(db, mongoose) {
+
     var NotebookSchema = require("./notebook.schema.server.js")(mongoose);
     var Notebook = mongoose.model('Notebook', NotebookSchema);
 
@@ -40,9 +42,6 @@ module.exports = function(db, mongoose) {
         return deferred.promise;
 
     }
-
-
-
 
     function updateNoteBookById(NBId, newNB){
         return Notebook.findByIdAndUpdate(NBId, newNB);

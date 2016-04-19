@@ -12,20 +12,24 @@
 
         // event handlers decleration
 
-       vm.addText = addText;
+        vm.addText = addText;
+        vm.updateText = updateText;
+        vm.cancelText = cancelText;
+
+        var noteId = $routeParams.noteId;
+
+        var widgetId = $routeParams.widgetId;
 
         function init(){
-            var noteId = $routeParams.noteId;
 
-            var widgetId = $routeParams.widgetId;
-            //console.log(widgetId);
             if(widgetId){
+
                 WidgetService.getWidgetById(noteId, widgetId)
                     .then(
-                      function(widget){
-                          console.log("Got widget");
-                          console.log(widget);
-                         vm.widget = widget;
+
+                      function(response){
+
+                         vm.widget = response.data;
                       }
                     );
             }
@@ -36,38 +40,44 @@
 
         function addText(widget){
 
-            console.log(widget);
+            console.log(widget.html.text);
 
-            var noteId = $routeParams.noteId;
-            widget.widgetType = 'TEXT';
+            if(widget.html.text !== ""){
+                widget.widgetType = 'TEXT';
 
-            WidgetService.addWidget(noteId, widget)
+                WidgetService.addWidget(noteId, widget)
+                    .then(
+                        function (response) {
+
+                            $location.url("/editnote/"+noteId);
+                        }
+                    );
+            }
+            else{
+                alert("Enter text to continue");
+            }
+        }
+
+        // event handlers decleration
+
+        function updateText(widget){
+
+            WidgetService
+                .updateWidget(noteId, widgetId, widget)
                 .then(
-                    function (response) {
-                        console.log(response);
+                    function(response) {
                         $location.url("/editnote/"+noteId);
+                    },
+                    function(error) {
+                        vm.error = error;
                     }
-                )
+                );
         }
 
-        /*function cancelText(widget){
-            var index = $scope.widgets.indexOf(widget);
-            $scope.widgets.splice(index, 1);
+        function cancelText(){
 
-        }*/
-
-        /*function  selectText(widget)
-        {
-            $scope.selectedTextIndex = $scope.widgets.indexOf(widget);
-            $scope.widget = {_id: widget._id,
-                notetext: widget.notetext};
+            $location.url("/editnote/"+noteId);
         }
-
-        function  updateText(widget)
-        {
-            $scope.widgets[$scope.selectedTextIndex] = widget;
-            $scope.widget={};
-        }*/
 
     }
 })();

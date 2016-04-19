@@ -23,58 +23,13 @@ module.exports = function(db, mongoose) {
         userLikesNote: userLikesNote,
         removeLikedNote: removeLikedNote,
         isNoteFavForUser: isNoteFavForUser,
+        findUserByFacebookId: findUserByFacebookId,
+        //share functionalities
         userReceivesNote: userReceivesNote,
-        getMongooseModel: getMongooseModel,
-
-
-
+        getMongooseModel: getMongooseModel
     };
 
     return api;
-
-
-
-
-
-    function getMongooseModel() {
-        return User;
-    }
-
-
-
-
-
-    function userReceivesNote(userId, note) {
-
-        var deferred = q.defer();
-
-        // find the user
-        User.findById(userId, function (err, doc) {
-
-            // reject promise if error
-            if (err) {
-                deferred.reject(err);
-            } else {
-
-                // add movie id to user likes
-                doc.receives.push (note._id);
-
-                // save user
-                doc.save (function (err, doc) {
-
-                    if (err) {
-                        deferred.reject(err);
-                    } else {
-
-                        // resolve promise with user
-                        deferred.resolve (doc);
-                    }
-                });
-            }
-        });
-
-        return deferred;
-    }
 
     function isNoteFavForUser(userId, noteId){
 
@@ -241,5 +196,49 @@ module.exports = function(db, mongoose) {
 
         return deferred.promise;
     }
+
+    function findUserByFacebookId(facebookId) {
+
+        return User.findOne({'facebook.id': facebookId});
+    }
+
+    function getMongooseModel() {
+        return User;
+    }
+
+
+    function userReceivesNote(userId, note) {
+
+        var deferred = q.defer();
+
+        // find the user
+        User.findById(userId, function (err, doc) {
+
+            // reject promise if error
+            if (err) {
+                deferred.reject(err);
+            } else {
+
+                // add movie id to user likes
+                doc.receives.push (note._id);
+
+                // save user
+                doc.save (function (err, doc) {
+
+                    if (err) {
+                        deferred.reject(err);
+                    } else {
+
+                        // resolve promise with user
+                        deferred.resolve (doc);
+                    }
+                });
+            }
+        });
+
+        return deferred;
+    }
+
+
 
 };

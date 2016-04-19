@@ -20,24 +20,19 @@
             <tbody>
             <tr>
                 <td>
-                        <!--<textarea  type="text"
-                                   rows="3"
-                                   class="form-control"
-                                   ng-model = "widget.notetext"
-                                   id="text" placeholder="Start writing notes...">
-
-                        </textarea>-->
                     <div text-angular
                          ng-model="model.widget.html.text">
                     </div>
                 </td>
                 <td>
-                    <button class="btn btn-default">
-                        <span ng-click="model.addText(model.widget)"
-                              class="glyphicon glyphicon-plus"
+                    <button class="btn btn-default" id="add"
+                            ng-click="model.addText(model.widget)">
+
+                        <span class="glyphicon glyphicon-plus"
                               aria-hidden="true">
                         </span>
                     </button>
+
                     <button ng-click="model.cancelText(model.widget)"
                        class="btn btn-default">
                         <span
@@ -47,12 +42,7 @@
                     </button>
                 </td>
             </tr>
-            <!--<tr ng-repeat="widget in widgets">
-                <td>{{widget.notetext}}</td>
-                <td><span ng-click="deleteText(widget)" class="glyphicon glyphicon-remove btn btn-default" aria-hidden="true"></span>
-                    <span ng-click="selectText(widget)" class="glyphicon glyphicon-pencil btn btn-default" aria-hidden="true"></span>
-                </td>
-            </tr>-->
+
             </tbody>
         </table>
     </div>

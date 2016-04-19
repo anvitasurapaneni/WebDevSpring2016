@@ -8,7 +8,7 @@
         .module("NoteSpace")
         .controller("GroupController", GroupController);
 
-    function GroupController(UserService, $rootScope, $location, $routeParams){
+    function GroupController(GroupService, $rootScope, $location, $routeParams, UserService){
 
         var vm = this;
         vm. userToComapreId = 1;
@@ -19,6 +19,7 @@
         vm.deleteGroup = deleteGroup;
         vm.renameGroup = renameGroup;
         vm.addAdminToGroup = addAdminToGroup;
+        vm.deleteNoteFromGroup = deleteNoteFromGroup;
 
         vm.UserNames = {};
         vm.GroupToEditId = $routeParams.groupId;
@@ -29,27 +30,23 @@
 
         var groupId;
         var userIsAdminGroup1 = {};
-        vm.rat = "Rat";
-
-
-       // vm.MemberGroups
-
 
 
         function init() {
-            console.log("group controller");
-            console.log($rootScope.currentUser);
 
-           UserService.getAdminGroups($rootScope.currentUser._id)
-               .then(function (allAdminGroups){
-                   vm.AdminGroups = allAdminGroups.data;
-               });
+            GroupService.getAdminGroups($rootScope.currentUser._id)
 
-            UserService.getMemberGroups($rootScope.currentUser._id)
+                .then(function (allAdminGroups){
+
+                    vm.AdminGroups = allAdminGroups.data;
+                });
+
+            GroupService.getMemberGroups($rootScope.currentUser._id)
+
                 .then(function (allMemberGroups){
+
                     vm.MemberGroups = allMemberGroups.data;
-                    console.log("vm.allMemberGroups");
-                    console.log(vm.MemberGroups);
+
                 });
 
 
@@ -57,32 +54,37 @@
             UserService.findAllUsers()
 
                 .then(function (allUsers){
+
                     vm.allusers =  allUsers.data;
-                    console.log(vm.allusers);
+
                     vm.$location = $location;
                 });
 
 
             if(vm.GroupToEditId != null){
 
-                UserService.getGroupById(vm.GroupToEditId)
+                GroupService.getGroupById(vm.GroupToEditId)
+
                     .then(function (response) {
-                        console.log("returned group");
-                        console.log(response.data);
+
                         vm.currentGroup = response.data;
+
                         $rootScope.currentGroup = response.data;
+
                         getCurrentGroup();
-                        });
+                    });
             }
 
             if(vm.GroupToView != null){
 
-                UserService.getGroupById(vm.GroupToView)
+                GroupService.getGroupById(vm.GroupToView)
+
                     .then(function (response) {
-                        console.log("returned group");
-                        console.log(response.data);
+
                         vm.currentGroup = response.data;
+
                         $rootScope.currentGroup = response.data;
+
                         getCurrentGroup();
                     });
             }
@@ -90,46 +92,48 @@
         }
         init();
 
+        function deleteNoteFromGroup($index){
 
+            var noteId = vm.currentGroup.receivesNotes[$index]._id;
+            var groupId = $rootScope.currentGroup._id;
 
-        function getCurrentGroup(){
-            UserService.getGroupById($rootScope.currentGroup._id)
+            GroupService.deleteNoteFromGroup(noteId, groupId)
+
                 .then(function (response) {
-                    console.log("returned group");
-                    console.log(response.data);
-                    vm.currentGroup = response.data;
-                    //    $rootScope.currentGroup = response.data;
 
-                    UserService.getMembersOfGroup(vm.currentGroup._id)
-                        .then(function (response) {
-                            vm.usersOfCurrentGroup = response.data;
-                            console.log("users of corrent group");
-                            console.log(vm.usersOfCurrentGroup);
-                        });
-
-
-
-              /*      for(i=0;i<vm.currentGroup.members.length;i++){
-
-console.log(i);
-                        UserService.findUserById(vm.currentGroup.members[i])
-                            .then(function (response) {
-                                vm.UserNames[i] = response.data.username;
-                            });
-
-                    } */
-
-                    console.log(vm.UserNames);
-
-
-
+                    init();
                 });
         }
 
-        function renameGroup(title){
-            UserService.renameGroup($rootScope.currentGroup._id, title)
+
+        function getCurrentGroup(){
+
+            GroupService
+                .getGroupById($rootScope.currentGroup._id)
+
                 .then(function (response) {
-                console.log(response);
+
+                    vm.currentGroup = response.data;
+
+                    GroupService
+                        .getMembersOfGroup(vm.currentGroup._id)
+                        .then(function (response) {
+
+                            vm.usersOfCurrentGroup = response.data;
+
+                        });
+
+                })
+
+        }
+
+        function renameGroup(title){
+
+            GroupService
+                .renameGroup($rootScope.currentGroup._id, title)
+
+                .then(function (response) {
+
                     getCurrentGroup();
             });
         }
@@ -138,12 +142,14 @@ console.log(i);
 
 
         function deleteGroup($index){
+
             var group = vm.AdminGroups[$index];
-            console.log(group._id);
 
             var groupId = group._id;
 
-            UserService.deleteGroupById(groupId)
+            GroupService
+                .deleteGroupById(groupId)
+
                 .then(function (response) {
 
                     init();
@@ -154,102 +160,70 @@ console.log(i);
 
 
         function LeaveGroup($index) {
-            var group = vm.MemberGroups[$index];
-            console.log($rootScope.currentGroup.adminId);
-            console.log($rootScope.currentUser._id);
 
+            var group = vm.MemberGroups[$index];
             var userId = $rootScope.currentUser._id;
 
             var groupId = group._id;
-            if ($rootScope.currentGroup.adminId == $rootScope.currentUser._id) {
-                alert("can not delete admin");
-            }
 
-            else {
-                UserService.deleteCurrentMemberFromGroup(userId, groupId)
-                    .then(function (response) {
+            GroupService
+                .deleteCurrentMemberFromGroup(userId, groupId)
 
-                        console.log("remove member response");
-                        console.log(response);
+                .then(function (response) {
+                });
 
 
-                    });
+            GroupService
+                .deleteGroupFromCurrentMember(groupId, userId)
 
+                .then(function (response) {
+                });
 
-                UserService.deleteGroupFromCurrentMember(groupId, userId)
-                    .then(function (response) {
-
-                        console.log("remove member response");
-                        console.log(response);
-                    });
                 init();
-
-            }
         }
 
 
         function deleteMemberFromGroup($index) {
-          //  console.log("client side remove member from group called");
-
-            var userId = vm.currentGroup.members[$index];
-            console.log(vm.currentGroup.members[$index]);
-           var groupId = $rootScope.currentGroup._id;
-            console.log("userId ID"+userId);
-            console.log("groupId ID"+groupId);
 
 
-            UserService.deleteCurrentMemberFromGroup(userId, groupId)
-                .then(function (response) {
-                    console.log("res1");
-                    console.log(response);
+             var userId = vm.currentGroup.members[$index];
 
+             var groupId = $rootScope.currentGroup._id;
 
+                GroupService
+                    .deleteCurrentMemberFromGroup(userId, groupId)
 
+                    .then(function (response) {
                 });
 
 
-            UserService.deleteGroupFromCurrentMember(groupId, userId)
+            GroupService
+                .deleteGroupFromCurrentMember(groupId, userId)
+
                 .then(function (response) {
-                    console.log("res1");
-                    console.log(response);
+
                     getCurrentGroup();
                 });
-
-
-
-
         }
 
-
-
-
-
         function addMemberToGroup(user){
-
-            //console.log(user);
-            console.log("current groupABC");
-            console.log($rootScope.currentGroup);
-
-            //var existingUsers1 = vm.currentGroup.members;
 
             var userId = user._id;
 
             var groupId = $rootScope.currentGroup._id;
 
-            console.log(groupId);
-
-            console.log("index"+vm.currentGroup.members.indexOf(user._id));
             if(!(vm.currentGroup.members.indexOf(user._id) == -1)) {
+
                 alert("can not add same user again");
             }
 
             else{
-                UserService
+
+                GroupService
                     .addMemberToGroup(userId, groupId)
+
                     .then(
                         function (response){
-                            console.log(response);
-                            console.log("Added!");
 
                             getCurrentGroup();
                         }
@@ -260,7 +234,7 @@ console.log(i);
 
         }
 
-        function isUserAlreadyThere(user){
+        /*function isUserAlreadyThere(user){
             getCurrentGroup();
             var existingUsers = vm.currentGroup.members;
 
@@ -274,30 +248,26 @@ console.log(i);
 
             }
          return false;
-        }
+        }*/
 
 
         function createGroupForUser(group){
 
-          //  var currentUserId = $rootScope.currentUser._id;
-          //  var currentGroupId = vm.currentGroup._id;
-
             if (group != -1){
 
                 var newGroup = {
-                    //   "_id": (new Date).getTime(),
+
                     "title": group.title,
                     "adminId": $rootScope.currentUser._id
-                 //   "members": [$rootScope.currentUser._id]
                 };
-                console.log(newGroup);
 
+                GroupService
+                    .createGroupForUser($rootScope.currentUser._id, newGroup)
 
-                UserService.createGroupForUser($rootScope.currentUser._id, newGroup)
                     .then(function (response) {
+
                         if(response) {
-                            //console.log("new group response");
-                            //console.log(response.data);
+
                             vm.currentGroup = response.data;
                             $rootScope.currentGroup = response.data;
 
@@ -305,37 +275,25 @@ console.log(i);
                             getCurrentGroup();
                         }
                 });
-
-
-
-
-
-
-
-
-
-            }}
-
-
-        // event handlers implementation
-
-
-function addAdminToGroup(){
-      var currentUserId = $rootScope.currentUser._id;
-      var currentGroupId = $rootScope.currentGroup._id;
-
-    UserService
-        .addMemberToGroup(currentUserId, currentGroupId)
-        .then(
-            function (response){
-                console.log(response);
-                console.log("Added!");
-
-                getCurrentGroup();
             }
-        );
+        }
 
-}
+        function addAdminToGroup(){
+
+              var currentUserId = $rootScope.currentUser._id;
+              var currentGroupId = $rootScope.currentGroup._id;
+
+            GroupService
+                .addMemberToGroup(currentUserId, currentGroupId)
+
+                .then(
+                    function (response){
+
+                        getCurrentGroup();
+                    }
+                );
+
+        }
 
 
 

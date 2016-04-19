@@ -4,8 +4,5 @@
 "use strict";
 (function(){
     angular
-        .module("NoteSpace", ["ngRoute", "textAngular"]);
+        .module("NoteSpace", ["ngRoute", "textAngular", "widgetSortable"]);
 })();
-
-
-//,"angucomplete-alt"

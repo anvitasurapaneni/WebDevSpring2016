@@ -7,7 +7,8 @@ module.exports = function(mongoose) {
     var MapSchema = mongoose.Schema({
         lat: String,
         lng: String,
-        zoom: String
+        location : String,
+        placeId : String
         // collection property sets
         // collection name to 'user'
     }, {collection: 'project.map'});

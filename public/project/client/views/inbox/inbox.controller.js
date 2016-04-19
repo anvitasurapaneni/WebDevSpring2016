@@ -29,20 +29,11 @@
                             .then(function (user1) {
                                 console.log(user1.data);
                             });
-
-
-                        //   vm.receivedNotes[i].createdBy = username1;
                     }
-
-
-
-                    vm.$location = $location;
+                     vm.$location = $location;
                 });
 
-
-
-
-            NoteService.findAllNoteBooksForUser($rootScope.currentUser._id)
+             NoteService.findAllNoteBooksForUser($rootScope.currentUser._id)
 
                 .then(function (foundNoteBooks){
 
@@ -66,22 +57,20 @@
 
         // event handlers implementation
 
-        function deleteReceivedNoteForUser($index){
-            console.log("client side remove field called");
+    function deleteReceivedNoteForUser($index){
 
-            var noteId = vm.receivedNotes[$index]._id;
-            console.log("noteId"+noteId);
+        var noteId = vm.receivedNotes[$index]._id;
 
+        NoteService.deleteReceivedNoteForUser(noteId, $rootScope.currentUser._id)
+            .then(function (response) {
+            console.log("remove filed response");
+            console.log(response);
 
-            NoteService.deleteReceivedNoteForUser(noteId, $rootScope.currentUser._id).then(function (response) {
-                console.log("remove filed response");
-                console.log(response);
-
-                if(response == "OK") {
-                    init();
-                }
-            });
-        }
+            if(response == "OK") {
+                init();
+            }
+        });
+    }
 
 
 

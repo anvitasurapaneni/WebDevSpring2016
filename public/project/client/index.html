@@ -23,9 +23,11 @@
         <link rel="stylesheet" href="assets/css/transparent.css">
         <link rel="stylesheet" href="assets/css/dashboard.css">
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
         <!-- textAngular needs font awesome fonts and styles -->
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
         <link rel="stylesheet" href="assets/css/textAngular.css">
+        <link rel="stylesheet" href="assets/css/carousel.css">
 
 
         <!-- scripts -->
@@ -41,7 +43,7 @@
 
             <div class="container-fluid">
                 <div class="row">
-                    <div ng-include="'views/sidebar/sidebar.view.html'" ng-show="currentUser"></div>
+                    <div ng-include="'views/header/sidebar.view.html'" ng-show="currentUser"></div>
                     <div ng-view></div>
                 </div>
             </div>
@@ -51,6 +53,7 @@
         <!--  Necessary scripts  -->
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
@@ -66,8 +69,6 @@
         <script src="views/header/header.controller.js"></script>
         <script src="views/home/home.controller.js"></script>
 
-
-
         <script src="views/users/login.controller.js"></script>
         <script src="views/users/profile.controller.js"></script>
         <script src="views/users/register.controller.js"></script>
@@ -78,8 +79,6 @@
         <script src="views/favorites/favorites.controller.js"></script>
         <script src="views/widgets/fileupload/file.controller.js"></script>
 
-
-
         <script src="views/widgets/googlemap/map.controller.js"></script>
         <script src="views/widgets/googlemap/map.autocomplete.directive.js"></script>
 
@@ -87,6 +86,7 @@
         <script src="services/user.service.client.js"></script>
         <script src="services/note.service.client.js"></script>
         <script src="services/widget.service.client.js"></script>
+        <script src="services/group.service.client.js"></script>
 
         <script src="views/widgets/todoWidget/todoWidget.controller.js"></script>
         <script src="views/widgets/imageWidget/imageWidget.controller.js"></script>
@@ -95,16 +95,17 @@
         <script src="views/search/search.controller.js"></script>
         <script src="views/widgets/text/text.controller.js"></script>
 
+        <script src="views/group/group.controller.js"></script>
+        <script src="views/sharenote/sharenote.controller.js"></script>
+        <script src="views/inbox/inbox.controller.js"></script>
+
         <script src="assets/js/textAngular-rangy.min.js"></script>
         <script src="assets/js/textAngular-sanitize.min.js"></script>
         <script src="assets/js/textAngular.min.js"></script>
 
         <script src="views/notebook/notebook.controller.js"></script>
         <script src="views/sidebar/sidebar.controller.js"></script>
-
-            <script src="views/inbox/inbox.controller.js"></script>
-            <script src="views/sharenote/sharenote.controller.js"></script>
-            <script src="views/group/group.controller.js"></script>
+        <script src="directives/widgetSortable.js"></script>
 
 
         <!-- script for portfolio section using hoverdirection -->
@@ -152,6 +153,10 @@
                 });
  
             });
+        </script>
+
+        <script type="text/javascript">
+            $('.carousel').carousel();
         </script>
 
 
