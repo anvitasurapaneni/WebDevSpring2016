@@ -35,6 +35,8 @@
             var currentUser = $rootScope.currentUser;
             var currentUserId = currentUser._id;
 
+            var noteId;
+
             note.createdBy = currentUser;
             note.createdDate = new Date();
 
@@ -47,7 +49,8 @@
                             createdBy : note.createdBy,
                             createdDate : note.createdDate,
                             title : note.title,
-                            notebook : response.data.name
+                            notebook : response.data.name,
+                            notebookId : note.notebook
                         };
 
                         return NoteService
@@ -57,9 +60,20 @@
                 .then(
                     function(response) {
 
-                        $location.url("/editnote/"+response.data._id);
+                        noteId = response.data._id;
 
-                    });
+                        console.log(response.data);
+
+                        return NoteService.addNoteToNotebook(noteId, note.notebook);
+
+                    })
+                .then(
+                    function(notebook){
+
+                        $location.url("/editnote/"+noteId);
+                    }
+                );
+
             vm.widget = {};
         }
 

@@ -1,7 +1,7 @@
 <div class="main col-sm-9 col-sm-offset-5 col-md-10 col-md-offset-2"
      ng-controller="GroupController as model">
 
-    <h1>Edit Group</h1>
+    <h1>Edit Group: {{model.currentGroup.title}}</h1>
 
     <a href="#/group">
         <div style="float: right">
@@ -105,6 +105,10 @@
             </tbody>
         </table>
 
+        <br>
+        <br>
+
+
         <table  class="table table-bordered table-striped"   border="3" style="border-collapse:collapse" >
 
             <tbody>
@@ -114,7 +118,7 @@
                 </tr>
                 <tr ng-repeat="note in model.currentGroup.receivesNotes">
                     <td>
-                        <h3>{{note.title}}</h3>
+                        <a href="#/previewnote/{{note._id}}"><h3>{{note.title}}</h3></a>
 
                     </td>
 

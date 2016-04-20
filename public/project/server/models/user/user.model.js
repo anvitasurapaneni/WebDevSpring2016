@@ -24,7 +24,6 @@ module.exports = function(db, mongoose) {
         removeLikedNote: removeLikedNote,
         isNoteFavForUser: isNoteFavForUser,
         findUserByFacebookId: findUserByFacebookId,
-        //share functionalities
         userReceivesNote: userReceivesNote,
         getMongooseModel: getMongooseModel
     };

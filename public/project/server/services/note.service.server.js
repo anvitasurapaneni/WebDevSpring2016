@@ -14,6 +14,9 @@ module.exports = function(app, NoteModel, NotebookModel, UserModel, uuid) {
     app.post("/api/project/user/:userId/note", createNoteForUser);
     app.post("/api/project/user/:userId/note/:noteId", userLikesNote);
     app.delete("/api/project/note/:noteId/user/:userId", removeLikedUser);
+    app.put("/api/project/note/:noteId/notebook/:notebookId", addNoteToNotebook);
+    app.delete("/api/project/note/:noteId/notebook/:notebookId", deleteNoteFromNotebook);
+
 
     //Notebook api calls
     app.get("/api/project/user/:userId/notebook", findAllNoteBooksForUser);
@@ -21,6 +24,7 @@ module.exports = function(app, NoteModel, NotebookModel, UserModel, uuid) {
     app.get("/api/project/notebook/:NBId", selectNoteBookById);
     app.put("/api/project/notebook/:NBId", updateNoteBookById);
     app.post("/api/project/user/:userId/notebook", addNoteBookForUser);
+    app.get("/api/project/note/notebookId/:notebookId", findNotebookById);
 
     //Share api calls
     app.post("/api/project/user/share/:userId/note", shareNoteWithUser);
@@ -28,9 +32,109 @@ module.exports = function(app, NoteModel, NotebookModel, UserModel, uuid) {
     app.get("/api/project/user/:userId/note/receive/:noteId", userReceivesNote);
     app.delete("/api/project/user/share/:userId/note/:noteId", deleteReceivedNoteForUser);
 
+    // notebook to display notes
+
+    app.get("/api/project/note/notebook/:notebookId", getNotesOfNotebook);
+
+
+
+
+    function findNotebookById(req, res){
+
+        var notebookId = req.params.notebookId;
+
+        console.log("server NBID"+notebookId);
+
+        NotebookModel.findNotebookById(notebookId)
+            .then(
+                function (doc) {
+                    console.log(doc);
+                    res.json(doc);
+                },
+
+                // send error if promise rejected
+                function ( err ) {
+
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+
+    function getNotesOfNotebook(req,res){
+        var notebookId = req.params.notebookId;
+        var notebook = null;
+        NotebookModel.findNotebookById(notebookId)
+            .then(
+
+                // first retrieve the user by user id
+                function (doc) {
+
+                    notebook = doc;
+                    NoteModel.getNotesByNoteIds(doc.notes)
+                        .then(function(response){
+                                res.json(response);
+                                console.log(response);
+                            },
+                            function (err){
+                                res.status(400).send(err);
+                            })
+                },
+
+                // reject promise if error
+                function (err) {
+                    res.status(400).send(err);
+                }
+            )
+
+    }
+
 
     //Note functions
 
+    function addNoteToNotebook(req, res){
+
+        var noteId = req.params.noteId;
+
+        var notebookId = req.params.notebookId;
+
+        NotebookModel
+            .selectNoteBookById(notebookId)
+            .then(
+
+                function(notebook){
+
+                    notebook.notes.push(noteId);
+
+                    notebook.save();
+
+                    res.json(notebook);
+                },
+                function (err) {
+
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+    function deleteNoteFromNotebook(req, res){
+
+        var noteId = req.params.noteId;
+
+        var notebookId = req.params.notebookId;
+
+        NoteModel
+            .deleteNoteFromNotebook(noteId, notebookId)
+            .then(
+                function (notebook) {
+
+                    res.json(notebook);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                }
+            );
+    }
 
     function removeLikedUser(req, res) {
 
@@ -44,7 +148,7 @@ module.exports = function(app, NoteModel, NotebookModel, UserModel, uuid) {
             .removeLikedUser(userId, noteId)
             .then(
                 function (stats) {
-                    console.log(stats);
+
                     res.send(200);
                 },
                 function (err) {

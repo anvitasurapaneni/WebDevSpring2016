@@ -23,6 +23,8 @@
 
         var noteId;
 
+        var notebookId;
+
         var userId = $rootScope.currentUser._id;
 
         function init() {
@@ -34,7 +36,24 @@
                 .then(
                     function(response){
 
-                        vm.widget = response.data;
+                        var receivedNote = response.data;
+
+                        var currentNote = {
+
+                            title: receivedNote.title,
+                            notebook: receivedNote.notebookId,
+                            notebookId : receivedNote.notebookId,
+                            createdBy: receivedNote.createdBy,
+                            receives: receivedNote.receives,
+                            likes: receivedNote.likes,
+                            createdDate: receivedNote.createdDate,
+                            updatedDate: receivedNote.updatedDate,
+                            widgets: receivedNote.widgets
+                        };
+
+                        notebookId = receivedNote.notebookId;
+
+                        vm.widget = currentNote;
                     }
                 );
 
@@ -126,28 +145,95 @@
 
         function saveNote(note){
 
-            var recentNote;
+            var latestNote;
 
-            NoteService
-                .findNoteById(noteId)
-                .then(
-                    function(response){
-                        recentNote = response.data;
-                    }
+            if(notebookId != note.notebook){
 
-                );
+                //Delete this note from current notebook and save it to different notebook
 
-            note.updatedDate = new Date();
+                NoteService
+                    .findNoteById(noteId)
+                    .then(
 
+                        function(foundNote){
 
+                            latestNote = foundNote.data;
 
-            NoteService
-                .updateNoteById(noteId, recentNote)
-                .then(
-                    function (response) {
-                        $location.url("/note");
-                    }
-                )
+                            return NoteService
+                                .selectNoteBookById(note.notebook);
+                        }
+                    )
+                    .then(
+                        function(response){
+
+                            var updatedNote = {
+                                createdBy : note.createdBy,
+                                createdDate : note.createdDate,
+                                title : note.title,
+                                notebook : response.data.name,
+                                notebookId : note.notebook,
+                                receives: note.receives,
+                                likes: note.likes,
+                                updatedDate: new Date(),
+                                widgets: latestNote.widgets
+                            };
+
+                            return NoteService.updateNoteById(noteId, updatedNote);
+                        }
+                    )
+                    .then(
+                        function(response) {
+
+                            noteId = response.data._id;
+
+                            return NoteService.addNoteToNotebook(noteId, note.notebook);
+
+                        })
+                    .then(
+                        function(notebook){
+
+                            return NoteService.deleteNoteFromNotebook(noteId, notebookId);
+                        }
+                    )
+                    .then(
+                        function(updatedNotebook){
+
+                            $location.url("/note");
+                        }
+
+                    );
+            }
+            else{
+
+                // Save note to notebook
+
+                NoteService
+                    .findNoteById(noteId)
+                    .then(
+
+                        function(foundNote){
+
+                            latestNote = foundNote.data;
+
+                            return NoteService
+                                .selectNoteBookById(note.notebook);
+                        }
+                    )
+                    .then(
+                        function (response){
+
+                            latestNote.notebook = response.data.name;
+
+                            return NoteService.updateNoteById(noteId, latestNote);
+                        }
+                    )
+                    .then(
+                        function (response) {
+
+                            $location.url("/note");
+                        }
+                    );
+            }
         }
 
         function sortWidgets(start, end) {

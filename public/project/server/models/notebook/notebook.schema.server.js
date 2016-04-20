@@ -11,7 +11,8 @@ module.exports = function(mongoose) {
     var NotebookSchema = mongoose.Schema({
         name: String,
         description: String,
-        notes: [NoteSchema],
+        notes: [String],
+
         createdBy: String,
         createdDate: String
         // collection property set

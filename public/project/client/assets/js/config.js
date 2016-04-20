@@ -96,7 +96,7 @@
             })
             .when("/previewnote/:noteId", {
                 templateUrl: "views/createnote/previewnote.view.html",
-                controller: "EditNoteController",
+                controller: "PreviewNoteController",
                 controllerAs: "model",
                 resolve: {
                     checkLoggedIn: checkLoggedIn
@@ -185,7 +185,7 @@
                 }
             })
             .when("/sidebar", {
-                templateUrl: "views/sidebar/sidebar.view.html",
+                templateUrl: "views/header/sidebar.view.html",
                 controller: "HeaderController",
                 controllerAs : "model",
                 resolve: {
@@ -251,6 +251,16 @@
                     checkLoggedIn: checkLoggedIn
                 }
             })
+            .when("/notebook/:NotebookId/viewNotebook", {
+
+                templateUrl: "views/notebook/viewnotebook.view.html",
+                controller: "ViewNotebookController",
+                controllerAs: "model",
+                resolve: {
+                    checkLoggedIn: checkLoggedIn
+                }
+            })
+
 
 
 

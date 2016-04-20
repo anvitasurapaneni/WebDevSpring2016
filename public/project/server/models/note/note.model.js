@@ -6,12 +6,14 @@
 var notes = require("./note.mock.json");
 var q = require("q");
 
-module.exports = function(db, mongoose, UserModel) {
+module.exports = function(db, mongoose, UserModel, NotebookModel) {
 
     var NoteSchema = require("./note.schema.server.js")(mongoose);
     var Note = mongoose.model('Note', NoteSchema);
 
     var User = UserModel.getMongooseModel();
+
+    var Notebook = NotebookModel.getMongooseModel();
 
     var api = {
 
@@ -24,16 +26,48 @@ module.exports = function(db, mongoose, UserModel) {
         findNotesByIds: findNotesByIds,
         removeLikedUser: removeLikedUser,
         getMongooseModel: getMongooseModel,
+        deleteNoteFromNotebook : deleteNoteFromNotebook,
 
         // share note functions
         findAllNotesReceivedByUser: findAllNotesReceivedByUser,
         userReceivesNote: userReceivesNote,
         shareNoteWithUser:shareNoteWithUser,
-        deleteReceivedNoteForUser: deleteReceivedNoteForUser
+        deleteReceivedNoteForUser: deleteReceivedNoteForUser,
+
+        // for notebook
+        getNotesByNoteIds : getNotesByNoteIds
 
     };
 
     return api;
+
+    function getNotesByNoteIds(noteIds){
+
+        var deferred = q.defer();
+
+        Note.find({
+                _id: {$in: noteIds}
+            },
+            function (err, users) {
+                if (err) {
+                    deferred.reject(err);
+                } else {
+                    deferred.resolve(users);
+                }
+            });
+
+        return deferred.promise;
+    }
+
+
+
+    function deleteNoteFromNotebook(noteId, notebookId){
+
+        return Notebook.update(
+            { _id: notebookId },
+            { $pull: { 'notes': { $in: [noteId]} } }
+        );
+    }
 
     function removeLikedUser(userId, noteId){
 
@@ -100,7 +134,9 @@ module.exports = function(db, mongoose, UserModel) {
 
     function findAllNotesForUser(userId){
 
-        return Note.find();
+        return Note.find({
+            createdBy : userId
+        });
     }
 
     function findNoteById(noteId){

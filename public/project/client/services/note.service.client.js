@@ -19,6 +19,8 @@
             findNoteById: findNoteById,
             removeLikedUser: removeLikedUser,
             sortWidgets: sortWidgets,
+            addNoteToNotebook : addNoteToNotebook,
+            deleteNoteFromNotebook : deleteNoteFromNotebook,
 
             //Notebook services
             deleteNotebookById: deleteNotebookById,
@@ -26,6 +28,7 @@
             updateNoteBookById: updateNoteBookById,
             addNoteBookForUser: addNoteBookForUser,
             findAllNoteBooksForUser: findAllNoteBooksForUser,
+            findNotebookById: findNotebookById,
 
 
             // share
@@ -33,12 +36,25 @@
             shareNoteWithUser: shareNoteWithUser,
             deleteReceivedNoteForUser: deleteReceivedNoteForUser,
             shareNoteWithGroup: shareNoteWithGroup,
-            userReceivesNote : userReceivesNote
+
+            // for noteBook to display notes
+
+            getNotesOfNotebook: getNotesOfNotebook
 
 
         };
 
         return api;
+
+        function findNotebookById(NBId){
+
+            return $http.get("/api/project/note/notebookId/"+NBId);
+        }
+
+        function  getNotesOfNotebook(notebookId){
+
+            return $http.get("/api/project/note/notebook/"+notebookId);
+        }
 
 
         function removeLikedUser(userId, noteId){
@@ -62,6 +78,7 @@
         }
 
         function findAllNotesForUser(userId){
+
             return $http.get("/api/project/user/"+userId+"/note");
         }
 
@@ -85,7 +102,15 @@
             return $http.put("/api/project/note/"+noteId+"/widget?startIndex="+startIndex+"&endIndex="+endIndex);
         }
 
+        function addNoteToNotebook(noteId, notebookId){
 
+            return $http.put("/api/project/note/"+noteId+"/notebook/"+notebookId);
+        }
+
+        function deleteNoteFromNotebook(noteId, notebookId){
+
+            return $http.delete("/api/project/note/"+noteId+"/notebook/"+notebookId);
+        }
 
         ////////////////////////////////////////////////////////////////////
         function deleteNotebookById(NBId){
@@ -170,11 +195,6 @@
             });
 
             return deferred.promise;
-        }
-
-        function userReceivesNote(userId, note){
-
-            return $http.post("/api/project/user/"+userId+"/note/receive/"+note._id, note);
         }
     }
 })();

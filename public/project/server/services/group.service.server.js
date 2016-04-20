@@ -24,6 +24,8 @@ module.exports = function(app, GroupModel, UserModel, uuid){
 
 
 
+
+
     function deleteNoteFromGroup(req, res){
 
         var noteId = req.params.noteId;
@@ -57,13 +59,7 @@ module.exports = function(app, GroupModel, UserModel, uuid){
                     res.status(400).send(err);
                 }
             );
-
-
-
     }
-
-
-
 
     function renameGroup(req,res){
             var groupId = req.params.groupId;
