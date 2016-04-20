@@ -107,11 +107,13 @@
                     .then(function (response) {
 
                         vm.notebooks[selectedIndex] = response.data;
-                        vm.notebook = null;
+                    //    vm.notebook = null;
                         vm.selectedIndex = -1;
 
                         init();
             });
+
+                vm.notebook = null;
 
         }}
 
