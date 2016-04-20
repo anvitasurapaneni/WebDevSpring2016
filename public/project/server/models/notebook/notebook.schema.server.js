@@ -12,7 +12,6 @@ module.exports = function(mongoose) {
         name: String,
         description: String,
         notes: [String],
-
         createdBy: String,
         createdDate: String
         // collection property set

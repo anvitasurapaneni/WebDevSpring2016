@@ -25,69 +25,13 @@ module.exports = function(app, NoteModel, NotebookModel, UserModel, uuid) {
     app.put("/api/project/notebook/:NBId", updateNoteBookById);
     app.post("/api/project/user/:userId/notebook", addNoteBookForUser);
     app.get("/api/project/note/notebookId/:notebookId", findNotebookById);
+    app.get("/api/project/note/notebook/:notebookId", getNotesOfNotebook);
 
     //Share api calls
     app.post("/api/project/user/share/:userId/note", shareNoteWithUser);
     app.get("/api/project/user/:userId/note/received", findAllNotesReceivedByUser);
     app.get("/api/project/user/:userId/note/receive/:noteId", userReceivesNote);
     app.delete("/api/project/user/share/:userId/note/:noteId", deleteReceivedNoteForUser);
-
-    // notebook to display notes
-
-    app.get("/api/project/note/notebook/:notebookId", getNotesOfNotebook);
-
-
-
-
-    function findNotebookById(req, res){
-
-        var notebookId = req.params.notebookId;
-
-        console.log("server NBID"+notebookId);
-
-        NotebookModel.findNotebookById(notebookId)
-            .then(
-                function (doc) {
-                    console.log(doc);
-                    res.json(doc);
-                },
-
-                // send error if promise rejected
-                function ( err ) {
-
-                    res.status(400).send(err);
-                }
-            );
-    }
-
-
-    function getNotesOfNotebook(req,res){
-        var notebookId = req.params.notebookId;
-        var notebook = null;
-        NotebookModel.findNotebookById(notebookId)
-            .then(
-
-                // first retrieve the user by user id
-                function (doc) {
-
-                    notebook = doc;
-                    NoteModel.getNotesByNoteIds(doc.notes)
-                        .then(function(response){
-                                res.json(response);
-                                console.log(response);
-                            },
-                            function (err){
-                                res.status(400).send(err);
-                            })
-                },
-
-                // reject promise if error
-                function (err) {
-                    res.status(400).send(err);
-                }
-            )
-
-    }
 
 
     //Note functions
@@ -464,4 +408,57 @@ module.exports = function(app, NoteModel, NotebookModel, UserModel, uuid) {
                 }
             );
     }
+
+    function findNotebookById(req, res){
+
+        var notebookId = req.params.notebookId;
+
+        console.log("server NBID"+notebookId);
+
+        NotebookModel.findNotebookById(notebookId)
+            .then(
+                function (doc) {
+                    console.log(doc);
+                    res.json(doc);
+                },
+
+                // send error if promise rejected
+                function ( err ) {
+
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+
+    function getNotesOfNotebook(req,res){
+
+        var notebookId = req.params.notebookId;
+        var notebook = null;
+
+        NotebookModel.findNotebookById(notebookId)
+            .then(
+
+                // first retrieve the user by user id
+                function (doc) {
+
+                    notebook = doc;
+                    NoteModel.getNotesByNoteIds(doc.notes)
+                        .then(function(response){
+                                res.json(response);
+                                console.log(response);
+                            },
+                            function (err){
+                                res.status(400).send(err);
+                            })
+                },
+
+                // reject promise if error
+                function (err) {
+                    res.status(400).send(err);
+                }
+            )
+
+    }
+
 };

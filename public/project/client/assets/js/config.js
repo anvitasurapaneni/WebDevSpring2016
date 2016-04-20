@@ -260,11 +260,6 @@
                     checkLoggedIn: checkLoggedIn
                 }
             })
-
-
-
-
-
             .otherwise({
                 redirectTo: "/home"
             });

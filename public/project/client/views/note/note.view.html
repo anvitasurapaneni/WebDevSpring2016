@@ -1,9 +1,11 @@
 <div class="main col-sm-9 col-sm-offset-5 col-md-10 col-md-offset-2" ng-controller="NoteController as model">
-    <h1>Notes</h1>
+
+    <h1 style="color: darkorange">Notes</h1>
+    <p>The notes that belong to you...!</p>
 
     Search By Note Name:<br/><br/>
-    <input class="form-control" type="text" ng-model="search.title"
-           style="background-color: transparent"><br>
+    <input class="form-control" type="text" ng-model="search.title" style="background: transparent"
+    placeholder="Enter a keyword..."><br>
     <br>
 
     <div style="float: right">
@@ -18,7 +20,6 @@
 
             </button>
         </a>
-
 
         <button class="btn btn-default"
                 ng-click="showTable = 1; showPencil = 1; showTableAdd = 2; showDelete = 2;
@@ -93,8 +94,8 @@
     </div>
 
 
-    <p>When the user creates a note, he chooses which notebook it belongs to...</p>
-    <p>User can only edit and delete and jump to a specific note here</p>
+
+    <p><br/><br/></p>
 
 
     <div class="table-responsive darker padding-all-sides" >
@@ -102,7 +103,7 @@
 
             <tbody>
 
-                <tr ng-repeat="note in model.notes| filter:search">
+            <tr ng-repeat="note in model.notes| filter:search">
 
                     <td>
                         <h3><a href="#/previewnote/{{note._id}}">{{note.title}}</a></h3>

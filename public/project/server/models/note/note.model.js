@@ -28,38 +28,18 @@ module.exports = function(db, mongoose, UserModel, NotebookModel) {
         getMongooseModel: getMongooseModel,
         deleteNoteFromNotebook : deleteNoteFromNotebook,
 
+        // for notebook
+        getNotesByNoteIds : getNotesByNoteIds,
+
         // share note functions
         findAllNotesReceivedByUser: findAllNotesReceivedByUser,
         userReceivesNote: userReceivesNote,
         shareNoteWithUser:shareNoteWithUser,
-        deleteReceivedNoteForUser: deleteReceivedNoteForUser,
-
-        // for notebook
-        getNotesByNoteIds : getNotesByNoteIds
+        deleteReceivedNoteForUser: deleteReceivedNoteForUser
 
     };
 
     return api;
-
-    function getNotesByNoteIds(noteIds){
-
-        var deferred = q.defer();
-
-        Note.find({
-                _id: {$in: noteIds}
-            },
-            function (err, users) {
-                if (err) {
-                    deferred.reject(err);
-                } else {
-                    deferred.resolve(users);
-                }
-            });
-
-        return deferred.promise;
-    }
-
-
 
     function deleteNoteFromNotebook(noteId, notebookId){
 
@@ -211,6 +191,24 @@ module.exports = function(db, mongoose, UserModel, NotebookModel) {
 
         return Note.find();
 
+    }
+
+    function getNotesByNoteIds(noteIds){
+
+        var deferred = q.defer();
+
+        Note.find({
+                _id: {$in: noteIds}
+            },
+            function (err, users) {
+                if (err) {
+                    deferred.reject(err);
+                } else {
+                    deferred.resolve(users);
+                }
+            });
+
+        return deferred.promise;
     }
 
 

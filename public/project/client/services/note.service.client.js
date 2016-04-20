@@ -28,33 +28,20 @@
             updateNoteBookById: updateNoteBookById,
             addNoteBookForUser: addNoteBookForUser,
             findAllNoteBooksForUser: findAllNoteBooksForUser,
-            findNotebookById: findNotebookById,
+            findNotebookById : findNotebookById,
+            getNotesOfNotebook : getNotesOfNotebook,
 
 
             // share
             findAllNotesReceivedByUser: findAllNotesReceivedByUser,
             shareNoteWithUser: shareNoteWithUser,
             deleteReceivedNoteForUser: deleteReceivedNoteForUser,
-            shareNoteWithGroup: shareNoteWithGroup,
-
-            // for noteBook to display notes
-
-            getNotesOfNotebook: getNotesOfNotebook
+            shareNoteWithGroup: shareNoteWithGroup
 
 
         };
 
         return api;
-
-        function findNotebookById(NBId){
-
-            return $http.get("/api/project/note/notebookId/"+NBId);
-        }
-
-        function  getNotesOfNotebook(notebookId){
-
-            return $http.get("/api/project/note/notebook/"+notebookId);
-        }
 
 
         function removeLikedUser(userId, noteId){
@@ -196,5 +183,16 @@
 
             return deferred.promise;
         }
+
+        function findNotebookById(NBId){
+
+            return $http.get("/api/project/note/notebookId/"+NBId);
+        }
+
+        function  getNotesOfNotebook(notebookId){
+
+            return $http.get("/api/project/note/notebook/"+notebookId);
+        }
+
     }
 })();
