@@ -86,7 +86,7 @@
                 </a>
             </li>
             <li ng-show="currentUser">
-                <a href="#/home" data-toggle="collapse" data-target=".navbar-collapse" ng-click="model.logout()">
+                <a href="#/home"  ng-click="model.logout()">
                     <span class="glyphicon glyphicon-log-out"></span>
                     <span style="padding-left: 5px">LOGOUT</span>
                 </a>
@@ -104,10 +104,23 @@
     <div id="page-content-wrapper">
     </div>
     <script type="text/javascript">
-        $("#menu-toggle").click(function(e) {
+
+
+
+
+        $("#menu-toggle")
+                .click(function(e) {
 
             $("#wrapper").toggleClass("toggled");
         });
+
+        $("#wrapper")
+                .click(function(e) {
+
+                    $("#wrapper").toggleClass("toggled");
+                });
+
+
     </script>
 </div>
 
