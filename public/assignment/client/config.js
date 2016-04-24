@@ -14,7 +14,7 @@
                 controller: "AdminController",
                 controllerAs: "model",
                 resolve: {
-                    checkLoggedIn: checkLoggedIn
+                    checkAdmin: checkAdmin
                 }
 
             })
@@ -79,11 +79,25 @@
             });
     }
 
-// /api/assignment/users/loggedin
 
 
 
 
+    var checkAdmin = function($q, $timeout, $http, $location, $rootScope)
+    {
+        var deferred = $q.defer();
+
+        $http.get('/api/assignment/users/loggedin').success(function(user)
+        {
+            if (user !== '0' && user.roles.indexOf('admin') != -1)
+            {
+                $rootScope.user = user;
+                deferred.resolve();
+            }
+        });
+
+        return deferred.promise;
+    };
 
 
 

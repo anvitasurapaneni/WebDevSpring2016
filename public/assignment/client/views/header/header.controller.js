@@ -23,6 +23,7 @@
             UserService
                 .logout()
                 .then(function(user){
+                    $rootScope.user = null;
                     $location.url("/home");
                 });
         }

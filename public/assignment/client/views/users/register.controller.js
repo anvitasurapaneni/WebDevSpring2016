@@ -11,12 +11,12 @@
         var vm = this;
         vm.register = register;
         function init() {
-            UserService.findAllUsers()
-                .then(function (users) {
-                    console.log("find all users:")
-                    console.log(users);
-                //    vm.user.email = joinArrayItems1(vm.user.email);
-                });
+            //UserService.findAllUsers()
+            //    .then(function (users) {
+            //        console.log("find all users:")
+            //        console.log(users);
+            //    //    vm.user.email = joinArrayItems1(vm.user.email);
+            //    });
         }
 
         init();

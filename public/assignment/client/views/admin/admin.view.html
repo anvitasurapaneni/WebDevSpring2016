@@ -81,20 +81,20 @@
                 <!-- row with  user details with repeat -->
                 <tr ng-repeat="user in model.users">
                     <td>
-                        <input type="text" class="form-control" ng-model="user.username"/>
+                      {{user.username}}
                     </td>
                     <td>
-                        <input type="password" class="form-control" ng-model="user.password"/>
+                       {{user.password}}
                     </td>
                     <td>
-                        <input type="text" class="form-control" ng-model="user.firstName"/>
+                        {{user.firstName}}
                     </td>
                     <td>
-                        <input type="text" class="form-control" ng-model="user.lastName"/>
+                        {{user.lastName}}
                     </td>
-                    <td>
-                        <input type="text" class="form-control" ng-model="user.roles"/>
-                    </td>
+
+                    <td>{{user.roles.join(',')}}</td>
+
                    <td>
                        <div class="btn-group btn-group-sm" role="group" aria-label="...">
                             <a  class="btn btn-default transparent" ng-click="model.deleteUser($index)">

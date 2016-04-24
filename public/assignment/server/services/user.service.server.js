@@ -7,7 +7,7 @@ module.exports = function(app, userModel) {
     console.log("is it going to server services");
     //   app.get("/api/assignment/user?username=alice&password=alice", findAllUsers1);
     var auth = authorized;
-    app.post  ('/api/assignment/login', passport.authenticate('local'), login);
+    app.post  ('/api/assignment/login', passport.authenticate('assignment'), login);
     app.get("/api/assignment/admin/user",auth, findAllUsers);
     app.post("/api/assignment/admin/user", createUser);
     app.delete("/api/assignment/admin/user/:userId",auth, deleteUserById);
@@ -18,7 +18,7 @@ module.exports = function(app, userModel) {
     app.get("/api/assignment/users/loggedin", loggedin);
 
 
-    passport.use(new LocalStrategy(localStrategy));
+    passport.use('assignment',new LocalStrategy(localStrategy));
     passport.serializeUser(serializeUser);
     passport.deserializeUser(deserializeUser);
 
@@ -158,11 +158,11 @@ module.exports = function(app, userModel) {
     function createUser(req, res) {
         var newUser = req.body;
         console.log(newUser);
-        if(newUser.roles && newUser.roles.length > 1) {
-            newUser.roles = newUser.roles.split(",");
-        } else {
+
+        if(!newUser.roles || !newUser.roles.length > 0)
             newUser.roles = ["student"];
-        }
+
+
 
         // first check if a user already exists with the username
         userModel
@@ -243,23 +243,51 @@ module.exports = function(app, userModel) {
 
     }
 
-    function updateUser(req, res) {
 
+
+    function updateUser(req,res){
         var userId = req.params.id;
-        var user = req.body;
-        userModel
-            .updateUser (userId, user)
-            .then(
-                function(doc){
-                    res.json(doc);
-                },
+        var user1 = req.body;
 
+        if(!user1.roles || !user1.roles.length > 0)
+            user1.roles = ["student"];
+
+
+
+
+        userModel
+            .findUserById(userId)
+            .then(function(user){
+
+                    if(user){
+                        if(user.password != user1.password){
+                            user1.password = bcrypt.hashSync(user1.password);
+                        }
+
+                        userModel
+                            .updateUser(userId,user1)
+                            .then(
+                                //login in promise resolved
+                                function( doc ){
+                                    res.json(doc);
+                                },
+                                //send error if promise rejected
+                                function( err ){
+                                    res.status(400).send(err);
+                                }
+                            )
+                    }else{
+                        res.send(400);
+                    }
+                },
                 function(err){
                     res.status(400).send(err);
-                }
-            );
+                });
 
     }
+
+
+
 
 
 
@@ -272,18 +300,19 @@ module.exports = function(app, userModel) {
 
 
         console.log("USER ID"+userId);
-        var user=
+        if (isAdmin(req.user)) {
             userModel
-                .findUserById (userId)
-                .then (
+                .findUserById(userId)
+                .then(
                     function (doc) {
-                        res.json (doc);
-                        req.session.user = doc;
+                        res.json(doc);
+                     //   req.session.user = doc;
                     },
                     function (err) {
                         res.status(400).send(err);
                     }
                 );
+        }
     }
 
 

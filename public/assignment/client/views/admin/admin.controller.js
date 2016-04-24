@@ -39,20 +39,32 @@
 
         init();
 
-        function addUser(user){
+
+
+
+
+        function addUser(user) {
             console.log("add user");
             console.log(user);
 
-            var newUsers = [];
-            UserService.createUser(user)
-                .then(
-                    function(response){
-
-                        init();
-                    }
-                );
-            vm.user = {};
+            if (user && user.username && user.password) {
+                if (user.roles) {
+                    user.roles = user.roles.split(",");
+                } else {
+                    user.roles = ["student"];
+                }
+                UserService.createUser(user)
+                    .then(
+                        function (response) {
+                            init();
+                        }
+                    );
+                vm.user = {};
+            }
         }
+
+
+
 
         function deleteUser($index){
 
@@ -98,6 +110,27 @@
 
                     }
                 );
+        }
+
+
+
+        function updateUser(user) {
+            if (user && user.username && user.password) {
+
+                if (typeof user.roles == "string") {
+                    user.roles = user.roles.split(",");
+                }
+
+                var userId = user._id;
+                UserService.updateUser(userId, user)
+                    .then(
+                        function (response) {
+                            init();
+                            vm.user = {};
+                        }
+                    );
+            }
+
         }
 
 
