@@ -47,7 +47,7 @@
 
         function findUserById(id){
             console.log(id);
-            return $http.get("/api/assignment/user/"+id);
+            return $http.get("/api/assignment/admin/user/"+id);
         }
 
 // findUserByUsernameAndPassword
@@ -58,27 +58,27 @@
 // findAllUsers
         function findAllUsers() {
             console.log("user service");
-            return $http.get("/api/assignment/user");
+            return $http.get("/api/assignment/admin/user");
         }
 
 // createUser
         function createUser(user) {
             console.log(user);
-            return $http.post("/api/assignment/user", user);
+            return $http.post("/api/assignment/admin/user", user);
         }
 
 // deleteUserById
         function deleteUserById(userId) {
             console.log("delete user by id step2:");
             console.log(userId);
-            return $http.delete("/api/assignment/user/"+userId);
+            return $http.delete("/api/assignment/admin/user/"+userId);
 
         }
 
 // updateUser
         function updateUser(userId, user) {
             console.log(user);
-            return  $http.put("/api/assignment/user/"+userId, user);
+            return  $http.put("/api/assignment/admin/user/"+userId, user);
 
         }
         function setCurrentUser(user) {

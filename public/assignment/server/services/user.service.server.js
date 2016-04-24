@@ -8,11 +8,11 @@ module.exports = function(app, userModel) {
     //   app.get("/api/assignment/user?username=alice&password=alice", findAllUsers1);
     var auth = authorized;
     app.post  ('/api/assignment/login', passport.authenticate('local'), login);
-    app.get("/api/assignment/user",auth, findAllUsers);
-    app.post("/api/assignment/user", createUser);
-    app.delete("/api/assignment/user/:userId",auth, deleteUserById);
-    app.put("/api/assignment/user/:id",auth, updateUser);
-    app.get("/api/assignment/user/:id", findUserById);
+    app.get("/api/assignment/admin/user",auth, findAllUsers);
+    app.post("/api/assignment/admin/user", createUser);
+    app.delete("/api/assignment/admin/user/:userId",auth, deleteUserById);
+    app.put("/api/assignment/admin/user/:id",auth, updateUser);
+    app.get("/api/assignment/admin/user/:id", findUserById);
     app.post("/api/assignment/user/logout", logout);
     app.post("/api/assignment/register", register);
     app.get("/api/assignment/users/loggedin", loggedin);
