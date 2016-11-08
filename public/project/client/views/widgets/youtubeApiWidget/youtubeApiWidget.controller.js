@@ -1,5 +1,3 @@
-s
-
 (function() {
 
     angular
@@ -48,7 +46,7 @@ s
             console.log(keyword);
 
             $http.get("https://www.googleapis.com/youtube/v3/search?part=snippet" +
-                "&maxResults=10&q="+keyword+"&key=AIzaSyBId_35KFQKeZoRy-aRDZxma65PqdmkUI8")
+                    "&maxResults=10&q="+keyword+"&key=AIzaSyBId_35KFQKeZoRy-aRDZxma65PqdmkUI8")
                 .then(
                     function(response){
                         console.log(response);
