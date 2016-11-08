@@ -50,7 +50,7 @@
                     var favNotes = [];
 
                     vm.foundNotes = foundNotes.data;
-                    //console.log(vm.notes);
+                   // console.log(vm.foundNotes);
 
                     vm.$location = $location;
                 });

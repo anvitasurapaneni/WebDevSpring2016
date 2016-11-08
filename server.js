@@ -24,7 +24,6 @@ if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
 var db = mongoose.connect(connectionString);
 
 
-
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -52,6 +51,7 @@ var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 
 
 app.listen(port, ipaddress);
+
 
 
 

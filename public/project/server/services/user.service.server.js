@@ -48,6 +48,7 @@ module.exports = function(app, UserModel, NoteModel, uuid){
 
     //Facebook authentication!
     app.get   ('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+
     app.get('/auth/facebook/callback',
          passport.authenticate('facebook', {
              successRedirect: '/project/client/#/profile',
@@ -57,10 +58,10 @@ module.exports = function(app, UserModel, NoteModel, uuid){
     );
 
     var facebookConfig = {
-        clientID        : "219912225053962",
-        clientSecret    : "a2a3e07c2744382c24bcbacdcd3fafa0",
-        callbackURL     : "http://webdev2016-mahidhariapaulom.rhcloud.com/auth/facebook/callback"
-        //callbackURL     : "http://localhost:3000/auth/facebook/callback"
+        clientID        : "1195604640528819",
+        clientSecret    : "1ce03b247e0c7787d0648981a623e8ae",
+        callbackURL     : "http://webdevspring2016-surapanenianvita.rhcloud.com/auth/facebook/callback"
+       // callbackURL     : "http://localhost:3000/auth/facebook/callback"
     };
 
     passport.use(new FacebookStrategy(facebookConfig, facebookStrategy));
@@ -383,6 +384,7 @@ module.exports = function(app, UserModel, NoteModel, uuid){
     }
 
     function facebookStrategy(token, refreshToken, profile, done) {
+        console.log(profile.id);
         UserModel
             .findUserByFacebookId(profile.id)
             .then(

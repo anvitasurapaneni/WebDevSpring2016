@@ -19,7 +19,7 @@
 
             UserService.findUserById($rootScope.currentUser._id)
                 .then(function (user) {
-                    console.log(user.data);
+                  //  console.log(user.data);
 
                     vm.receivedNotes = user.data.receivesNotes;
 
