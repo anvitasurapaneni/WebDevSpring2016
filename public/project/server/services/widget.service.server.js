@@ -131,10 +131,13 @@ module.exports = function (app, NoteModel) {
         var mimetype      = myFile.mimetype;
         var filename      = myFile.filename;
 
+
+
+
         //Get the file type
         var mimes = mimetype.split('/');
         var extension = mimes[mimes.length - 1];
-
+        //console.log(extension);
         //Append the file extension at the end of randomly generated filename
         var file = filename+"."+extension;
 

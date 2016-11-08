@@ -1,6 +1,4 @@
-/**
- * Created by paulomimahidharia on 3/25/16.
- */
+
 "use strict";
 module.exports = function(app, NoteModel, NotebookModel, UserModel, uuid) {
     //app.post("/api/project/user/:userId/movie/:noteId", userLikesNote);

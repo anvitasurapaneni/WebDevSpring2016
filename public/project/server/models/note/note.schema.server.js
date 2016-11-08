@@ -1,6 +1,4 @@
-/**
- * Created by paulomimahidharia on 4/6/16.
- */
+
 module.exports = function(mongoose) {
 
     var WidgetSchema = require("../widgets/widget.schema.server.js")(mongoose);

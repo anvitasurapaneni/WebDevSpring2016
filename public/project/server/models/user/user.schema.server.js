@@ -21,7 +21,7 @@ module.exports = function(mongoose) {
             id:    String,
             token: String
         },
-        // movies this user likes
+        // notes this user likes
         likesNotes: [NoteSchema],
 
         //NodeIds of received notes

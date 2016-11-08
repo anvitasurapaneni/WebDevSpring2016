@@ -1,6 +1,3 @@
-/**
- * Created by paulomimahidharia on 3/16/16.
- */
 
 
 var q = require("q");

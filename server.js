@@ -28,7 +28,7 @@ var db = mongoose.connect(connectionString);
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.bodyParser({ uploadDir: './public/uploads' }));
+//app.use(express.bodyParser({ uploadDir: './public/uploads' }));
 //app.use(multer());
 
 

@@ -1,6 +1,4 @@
-/**
- * Created by paulomimahidharia on 3/16/16.
- */
+
 
 //var bcrypt = require("bcrypt-nodejs");
 var passport         = require('passport');

@@ -1,9 +1,4 @@
-/**
- * Created by paulomimahidharia on 3/9/16.
- */
-/**
- * Created by paulomimahidharia on 3/1/16.
- */
+
 "use strict";
 (function(){
     angular

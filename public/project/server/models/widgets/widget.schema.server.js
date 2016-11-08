@@ -1,6 +1,4 @@
-/**
- * Created by paulomimahidharia on 4/8/16.
- */
+
 module.exports = function(mongoose) {
 
     var TextSchema = require("./text.schema.server.js")(mongoose);

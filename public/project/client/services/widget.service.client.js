@@ -1,6 +1,4 @@
-/**
- * Created by paulomimahidharia on 4/13/16.
- */
+
 (function(){
     angular
         .module("NoteSpace")

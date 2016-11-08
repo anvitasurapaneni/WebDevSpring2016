@@ -1,6 +1,4 @@
-/**
- * Created by paulomimahidharia on 3/4/16.
- */
+
 
 
 (function() {

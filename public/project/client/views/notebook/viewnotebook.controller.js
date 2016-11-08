@@ -3,9 +3,6 @@
  */
 
 
-/**
- * Created by anvitasurapaneni on 4/15/16.
- */
 
 
 (function(){
