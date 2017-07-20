@@ -48,9 +48,7 @@
                     vm.allusers =  allUsers.data;
                     vm.$location = $location;
                 })
-
-
-
+            
 
         }
         init();
