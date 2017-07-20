@@ -48,16 +48,12 @@
                     vm.allusers =  allUsers.data;
                     vm.$location = $location;
                 })
-            
+
 
         }
         init();
 
-        setTimeout(function () {
-            $rootScope.$apply(function () {
-                init();
-            });
-        }, 2000);
+        setTimeout(init(), 2000);
 
         // event handlers implementation
 
