@@ -55,6 +55,12 @@
         }
         init();
 
+        setTimeout(function () {
+            $rootScope.$apply(function () {
+                init();
+            });
+        }, 2000);
+
         // event handlers implementation
 
     function deleteReceivedNoteForUser($index){
