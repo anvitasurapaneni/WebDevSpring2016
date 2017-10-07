@@ -7,7 +7,7 @@
         .module("NoteSpace")
         .controller("InboxController", InboxController);
 
-    function InboxController(NoteService,UserService, $rootScope, $location){
+    function InboxController(NoteService,UserService, $rootScope, $location, $scope){
 
         var vm = this;
 
@@ -53,7 +53,11 @@
         }
         init();
 
-        setTimeout(init(), 2000);
+        setTimeout(function () {
+            $scope.$apply(function () {
+                init();
+            });
+        }, 2000);
 
         // event handlers implementation
 

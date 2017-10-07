@@ -33,7 +33,6 @@ module.exports = function(db, mongoose) {
     }
 
 
-
     function removeLikedNote (userId, noteId) {
 
         return User.update(
@@ -41,7 +40,6 @@ module.exports = function(db, mongoose) {
             { $pull: { 'likes': { $in: [noteId]} } }
         );
     }
-
 
 
     function userLikesNote (userId, note) {
@@ -76,6 +74,7 @@ module.exports = function(db, mongoose) {
         return deferred;
     }
 
+
     function findUserByCredentials(credentials){
 
         var deferred = q.defer();
@@ -103,6 +102,7 @@ module.exports = function(db, mongoose) {
         return deferred.promise;
     }
 
+
     function findUserByUsername(username){
 
         var deferred = q.defer();
@@ -119,10 +119,12 @@ module.exports = function(db, mongoose) {
         return deferred.promise;
     }
 
+
     function findAllUsers(){
 
         return User.find();
     }
+
 
     function updateUser(userId, user){
 
@@ -130,6 +132,7 @@ module.exports = function(db, mongoose) {
 
         return User.update({_id: userId}, {$set: user});
     }
+
 
     function findUserById(UserId){
 
@@ -146,6 +149,7 @@ module.exports = function(db, mongoose) {
 
         return deferred.promise;
     }
+
 
     function createUser(user){
 
@@ -169,6 +173,7 @@ module.exports = function(db, mongoose) {
         return deferred.promise;
     }
 
+
     function deleteUserById(UserId){
 
         var deferred = q.defer();
@@ -185,14 +190,17 @@ module.exports = function(db, mongoose) {
         return deferred.promise;
     }
 
+
     function findUserByFacebookId(facebookId) {
 
         return User.findOne({'facebook.id': facebookId});
     }
 
+
     function getMongooseModel() {
         return User;
     }
+
 
 
     function userReceivesNote(userId, note) {
@@ -226,7 +234,6 @@ module.exports = function(db, mongoose) {
 
         return deferred;
     }
-
 
 
 };

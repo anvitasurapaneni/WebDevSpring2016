@@ -14,13 +14,14 @@ module.exports = function(mongoose) {
         lastName: String,
         emails: [String],
         phones: [String],
-
-        // note ids of notes this user likes
-        likes: [String],
         facebook:   {
             id:    String,
             token: String
         },
+
+        // note ids of notes this user likes
+        likes: [String],
+
         // notes this user likes
         likesNotes: [NoteSchema],
 
