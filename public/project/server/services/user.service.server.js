@@ -58,9 +58,9 @@ module.exports = function(app, UserModel, NoteModel, uuid){
     );
 
     var facebookConfig = {
-        clientID        : "1195604640528819",
-        clientSecret    : "1ce03b247e0c7787d0648981a623e8ae",
-        callbackURL     : "http://webdevspring2016-surapanenianvita.rhcloud.com/auth/facebook/callback"
+        clientID        : "299792177166287",
+        clientSecret    : "4e5e7651abfe794044b508c205e04cab",
+        callbackURL     : "http://anvita.herokuapp.com/project/client/index.html#/home/auth/facebook/callback"
        // callbackURL     : "http://localhost:3000/auth/facebook/callback"
     };
 
