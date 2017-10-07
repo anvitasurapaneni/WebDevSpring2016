@@ -9,13 +9,13 @@ var mongoose      = require('mongoose');
 var passport = require('passport');
 
 
-//var connectionString = 'mongodb://127.0.0.1:27017/cs5610fall2015exmpl1';
+var connectionString = 'mongodb://127.0.0.1:27017/cs5610fall2015exmpl1';
 //
 //
-//if(process.env.MONGODB_URI) {
+if(process.env.MONGODB_URI) {
 
  var   connectionString = process.env.MONGODB_URI;
-//}
+}
 
 
 var db = mongoose.connect(connectionString);
