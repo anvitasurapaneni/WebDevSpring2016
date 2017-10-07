@@ -42,15 +42,15 @@ app.use(passport.session());
 
 //var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var port =  12717;
-//app.set('port', (process.env.PORT || 5000));
-//
-////For avoidong Heroku $PORT error
-//app.get('/', function(request, response) {
-//    var result = 'App is running'
-//    response.send(result);
-//}).listen(app.get('port'), function() {
-//    console.log('App is running, server is listening on port ', app.get('port'));
-//});
+app.set('port', (process.env.PORT || 5000));
+
+//For avoidong Heroku $PORT error
+app.get('/', function(request, response) {
+    var result = 'App is running'
+    response.send(result);
+}).listen(app.get('port'), function() {
+    console.log('App is running, server is listening on port ', app.get('port'));
+});
 
 // require("./public/assignment/server/app.js")(app, uuid, db, mongoose);
  require("./public/project/server/app.js")(app,uuid, db, mongoose);
