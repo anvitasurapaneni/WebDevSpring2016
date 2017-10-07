@@ -18,10 +18,10 @@
     "type": "git",
     "url": "https://github.com/anvitasurapaneni/WebDevSpring2016"
   },
-  "engines": {
-    "node": ">= 0.6.0",
-    "npm": ">= 1.0.0"
-  },
+// WebDevSpring2016 "engines": {
+//    "node": ">= 0.6.0",
+//    "npm": ">= 1.0.0"
+//  },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.0",
