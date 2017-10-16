@@ -152,7 +152,7 @@ module.exports = function(db, mongoose) {
 
 
     function createUser(user){
-
+console.log("chintas debug step");
         // use q to defer the response
         var deferred = q.defer();
 
