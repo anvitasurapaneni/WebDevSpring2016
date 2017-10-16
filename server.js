@@ -34,7 +34,7 @@ app.use(cookieParser());
 app.use(session({
     resave: true,
     saveUninitialized: true,
-    secret: process.env.PASSPORT_SECRET
+    secret: process.env.PASSPORT_SECRET || "anvita"
 }));
 app.use(passport.initialize());
 app.use(passport.session());
