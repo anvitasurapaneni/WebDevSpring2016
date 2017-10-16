@@ -60,7 +60,8 @@ module.exports = function(app, UserModel, NoteModel, uuid){
     var facebookConfig = {
         clientID        : "299792177166287",
         clientSecret    : "4e5e7651abfe794044b508c205e04cab",
-        callbackURL     : "http://anvita.herokuapp.com/project/client/index.html#/home/auth/facebook/callback"
+        callbackURL      : process.env.FACEBOOK_CALLbACK_URL || '/auth/facebook/callback'
+            //: "http://anvita.herokuapp.com/project/auth/facebook/callback"
        // callbackURL     : "http://localhost:3000/auth/facebook/callback"
     };
 
