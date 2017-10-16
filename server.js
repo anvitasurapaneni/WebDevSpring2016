@@ -13,8 +13,10 @@ var passport = require('passport');
 //
 //
 //if(process.env.MONGODB_URI) {
+// mongodb://heroku_kxz42hd2:gv2c2utmued61jjv5fvmgtn1eh@ds113785.mlab.com:13785/heroku_kxz42hd2
 
  var   connectionString = process.env.MONGODB_URI;
+console.log(connectionString);
 //}
 
 
