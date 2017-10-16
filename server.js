@@ -15,7 +15,7 @@ var passport = require('passport');
 //if(process.env.MONGODB_URI) {
 // mongodb://heroku_kxz42hd2:gv2c2utmued61jjv5fvmgtn1eh@ds113785.mlab.com:13785/heroku_kxz42hd2
 
- var   connectionString = process.env.MONGODB_URI;
+ var   connectionString = process.env.MONGODB_URI|| 'mongodb://heroku_kxz42hd2:gv2c2utmued61jjv5fvmgtn1eh@ds113785.mlab.com:13785/heroku_kxz42hd2'  ||  'mongodb://127.0.0.1:27017/cs5610fall2015exmpl1' ;
 console.log(connectionString);
 //}
 
@@ -44,7 +44,7 @@ app.use(passport.session());
 
 //var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var port =  12717;
-app.set('port', (process.env.PORT || 5000));
+app.set('port', (process.env.PORT || 3000));
 
 //For avoidong Heroku $PORT error
 app.get('/', function(request, response) {
